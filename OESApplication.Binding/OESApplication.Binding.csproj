@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2A57C520-0834-4AC2-91FE-3318ACF0A04B}</ProjectGuid>
+    <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>OESApplication.Binding</RootNamespace>
+    <AssemblyName>OESApplication.Binding</AssemblyName>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants></DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="mscorlib">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\Current\lib\mono\Xamarin.iOS\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\Current\lib\mono\Xamarin.iOS\System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\Current\lib\mono\Xamarin.iOS\System.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.iOS">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\Current\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.iOS.BindingAttributes">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\Current\lib\bgen\Xamarin.iOS.BindingAttributes.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="noOpClass.cs" />
+    <Compile Include="opencv2.linkwith.cs">
+      <DependentUpon>opencv2.a</DependentUpon>
+    </Compile>
+    <Compile Include="libSpectraDetector.linkwith.cs">
+      <DependentUpon>libSpectraDetector.a</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingCoreSource Include="Structs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingNativeLibrary Include="opencv2.a" />
+    <ObjcBindingNativeLibrary Include="libSpectraDetector.a" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
+</Project>

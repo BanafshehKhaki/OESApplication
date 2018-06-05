@@ -1,0 +1,16 @@
+//
+//  SpectraDetector-prefix.pch
+//  SpectraDetector
+//
+//  Created by Banafsheh on 5/7/18.
+//  Copyright © 2018 DIYSpec. All rights reserved.
+//
+
+
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#endif
+#ifdef __cplusplus
+#import <opencv2/opencv.hpp>
+#endif

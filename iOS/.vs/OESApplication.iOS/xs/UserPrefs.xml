@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{63F8C4DA-AD76-4ED3-B4D8-FFF747C42A41}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Main.storyboard">
+    <Files>
+      <File FileName="Main.storyboard" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" ActiveRuntime="Mono 5.10.1.47 (8eb8f7d5e74)" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.OESApplication.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.34fed11eefc1a66215518d010507295410f7f5a4" automaticSigning="False" />
+</Properties>

@@ -1,0 +1,31 @@
+dependencies: \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/contrib/openfabmap.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/contrib/retina.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/contrib/contrib.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/highgui/highgui.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/highgui/highgui_c.h \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/ml/ml.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/calib3d/calib3d.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/objdetect/objdetect.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/features2d/features2d.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/video/background_segm.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/video/tracking.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/video/video.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/photo/photo_c.h \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/photo/photo.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/imgproc/imgproc.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/imgproc/types_c.h \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/imgproc/imgproc_c.h \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/flann/config.h \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/flann/defines.h \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/flann/miniflann.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/core/mat.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/core/operations.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/core/version.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/core/core.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/core/types_c.h \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/core/core_c.h \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/framworks/opencv2.framework/Headers/opencv.hpp \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/SpectraDetector/SupportingFiles/SpectraDetector-Prefix.pch \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/SpectraDetector/OpenCVUtils.mm \
+  /Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/SpectraDetector/OpenCVUtils.h

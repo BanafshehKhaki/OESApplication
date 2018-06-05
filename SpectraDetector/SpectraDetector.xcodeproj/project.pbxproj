@@ -1,0 +1,361 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A70D137F20A0CE12003D6A11 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70D137E20A0CE12003D6A11 /* Foundation.framework */; };
+		A70D138120A0CE26003D6A11 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70D138020A0CE26003D6A11 /* opencv2.framework */; };
+		A7D2302820A0C3520019484F /* SpectraDetector.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7D2302720A0C3520019484F /* SpectraDetector.mm */; };
+		A7D2302920A0C3520019484F /* SpectraDetector.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = A7D2302620A0C3520019484F /* SpectraDetector.h */; };
+		A7D2303120A0C5900019484F /* OpenCVUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7D2303020A0C5900019484F /* OpenCVUtils.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A7D2302120A0C3520019484F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				A7D2302920A0C3520019484F /* SpectraDetector.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A70D137E20A0CE12003D6A11 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A70D138020A0CE26003D6A11 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = framworks/opencv2.framework; sourceTree = "<group>"; };
+		A768005A20A0F7190083727E /* SpectraDetector-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SpectraDetector-Prefix.pch"; sourceTree = "<group>"; };
+		A7D2302320A0C3520019484F /* libSpectraDetector.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSpectraDetector.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7D2302620A0C3520019484F /* SpectraDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectraDetector.h; sourceTree = "<group>"; };
+		A7D2302720A0C3520019484F /* SpectraDetector.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = SpectraDetector.mm; sourceTree = "<group>"; };
+		A7D2302F20A0C5900019484F /* OpenCVUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVUtils.h; sourceTree = "<group>"; };
+		A7D2303020A0C5900019484F /* OpenCVUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVUtils.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A7D2302020A0C3520019484F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A70D138120A0CE26003D6A11 /* opencv2.framework in Frameworks */,
+				A70D137F20A0CE12003D6A11 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A70D137D20A0CE12003D6A11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A70D138020A0CE26003D6A11 /* opencv2.framework */,
+				A70D137E20A0CE12003D6A11 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A768005920A0F6D00083727E /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				A768005A20A0F7190083727E /* SpectraDetector-Prefix.pch */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		A7D2301A20A0C3510019484F = {
+			isa = PBXGroup;
+			children = (
+				A7D2302520A0C3520019484F /* SpectraDetector */,
+				A7D2302420A0C3520019484F /* Products */,
+				A70D137D20A0CE12003D6A11 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A7D2302420A0C3520019484F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A7D2302320A0C3520019484F /* libSpectraDetector.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A7D2302520A0C3520019484F /* SpectraDetector */ = {
+			isa = PBXGroup;
+			children = (
+				A768005920A0F6D00083727E /* SupportingFiles */,
+				A7D2302F20A0C5900019484F /* OpenCVUtils.h */,
+				A7D2303020A0C5900019484F /* OpenCVUtils.mm */,
+				A7D2302620A0C3520019484F /* SpectraDetector.h */,
+				A7D2302720A0C3520019484F /* SpectraDetector.mm */,
+			);
+			path = SpectraDetector;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A7D2302220A0C3520019484F /* SpectraDetector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7D2302C20A0C3520019484F /* Build configuration list for PBXNativeTarget "SpectraDetector" */;
+			buildPhases = (
+				A7D2301F20A0C3520019484F /* Sources */,
+				A7D2302020A0C3520019484F /* Frameworks */,
+				A7D2302120A0C3520019484F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpectraDetector;
+			productName = SpectraDetector;
+			productReference = A7D2302320A0C3520019484F /* libSpectraDetector.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A7D2301B20A0C3510019484F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = DIYSpec;
+				TargetAttributes = {
+					A7D2302220A0C3520019484F = {
+						CreatedOnToolsVersion = 9.3;
+						DevelopmentTeam = P5J4W2P635;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A7D2301E20A0C3510019484F /* Build configuration list for PBXProject "SpectraDetector" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A7D2301A20A0C3510019484F;
+			productRefGroup = A7D2302420A0C3520019484F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A7D2302220A0C3520019484F /* SpectraDetector */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A7D2301F20A0C3520019484F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7D2303120A0C5900019484F /* OpenCVUtils.mm in Sources */,
+				A7D2302820A0C3520019484F /* SpectraDetector.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A7D2302A20A0C3520019484F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "/Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/SpectraDetector/SupportingFiles/SpectraDetector-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		A7D2302B20A0C3520019484F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "/Users/banafsheh/Documents/Xamarin/OESApplication/SpectraDetector/SpectraDetector/SupportingFiles/SpectraDetector-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A7D2302D20A0C3520019484F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULE_DEBUGGING = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = P5J4W2P635;
+				ENABLE_TESTABILITY = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/framworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SpectraDetector/SupportingFiles/SpectraDetector-Prefix.pch";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A7D2302E20A0C3520019484F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULE_DEBUGGING = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = P5J4W2P635;
+				ENABLE_TESTABILITY = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/framworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SpectraDetector/SupportingFiles/SpectraDetector-Prefix.pch";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A7D2301E20A0C3510019484F /* Build configuration list for PBXProject "SpectraDetector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7D2302A20A0C3520019484F /* Debug */,
+				A7D2302B20A0C3520019484F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7D2302C20A0C3520019484F /* Build configuration list for PBXNativeTarget "SpectraDetector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7D2302D20A0C3520019484F /* Debug */,
+				A7D2302E20A0C3520019484F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A7D2301B20A0C3510019484F /* Project object */;
+}

@@ -1,0 +1,17 @@
+﻿<Properties StartupConfiguration="{63F8C4DA-AD76-4ED3-B4D8-FFF747C42A41}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="iOS/resultViewController.cs">
+    <Files>
+      <File FileName="iOS/resultViewController.cs" Line="196" Column="4" />
+      <File FileName="iOS/mainViewController.cs" Line="228" Column="54" />
+      <File FileName="iOS/Main.cs" Line="17" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.OESApplication.Droid AndroidDesignerPreferredTheme="Theme.DeviceDefault.NoActionBar.Fullscreen" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.OESApplication.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.726CD718-CEA3-4757-940D-A2C790DCE327" automaticSigning="False" />
+</Properties>
