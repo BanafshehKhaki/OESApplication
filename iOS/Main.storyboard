@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DWg-yQ-Yqb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DWg-yQ-Yqb">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,19 +22,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t27-p6-c08" userLabel="liveCameraStream">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t27-p6-c08" userLabel="liveCameraStream">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5EB-ui-ida" userLabel="Overlay">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5EB-ui-ida" userLabel="Overlay">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TkW-O8-9CK">
-                                        <rect key="frame" x="215" y="511" width="150" height="117"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TkW-O8-9CK">
+                                        <rect key="frame" x="215.66666666666663" y="512" width="149.33333333333337" height="116"/>
                                         <color key="backgroundColor" red="0.94429284334182739" green="0.8118777871131897" blue="0.77308195829391479" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="TkW-O8-9CK" secondAttribute="height" multiplier="50:39" id="NBB-qb-HXg"/>
+                                        </constraints>
                                         <state key="normal" title="Analyze My Image">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -41,26 +42,55 @@
                                             <segue destination="pp0-WV-iq4" kind="show" identifier="SequetoResultsPage" id="ohZ-LC-OcW"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDj-OQ-qjf">
-                                        <rect key="frame" x="66" y="512" width="113" height="116"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDj-OQ-qjf">
+                                        <rect key="frame" x="66" y="512" width="113.66666666666669" height="116"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="kDj-OQ-qjf" secondAttribute="height" multiplier="113:116" id="wpn-Ec-rai"/>
+                                        </constraints>
                                         <state key="normal" title="CaptureSpectra" image="cameraButton.png"/>
                                         <connections>
                                             <action selector="captureSpectraTouchUpInside:" destination="WbF-9x-nmy" eventType="touchUpInside" id="Drl-QT-cTn"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4xh-wE-03U">
-                                        <rect key="frame" x="282" y="0.0" width="132" height="193"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4xh-wE-03U">
+                                        <rect key="frame" x="314" y="0.0" width="100" height="150"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="Onu-nM-fUe"/>
+                                            <constraint firstAttribute="height" constant="150" id="d4Q-Fl-ApS"/>
+                                        </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="crossHair.png" translatesAutoresizingMaskIntoConstraints="NO" id="PAz-GG-ACE">
-                                        <rect key="frame" x="141" y="264" width="151" height="252"/>
+                                        <rect key="frame" x="158" y="198" width="190" height="300"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="4xh-wE-03U" firstAttribute="top" secondItem="5EB-ui-ida" secondAttribute="top" id="0AC-LL-oJ4"/>
+                                    <constraint firstItem="TkW-O8-9CK" firstAttribute="height" secondItem="kDj-OQ-qjf" secondAttribute="height" id="84Y-BP-cHS"/>
+                                    <constraint firstItem="4xh-wE-03U" firstAttribute="top" secondItem="5EB-ui-ida" secondAttribute="top" id="CwF-eW-2Hi"/>
+                                    <constraint firstAttribute="trailing" secondItem="TkW-O8-9CK" secondAttribute="trailing" constant="49" id="DzJ-rD-FE4"/>
+                                    <constraint firstItem="TkW-O8-9CK" firstAttribute="leading" secondItem="kDj-OQ-qjf" secondAttribute="trailing" constant="36" id="MMu-uf-I3V"/>
+                                    <constraint firstAttribute="bottom" secondItem="kDj-OQ-qjf" secondAttribute="bottom" constant="30" id="Wja-Q0-xG4"/>
+                                    <constraint firstAttribute="trailing" secondItem="4xh-wE-03U" secondAttribute="trailing" id="XCE-JC-HqA"/>
+                                    <constraint firstAttribute="bottom" secondItem="TkW-O8-9CK" secondAttribute="bottom" constant="30" id="cb6-fT-W6c"/>
+                                    <constraint firstAttribute="bottom" secondItem="kDj-OQ-qjf" secondAttribute="bottom" constant="44" id="dBG-br-Qv6"/>
+                                    <constraint firstAttribute="bottom" secondItem="TkW-O8-9CK" secondAttribute="bottom" constant="44" id="kFw-wz-uiD"/>
+                                    <constraint firstItem="kDj-OQ-qjf" firstAttribute="leading" secondItem="5EB-ui-ida" secondAttribute="leading" constant="66" id="nNH-E5-mgH"/>
+                                    <constraint firstAttribute="trailing" secondItem="4xh-wE-03U" secondAttribute="trailing" id="oPX-IW-383"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="t27-p6-c08" firstAttribute="bottom" secondItem="4po-Hp-3FM" secondAttribute="top" id="Bs0-Za-8qO"/>
+                            <constraint firstItem="5EB-ui-ida" firstAttribute="trailing" secondItem="t27-p6-c08" secondAttribute="trailing" id="Uok-8U-hYT"/>
+                            <constraint firstItem="t27-p6-c08" firstAttribute="top" secondItem="5EB-ui-ida" secondAttribute="top" id="ZJD-GD-3sD"/>
+                            <constraint firstAttribute="trailing" secondItem="t27-p6-c08" secondAttribute="trailing" id="ZNV-Ww-1FR"/>
+                            <constraint firstItem="t27-p6-c08" firstAttribute="leading" secondItem="RBc-dd-nlg" secondAttribute="leading" id="lnG-yY-Cod"/>
+                            <constraint firstItem="t27-p6-c08" firstAttribute="leading" secondItem="5EB-ui-ida" secondAttribute="leading" id="nFZ-hT-FgI"/>
+                            <constraint firstItem="5EB-ui-ida" firstAttribute="top" secondItem="Nnh-ZD-TLn" secondAttribute="bottom" id="qqS-8P-Q5d"/>
+                            <constraint firstItem="5EB-ui-ida" firstAttribute="bottom" secondItem="4po-Hp-3FM" secondAttribute="top" id="scd-jr-FJ4"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Camera Page" id="hrT-zL-2Ol"/>
                     <connections>
@@ -129,6 +159,6 @@
     </scenes>
     <resources>
         <image name="cameraButton.png" width="483" height="520"/>
-        <image name="crossHair.png" width="341" height="1024"/>
+        <image name="crossHair.png" width="341" height="791"/>
     </resources>
 </document>

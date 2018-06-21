@@ -15,12 +15,28 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>8.0</string>
+	<string>9.0</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>media usage</string>
+	<key>NSCameraUsageDescription</key>
+	<string>using camera</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Using location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>using location while in application</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Adding to library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Using photo library</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
 		<integer>2</integer>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>Main</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7+arm64</string>
@@ -36,21 +52,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>Main</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>NSCameraUsageDescription</key>
-	<string>using camera</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Using location</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Using photo library</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Adding to library</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>using location while in application</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>media usage</string>
 </dict>
 </plist>

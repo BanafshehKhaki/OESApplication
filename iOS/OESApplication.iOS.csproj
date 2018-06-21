@@ -93,6 +93,12 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.121934\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="OxyPlot">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Xamarin.iOS">
+      <HintPath>..\packages\OxyPlot.Xamarin.iOS.1.0.0\lib\Xamarin.iOS10\OxyPlot.Xamarin.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OESApplication\OESApplication.csproj">
@@ -135,6 +141,7 @@
     <Compile Include="resultViewController.designer.cs">
       <DependentUpon>resultViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="OxyPlotView.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\crossHair.png" />

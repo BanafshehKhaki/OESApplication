@@ -9,26 +9,34 @@ using System.CodeDom.Compiler;
 
 namespace OESApplication.iOS
 {
-	[Register ("resultViewController")]
-	partial class resultViewController
-	{
-		[Outlet]
-		UIKit.UIImageView detectedSpectra { get; set; }
+    [Register ("resultViewController")]
+    partial class resultViewController
+    {
+        [Outlet]
+        UIKit.UIImageView detectedSpectra { get; set; }
 
-		[Outlet]
-		UIKit.UILabel resultOutput { get; set; }
-		
-		void ReleaseDesignerOutlets ()
-		{
-			if (resultOutput != null) {
-				resultOutput.Dispose ();
-				resultOutput = null;
-			}
+        [Outlet]
+        UIKit.UILabel resultOutput { get; set; }
 
-			if (detectedSpectra != null) {
-				detectedSpectra.Dispose ();
-				detectedSpectra = null;
-			}
-		}
-	}
+        [Outlet]
+        UIKit.UIStackView StackView { get; set; }
+        
+        void ReleaseDesignerOutlets ()
+        {
+            if (StackView != null) {
+                StackView.Dispose ();
+                StackView = null;
+            }
+
+            if (detectedSpectra != null) {
+                detectedSpectra.Dispose ();
+                detectedSpectra = null;
+            }
+
+            if (resultOutput != null) {
+                resultOutput.Dispose ();
+                resultOutput = null;
+            }
+        }
+    }
 }

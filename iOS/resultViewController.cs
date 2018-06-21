@@ -7,6 +7,11 @@ using Foundation;
 using UIKit;
 using System.CodeDom.Compiler;
 using System.Drawing;
+using System.Collections.Generic;
+using OxyPlot;
+using OxyPlot.Series;
+using Xamarin.Forms;
+using OxyPlot.Xamarin.iOS;
 
 namespace OESApplication.iOS
 {
@@ -124,24 +129,26 @@ namespace OESApplication.iOS
                 //context.StrokeRect(rect);
                 
 				if(i == desiredIndex){
-					CGRect rectGreen = new CGRect(valRect.CGRectValue.X + 20, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 60, valRect.CGRectValue.Height - 10);
+					CGRect rectGreen = new CGRect(valRect.CGRectValue.X + 40, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
 					Console.WriteLine("index " + i +" ", valRect.CGRectValue.Width-60);
 					context.SetStrokeColor(UIColor.Green.CGColor);
 					context.SetLineWidth(2);
 					context.StrokeRect(rectGreen);
 
-					CGRect rectGreen2 = new CGRect(valRect.CGRectValue.X + 200, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 60, valRect.CGRectValue.Height - 10);
+					CGRect rectGreen2 = new CGRect(valRect.CGRectValue.X + 220, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
 					Console.WriteLine("index " + i + " ", valRect.CGRectValue.X + 150);
                     context.SetStrokeColor(UIColor.Green.CGColor);
                     context.SetLineWidth(2);
                     context.StrokeRect(rectGreen2);
 
 
-					//checkSpectraDifference(srcImage, valRect.CGRectValue.X + 20, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 60, valRect.CGRectValue.Height - 10);
+					checkSpectraDifference(srcImage, valRect.CGRectValue.X + 20, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 60, valRect.CGRectValue.Height - 10);
 
 				}
                 
             }
+
+
 
             UIImage dstImage = UIGraphics.GetImageFromCurrentImageContext();
 
@@ -150,48 +157,98 @@ namespace OESApplication.iOS
         }
 
 		private void checkSpectraDifference(UIImage srcImage, nfloat x, nfloat y, nfloat width, nfloat height)
-		{         
+		{
 
 			//this.detectedSpectra.Image.
 			CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
 			UIImage newImage = UIImage.FromImage(image);
 			UIGraphics.BeginImageContext(newImage.Size);
-            //CGContext context = UIGraphics.GetCurrentContext();
+			//CGContext context = UIGraphics.GetCurrentContext();
 
 			CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
 
-			
+
 			var w = image.Width;
 			var h = image.Height;
-            
 
+			Console.WriteLine("w and h: " + w + " " + h);
 			Byte[] rawData = (new byte[(int)height * (int)width * 4]);
-            int bytesPerPixel = 4;
+			int bytesPerPixel = 4;
 			int bytesPerRow = bytesPerPixel * (int)width;
 			int bitsPerComponent = 8;
-			CGContext context =  new CGBitmapContext(rawData, w, h, bitsPerComponent, bytesPerRow, colorSpace,CGBitmapFlags.ByteOrder32Big|CGBitmapFlags.PremultipliedLast);
-			 
+			CGContext context = new CGBitmapContext(rawData, w, h, bitsPerComponent, bytesPerRow, colorSpace, CGBitmapFlags.ByteOrder32Big | CGBitmapFlags.PremultipliedLast);
+
 			//CGContextDrawImage(context, new CGRect(0, 0, width, height), image);
 			context.DrawImage(new CGRect(0, 0, width, height), image);
 			UIGraphics.EndImageContext();
 
 			//// Now your rawData contains the image data in the RGBA8888 pixel format.
-			int count = (int)(w * h);
+			int count = (int)(w * h) * 4;
 			Console.WriteLine("count " + count);
-			int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
+			//int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
+			int byteIndex = (int)((bytesPerRow) + bytesPerPixel);
 
-			while((byteIndex/4) < (count-1)){
+
+			//var Points = new List<DataPoint> { };
+			//var m = new PlotModel()
+			//{
+			//	PlotType = PlotType.XY
+			//};
+
+/*
+ * For getting RGB Values
+ * 
+			//while((byteIndex) < (count-1)){
+			for (int i = 0; i < count; i = i + 4)
+			{
 				//Console.WriteLine("byteIndex " + byteIndex + " i: "+i);
-				var alpha = rawData[byteIndex + 3] / 255;
-				var red = rawData[byteIndex]/alpha;
-				var green = rawData[byteIndex + 1]/alpha;
-				var blue = rawData[byteIndex + 2]/alpha;
-				Console.WriteLine("byteIndex " + byteIndex + " red " + red + " green " + green + " blue" + blue + " alpha " + alpha);
-				byteIndex += bytesPerPixel;
-			}
-                     
+				var alpha = rawData[i + 3] / 255;
+				var red = rawData[i] / alpha;
+				var green = rawData[i + 1] / alpha;
 
-			//resultoutputtext = red.ToString();
+				//Points.Add(new DataPoint(i, green));
+			
+				var blue = rawData[i + 2] / alpha;
+				Console.WriteLine("byteIndex " + i + " red " + red + " green " + green + " blue" + blue + " alpha " + alpha);
+				//byteIndex += bytesPerPixel;
+			}
+*/
+
+			//var s = new LineSeries();
+			//s.ItemsSource = Points;
+			//m.Series.Add(s);
+			//var opv = new OxyPlotView
+			//{
+			//	WidthRequest = 300,
+			//	HeightRequest = 300,
+			//	BackgroundColor = Color.Aqua
+			//};
+			//opv.Model = m;
+            
+			//var Content = new StackLayout
+   //         {
+   //             Children = {
+   //                     new Label {
+   //                     Text = "Hello, Oxyplot!",
+   //                     VerticalOptions = LayoutOptions.CenterAndExpand,
+   //                     HorizontalOptions = LayoutOptions.CenterAndExpand,
+   //                     },
+   //                 opv,
+   //                 new Label {
+   //                     Text = "http://oxyplot.org/doc/HelloWpfXaml.html",
+   //                     Font = Font.SystemFontOfSize(NamedSize.Small),
+   //                     VerticalOptions = LayoutOptions.CenterAndExpand,
+   //                     HorizontalOptions = LayoutOptions.CenterAndExpand,
+   //                 },
+   //             }
+   //         };
+			//this.StackView = (UIKit.UIStackView)Content.BindingContext;
+					   
+
+
+
+			//this.detectedSpectra.Add((UIKit.UIView)Content);
+            
 			//this.detectedSpectra.Image = newImage;
 		}
 
