@@ -1,0 +1,8 @@
+/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication.Binding/bin/Debug/OESApplication.Binding.dll
+/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication.Binding/bin/Debug/OESApplication.Binding.pdb
+/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication.Binding/bin/Debug/Xamarin.iOS.BindingAttributes.dll
+/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication.Binding/bin/Debug/Xamarin.iOS.BindingAttributes.dll.mdb
+/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication.Binding/obj/Debug/OESApplication.Binding.csprojResolveAssemblyReference.cache
+/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication.Binding/obj/Debug/OESApplication.Binding.csproj.CoreCompileInputs.cache
+/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication.Binding/obj/Debug/OESApplication.Binding.dll
+/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication.Binding/obj/Debug/OESApplication.Binding.pdb
