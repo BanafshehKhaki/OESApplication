@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>OESApplication</string>
 	<key>CFBundleIdentifier</key>
-	<string>uakron.edu.eos.OESApplication</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleName</key>
 	<string>OESApplication</string>
 	<key>CFBundleShortVersionString</key>
