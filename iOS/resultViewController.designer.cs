@@ -1,10 +1,11 @@
 // WARNING
 //
-// This file has been generated automatically by Visual Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Visual Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
 using Foundation;
+using System;
 using System.CodeDom.Compiler;
 
 namespace OESApplication.iOS
@@ -15,22 +16,45 @@ namespace OESApplication.iOS
         [Outlet]
         UIKit.UIImageView detectedSpectra { get; set; }
 
+
+        [Outlet]
+        UIKit.UIButton measureNitrate { get; set; }
+
+
+        [Outlet]
+        UIKit.UIButton measurePH { get; set; }
+
+
         [Outlet]
         UIKit.UILabel resultOutput { get; set; }
 
+
         [Outlet]
         UIKit.UIStackView StackView { get; set; }
-        
+
+
+        [Action ("measureNitrateTouchUpInside:")]
+        partial void measureNitrateTouchUpInside (Foundation.NSObject sender);
+
+
+        [Action ("measurePHTouchUpInside:")]
+        partial void measurePHTouchUpInside (Foundation.NSObject sender);
+
         void ReleaseDesignerOutlets ()
         {
-            if (StackView != null) {
-                StackView.Dispose ();
-                StackView = null;
-            }
-
             if (detectedSpectra != null) {
                 detectedSpectra.Dispose ();
                 detectedSpectra = null;
+            }
+
+            if (measureNitrate != null) {
+                measureNitrate.Dispose ();
+                measureNitrate = null;
+            }
+
+            if (measurePH != null) {
+                measurePH.Dispose ();
+                measurePH = null;
             }
 
             if (resultOutput != null) {

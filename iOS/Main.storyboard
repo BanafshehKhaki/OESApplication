@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DWg-yQ-Yqb">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
@@ -107,7 +107,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nzE-8P-Snt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="373.91309999999999" y="-170.38040000000001"/>
+            <point key="canvasLocation" x="373.9131" y="-170.3804"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="UCs-eN-ZRT">
@@ -122,14 +122,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="chK-1I-hXz" userLabel="DetectedSpectra">
-                                <rect key="frame" x="97" y="384.66666666666674" width="245" height="321.33333333333326"/>
+                                <rect key="frame" x="97" y="384.5" width="245" height="321.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="chK-1I-hXz" secondAttribute="height" multiplier="245:321" id="5aa-O6-T0A"/>
                                     <constraint firstAttribute="width" secondItem="chK-1I-hXz" secondAttribute="height" multiplier="245:321" id="w7U-Cy-fzf"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bBi-m5-k2w">
+                                <rect key="frame" x="135" y="121" width="84" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Phosphate"/>
+                                <connections>
+                                    <action selector="measurePHTouchUpInside:" destination="pp0-WV-iq4" eventType="touchUpInside" id="FVj-9t-Trx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pXv-Pa-BIs">
+                                <rect key="frame" x="217" y="121" width="63" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Nitrate"/>
+                                <connections>
+                                    <action selector="measureNitrateTouchUpInside:" destination="pp0-WV-iq4" eventType="touchUpInside" id="wxw-HF-tax"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Result page" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUS-6k-zWa">
-                                <rect key="frame" x="161.66666666666666" y="97" width="91" height="21"/>
+                                <rect key="frame" x="162" y="207" width="91" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -142,17 +158,19 @@
                             <constraint firstItem="9aj-nb-aB4" firstAttribute="top" secondItem="chK-1I-hXz" secondAttribute="bottom" constant="30" id="Kpf-p8-xNB"/>
                             <constraint firstItem="chK-1I-hXz" firstAttribute="leading" secondItem="6Ig-Lc-TQE" secondAttribute="leadingMargin" constant="77" id="oQz-QR-jzm"/>
                             <constraint firstItem="gUS-6k-zWa" firstAttribute="centerX" secondItem="6Ig-Lc-TQE" secondAttribute="centerX" id="skw-HL-BBb"/>
-                            <constraint firstItem="gUS-6k-zWa" firstAttribute="top" secondItem="MkP-ES-QrY" secondAttribute="bottom" constant="33" id="tBp-qU-XSB"/>
+                            <constraint firstItem="gUS-6k-zWa" firstAttribute="top" secondItem="MkP-ES-QrY" secondAttribute="bottom" constant="143" id="tBp-qU-XSB"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="detectedSpectra" destination="chK-1I-hXz" id="EfL-PE-sBo"/>
+                        <outlet property="measureNitrate" destination="pXv-Pa-BIs" id="mDD-Fh-XAc"/>
+                        <outlet property="measurePH" destination="bBi-m5-k2w" id="Y7w-b6-pFx"/>
                         <outlet property="resultOutput" destination="gUS-6k-zWa" id="IIo-6o-fdM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Cf-U8-gyK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1309" y="-171"/>
+            <point key="canvasLocation" x="1308.696" y="-171.1956"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4Ge-Uw-YgG">
@@ -173,6 +191,6 @@
     </scenes>
     <resources>
         <image name="cameraButton.png" width="483" height="520"/>
-        <image name="crossHair.png" width="341" height="791"/>
+        <image name="crossHair.png" width="220" height="602"/>
     </resources>
 </document>
