@@ -121,6 +121,9 @@
     <Reference Include="Microsoft.AppCenter.Crashes.iOS.Bindings">
       <HintPath>..\packages\Microsoft.AppCenter.Crashes.1.7.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.iOS.Bindings.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.4.5.1\lib\netstandard2.0\MathNet.Numerics.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OESApplication\OESApplication.csproj">
@@ -164,6 +167,7 @@
       <DependentUpon>resultViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="OxyPlotView.cs" />
+    <Compile Include="handleSpectra.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\crossHair.png" />
