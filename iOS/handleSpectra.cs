@@ -11,19 +11,36 @@ namespace OESApplication.iOS
 		public float[] getAvgSpectrasColumns(float[,]data, int height, int width )
 		{
 			float colsummation = 0;
-			float[] avgdata = new float[height];
-			for (int i = 0; i < height; i++){
-				for (int j = 0; j < width; j++){
-					colsummation += data[i, j];
+			float[] avgdata = new float[width];
+			for (int i = 0; i < width; i++){
+				for (int j = 0; j < height; j++){
+					colsummation += data[j, i];
 				}
 				avgdata[i] = colsummation / width;
-				Console.WriteLine("avgdata: " +avgdata[i] +" colsummation: "+ colsummation);
+				//Console.WriteLine("avgdata: " +avgdata[i] +" colsummation: "+ colsummation);
 				colsummation = 0;
 			}
 
 			return avgdata;
 		}
 
+		public float[] getAvgSpectrasRows(float[,] data, int height, int width)
+        {
+            float colsummation = 0;
+            float[] avgdata = new float[height];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    colsummation += data[i, j];
+                }
+                avgdata[i] = colsummation / width;
+                //Console.WriteLine("avgdata: " +avgdata[i] +" colsummation: "+ colsummation);
+                colsummation = 0;
+            }
+
+            return avgdata;
+        }
 
 		public Tuple<int, float> findPeak(float[] data, int height)
 		{         
@@ -59,7 +76,7 @@ namespace OESApplication.iOS
 			for (int i = 0; i < RefLengthanyChannel; i++)
             {
                 wavelengthArray[i] = i * a + b;
-				Console.WriteLine("i "+i+" wavearray: " + wavelengthArray[i]);
+				//Console.WriteLine("i "+i+" wavearray: " + wavelengthArray[i]);
             }
             
 
@@ -84,7 +101,7 @@ namespace OESApplication.iOS
 		{
 			if (channel=="green"){
 				int arg_low=0, arg_high=0;
-				double interval = wavelengthArray[1] - wavelengthArray[0];
+				double interval = wavelengthArray[0] - wavelengthArray[1];
 				double wl_min = (centerWave - width / 2.0);
 				double wl_max = (centerWave + width / 2.0);
 
@@ -107,14 +124,14 @@ namespace OESApplication.iOS
 				Console.WriteLine(" arg_low: " + arg_low + " arg_high: " + arg_high + " wavelengthArray.Length: "+ wavelengthArray.Length +" NormalizedDataL: "+ NormalizedData.Length);
 				Console.WriteLine(" wl_min: " + wl_min + " wl_max: " + wl_max);
 				                  
-				//double sam_low = (((wl_min - wavelengthArray[arg_low-1]) * (NormalizedData[arg_low + 1]- NormalizedData[arg_low - 1])) / (wavelengthArray[arg_low + 1] - wavelengthArray[arg_low - 1])) + NormalizedData[arg_low-1];
+				double sam_low = (((wl_min - wavelengthArray[arg_low + 1]) * (NormalizedData[arg_low]- NormalizedData[arg_low + 1])) / (wavelengthArray[arg_low ] - wavelengthArray[arg_low + 1] )) + NormalizedData[arg_low + 1];
+                
+				double sam_high = (((wl_max - wavelengthArray[arg_high]) * (NormalizedData[arg_high -1 ] - NormalizedData[arg_high])) / (wavelengthArray[arg_high -1 ] - wavelengthArray[arg_high])) + NormalizedData[arg_high];
 
-				//double sam_high = (((wl_max - wavelengthArray[arg_high]) * (NormalizedData[arg_high+2] - NormalizedData[arg_high])) / (wavelengthArray[arg_high + 2] - wavelengthArray[arg_high])) + NormalizedData[arg_high];
-
-				double intensity = 0;//sam_low * (wavelengthArray[arg_low] - wl_min) + sam_high * (wl_max - wavelengthArray[arg_high]);            
+				double intensity = sam_low * (wavelengthArray[arg_low] - wl_min) + sam_high * (wl_max - wavelengthArray[arg_high]);            
 
 
-				for (int i = arg_low; i >= arg_high + 1; i--)
+				for (int i = arg_low; i >= arg_high; i--)
                 {
 					intensity += (NormalizedData[i]) * (interval);
                 }
@@ -126,9 +143,9 @@ namespace OESApplication.iOS
 		}
 
 
-		public double measureConcentration(double sampleIntensity, double refIntensity, double slope, double intercept)
-		{         
-			return  ((-(Math.Log(sampleIntensity/refIntensity)) - intercept )/slope);
+		public double measureConcentration(double sampleIntensity, double refIntensity, double intercept, double slope)
+		{
+			return ((-(Math.Log10(sampleIntensity / refIntensity))));// - intercept )/slope);
 		}
 
 
