@@ -139,6 +139,16 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
     <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\40by40.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\60by60.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\58by58.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\87by87.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\120by120.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\180by180.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\80by80.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\EH_logo.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage-1.launchimage\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage-1.launchimage\Default-568h%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -172,10 +182,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\crossHair.png" />
     <BundleResource Include="Resources\cameraButton.png" />
-    <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\haarcascade_frontalface_alt.xml" />
     <BundleResource Include="Resources\lena1.png" />
     <BundleResource Include="Resources\cascade.xml" />
+    <BundleResource Include="Resources\EH_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.121934\build\netstandard1.0\Xamarin.Forms.targets')" />

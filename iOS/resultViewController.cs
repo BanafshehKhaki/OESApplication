@@ -140,11 +140,13 @@ namespace OESApplication.iOS
 				float[] ColRedPix = handleSpec.getAvgSpectrasColumns(RedPixels, (int)srcImage.Size.Height, (int)srcImage.Size.Width);
 
 
-				CGRect arrFaces = getReflocation(ColRedPix, ColBluePix, ColGreenPix, maxRedValRef, maxGreenValRef, maxBlueValRef);
+				(CGRect arrFaces, CGRect sampleRec) = getReflocation(ColRedPix, ColBluePix, ColGreenPix, maxRedValRef, maxGreenValRef, maxBlueValRef);
 				arrFaces.Y = 0;
 				arrFaces.Height = (int)srcImage.Size.Height;
+				sampleRec.Y = 0;
+				sampleRec.Height = (int)srcImage.Size.Height;
 
-				CGRect sampleRec = new CGRect((arrFaces.X+arrFaces.Width)+(arrFaces.Width * 0.80), 0, arrFaces.Width, arrFaces.Height);
+				//CGRect sampleRec = new CGRect((arrFaces.X+arrFaces.Width)+(arrFaces.Width * 0.9), 0, arrFaces.Width, arrFaces.Height);
 				Console.WriteLine("arrFaces.Width: " + arrFaces.Width + "  - sample rec X: " + sampleRec);
 				//redraw image  
 				UIImage resultImage = this.drawRect(srcImage, arrFaces, peakRect, sampleRec);//this.DrawFaces(srcImage, arrFaces, desiredIndex);
@@ -159,12 +161,12 @@ namespace OESApplication.iOS
 			}
         }
 
-		private CGRect getReflocation(float[] redArray, float[] blueArray, float[] greenArray, float redPeak, float greenPeak, float bluePeak)
+		private Tuple<CGRect,CGRect> getReflocation(float[] redArray, float[] blueArray, float[] greenArray, float redPeak, float greenPeak, float bluePeak)
 		{
 			CGRect recLocations = new CGRect();
 			Boolean Pass = false;
-			for (int i = 0; i < redArray.Length/2; i++){
-				if (redArray[i] > redPeak*0.1 && blueArray[i] > bluePeak*0.1 && greenArray[i] > greenPeak*0.1 && Pass==false)
+			for (int i = 0; i < (redArray.Length/2); i++){
+				if (redArray[i] > redPeak*0.2 && blueArray[i] > bluePeak*0.2 && greenArray[i] > greenPeak*0.2 && Pass==false)
 					{
 					recLocations.X = i;
 					Console.WriteLine("RecXloc: " + recLocations.X);
@@ -172,9 +174,9 @@ namespace OESApplication.iOS
 					}            
 			}
 			Pass = false;
-			for (int i = redArray.Length / 2; i >0 ; i--)
+			for (int i = (redArray.Length / 2); i >0 ; i--)
             {
-				if (redArray[i] > redPeak * 0.1 && blueArray[i] > bluePeak * 0.1 && greenArray[i] > greenPeak * 0.1 && Pass == false)
+				if (redArray[i] > redPeak * 0.2 && blueArray[i] > bluePeak * 0.2 && greenArray[i] > greenPeak * 0.2 && Pass == false)
                 {
 					recLocations.Width = i- recLocations.X;
 					Console.WriteLine("RecWidth: " + recLocations.Width);
@@ -182,8 +184,30 @@ namespace OESApplication.iOS
                 }
             }
 
+			CGRect SampleLocations = new CGRect();
+			Pass = false;
+			for (int i = (redArray.Length/2); i < redArray.Length; i++)
+            { 
+				if (greenArray[i] > greenPeak * 0.2 && redArray[i] > redPeak * 0.2 && Pass == false)
+                {
+					SampleLocations.X = i;
+					Console.WriteLine("Sample RecXloc: " + SampleLocations.X);
+                    Pass = true;
+                }
+            }
+            Pass = false;
+			for (int i = redArray.Length-1; i > (redArray.Length/2); i--)
+            {
+				if (greenArray[i] > greenPeak * 0.2 && redArray[i] > redPeak * 0.2 && Pass == false)
+                {
+					SampleLocations.Width = i - SampleLocations.X;
+					Console.WriteLine("Sample RecWidth: " + SampleLocations.Width);
+                    Pass = true;
+                }
+            }
 
-			return recLocations; 
+
+			return Tuple.Create(recLocations, SampleLocations); 
 		}
 
 		UIImage drawRect(UIImage srcImage, CGRect arrFaces, CGRect peakRect, CGRect sampleRect)
@@ -204,11 +228,10 @@ namespace OESApplication.iOS
 				context.SetLineWidth(2);
 				context.StrokeRect(rectGreen);
 
-				//CGRect rectGreen2 = new CGRect(peakRect.X, peakRect.Y, peakRect.Width , peakRect.Height );
-
-				//context.SetStrokeColor(UIColor.Red.CGColor);
-				//context.SetLineWidth(2);
-				//context.StrokeRect(rectGreen2);
+				CGRect rectGreen2 = new CGRect(peakRect.X, peakRect.Y, peakRect.Width , peakRect.Height );
+   				context.SetStrokeColor(UIColor.Red.CGColor);
+				context.SetLineWidth(2);
+				context.StrokeRect(rectGreen2);
 
 				CGRect samplerec = new CGRect(sampleRect.X, sampleRect.Y, sampleRect.Width, sampleRect.Height);
 
@@ -656,8 +679,8 @@ namespace OESApplication.iOS
 				var context = UIGraphics.GetCurrentContext();
 				var clippedRect = new RectangleF(0, 0, width, height);
 				context.ClipToRect(clippedRect);
-				var drawRect = new RectangleF(-crop_x, -crop_y, (float)imgSize.Width, (float)imgSize.Height);
-				sourceImage.Draw(drawRect);
+				var drawRect1 = new RectangleF(-crop_x, -crop_y, (float)imgSize.Width, (float)imgSize.Height);
+				sourceImage.Draw(drawRect1);
 				var modifiedImage = UIGraphics.GetImageFromCurrentImageContext();
 				UIGraphics.EndImageContext();
 				return modifiedImage;
@@ -740,10 +763,11 @@ namespace OESApplication.iOS
 				double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 535);
 				Console.WriteLine("intensity of sampleGreenIntensity is: " + sampleGreenIntensity);
 
-				double absorbance = handleSpec.measureConcentration(sampleGreenIntensity, refGreenIntensity, 0.5, 0.6);
+				//double sampleIntensity, double refIntensity, double intercept, double slope)
+				double concentration = handleSpec.measureConcentration(sampleGreenIntensity, refGreenIntensity, 0.35, 0.36);
 
-				Console.WriteLine("Reference Intensity: " + refGreenIntensity+ "\n Sample Intensity : "+sampleGreenIntensity+ "\n Absorbance : " + absorbance);
-				string Output = ("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Absorbance : " + absorbance);
+				Console.WriteLine("Reference Intensity: " + refGreenIntensity+ "\n Sample Intensity : "+sampleGreenIntensity+ "\n Absornance : " + concentration);
+				string Output = ("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Absornance : " + concentration);
 				           
 				resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
 				resultOutput.Lines = 0;
