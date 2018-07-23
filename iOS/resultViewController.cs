@@ -185,6 +185,9 @@ namespace OESApplication.iOS
             }
 
 			CGRect SampleLocations = new CGRect();
+			 
+
+
 			Pass = false;
 			for (int i = (redArray.Length/2); i < redArray.Length; i++)
             { 
@@ -195,16 +198,17 @@ namespace OESApplication.iOS
                     Pass = true;
                 }
             }
-            Pass = false;
-			for (int i = redArray.Length-1; i > (redArray.Length/2); i--)
-            {
-				if (greenArray[i] > greenPeak * 0.2 && redArray[i] > redPeak * 0.2 && Pass == false)
-                {
-					SampleLocations.Width = i - SampleLocations.X;
-					Console.WriteLine("Sample RecWidth: " + SampleLocations.Width);
-                    Pass = true;
-                }
-            }
+			SampleLocations.Width = recLocations.Width;
+   //         Pass = false;
+			//for (int i = redArray.Length-1; i > (redArray.Length/2); i--)
+    //        {
+				//if (greenArray[i] > greenPeak * 0.2 && redArray[i] > redPeak * 0.2 && Pass == false)
+     //           {
+					//SampleLocations.Width = i - SampleLocations.X;
+					//Console.WriteLine("Sample RecWidth: " + SampleLocations.Width);
+            //        Pass = true;
+            //    }
+            //}
 
 
 			return Tuple.Create(recLocations, SampleLocations); 
