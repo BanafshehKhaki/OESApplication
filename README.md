@@ -3,3 +3,4 @@ This application will take an image from dual beam spectrometer, analyze the ima
 
 To do:
 It will be updated to print out concentration of nitrate and phosphate in water. 
+ 
