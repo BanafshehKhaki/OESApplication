@@ -12,7 +12,6 @@
 /Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication/bin/Debug/Xamarin.Forms.Xaml.pdb
 /Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication/bin/Debug/Xamarin.Forms.Xaml.dll.mdb
 /Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication/bin/Debug/Xamarin.Forms.Xaml.xml
-/Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication/obj/Debug/OESApplication.csprojAssemblyReference.cache
 /Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication/obj/Debug/OESApplication.csproj.CoreCompileInputs.cache
 /Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication/obj/Debug/OESApplication.App.xaml.g.cs
 /Users/banafsheh/Documents/Xamarin/OESApplication/OESApplication/obj/Debug/OESApplication.OESApplicationPage.xaml.g.cs
