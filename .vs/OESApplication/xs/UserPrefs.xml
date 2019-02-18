@@ -1,12 +1,7 @@
 ﻿<Properties StartupConfiguration="{63F8C4DA-AD76-4ED3-B4D8-FFF747C42A41}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="iOS/azure-pipelines.yml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="iOS/resultViewController.cs">
     <Files>
       <File FileName="iOS/resultViewController.cs" Line="564" Column="10" />
-      <File FileName="iOS/resultViewController.designer.cs" Line="1" Column="1" />
-      <File FileName="iOS/Info.plist" />
-      <File FileName="iOS/handleSpectra.cs" Line="145" Column="1" />
-      <File FileName="iOS/mainViewController.cs" Line="274" Column="1" />
-      <File FileName="iOS/azure-pipelines.yml" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.OESApplication.Droid AndroidDesignerPreferredTheme="Theme.DeviceDefault.NoActionBar.Fullscreen" />
