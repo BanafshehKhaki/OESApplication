@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using UIKit;
 using GLKit;
 using Metal;
+using CoreML;
 using MapKit;
 using Photos;
 using ModelIO;

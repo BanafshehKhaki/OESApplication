@@ -2,794 +2,792 @@
 
 using System;
 using CoreGraphics;
-using CoreImage;
 using Foundation;
 using UIKit;
-using System.CodeDom.Compiler;
 using System.Drawing;
-using System.Collections.Generic;
-using OxyPlot;
-using OxyPlot.Series;
-using Xamarin.Forms;
-using OxyPlot.Xamarin.iOS;
-using System.Diagnostics.Contracts;
 
 namespace OESApplication.iOS
 {
-	public partial class resultViewController : UIViewController
-	{
+    public partial class resultViewController : UIViewController
+    {
         public string resultoutputtext;
         public NSData PixelArray;
-        OESApplication.Binding.SpectraDetector _spectraDetector;
-		public int x_crop_loc;
-		public int y_crop_loc;
-		public int widthOfCrossHair;
+        public int x_crop_loc;
+        public int y_crop_loc;
+        public int widthOfCrossHair;
         public int HeightOfCrossHair;
-		public int liveCameraHeight;
-		public int liveCameraWidth;
-		private float[,] RefRedPixels;
-		private float[,] RefGreenPixels;
-		private float[,] RefBluePixels;
-		private float[,] RedPixels;
+        public int liveCameraHeight;
+        public int liveCameraWidth;
+        private float[,] RefRedPixels;
+        private float[,] RefGreenPixels;
+        private float[,] RefBluePixels;
+        private float[,] RedPixels;
         private float[,] GreenPixels;
         private float[,] BluePixels;
-		private int PixelArraySize;
 
-		private float[,] SampleredPixels;
-		private float[,] SamplegreenPixels;
-		private float[,] SamplebluePixels;
+        private float[,] SampleredPixels;
+        private float[,] SamplegreenPixels;
+        private float[,] SamplebluePixels;
 
 
-		//UIImage srcImage;
-
-		public resultViewController (IntPtr handle) : base (handle)
-		{
-            string filePath = NSBundle.MainBundle.PathForResource("cascade", "xml");
-			Console.WriteLine(filePath);
-		    _spectraDetector = new OESApplication.Binding.SpectraDetector(filePath);
-			resultoutputtext = "test";
-		
-		}
+        public resultViewController(IntPtr handle) : base(handle)
+        {
+        }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            DetectSpectraOpenCV();
-        }
-
-
-        private void DetectSpectraOpenCV(){
-            
-			UIImage srcImage = UIImage.LoadFromData(PixelArray);
-			//UIImage srcImage = UIImage.FromBundle("lena1");
-			//srcImage = MaxResizeImage(srcImage, 512, 512);
-			Console.WriteLine("------");
-			Console.WriteLine(srcImage.Size);
-			int CorrectX = (int)((x_crop_loc * 1.0 / liveCameraWidth) * srcImage.Size.Width);
-			int CorrectY = (int)((y_crop_loc * 1.0 / liveCameraHeight) * srcImage.Size.Height)-50;
-
-			var ratioX = (srcImage.Size.Width / liveCameraWidth);
-			var ratioY = (srcImage.Size.Height / liveCameraHeight);
-			Console.WriteLine("ratioX: " + ratioX);
-			Console.WriteLine("ratioY: " + ratioY);
-
-			srcImage = CropImage(srcImage, CorrectX, CorrectY, (int)(widthOfCrossHair * ratioX), (int)(HeightOfCrossHair * ratioY));
-			Console.WriteLine("Width int: " + (int)(widthOfCrossHair * ratioX));
-			Console.WriteLine("Width double: " + (widthOfCrossHair * ratioX));
-			Console.WriteLine(srcImage.Size);
-			Console.WriteLine("------");
-
-			/*
-            NSArray arrFaces = _spectraDetector.DetectSpectras(srcImage);
-
-            //debug
-            Console.WriteLine("faces count: {0}", arrFaces.Count);
-			int minX = 1000;
-			int minY = 1000;
-			nuint desiredIndex = 0;
-            for (nuint i = 0; i < arrFaces.Count; i++)
-            {
-                NSValue valRect = arrFaces.GetItem<NSValue>(i);
-				if( valRect.CGRectValue.X <= (minX)){
-					desiredIndex = i;
-					minX = (int)valRect.CGRectValue.X;
-					minY = (int)valRect.CGRectValue.Y;
-				}
-                Console.WriteLine("face: {0}" + i, valRect.CGRectValue);            
-            }
-			Console.WriteLine("desired index "+ desiredIndex);
-
-			for (nuint i = 0; i < arrFaces.Count; i++)
-			{
-				NSValue valRect = arrFaces.GetItem<NSValue>(i);
-				if ( (valRect.CGRectValue.Y <= (minY) && valRect.CGRectValue.Y>100)  && valRect.CGRectValue.X <= (minX+30))
-				{
-					desiredIndex = i;
-                    minX = (int)valRect.CGRectValue.X;
-                    minY = (int)valRect.CGRectValue.Y;
-				}
-				Console.WriteLine("face: {0}" + i, valRect.CGRectValue);
-            }
-            Console.WriteLine("desired index " + desiredIndex);
-
-            */
-			if (srcImage != null)
-			{
-				checkSpectraDifferenceOveralImage(srcImage, 0, 0, srcImage.Size.Width, srcImage.Size.Height);
-
-				OESApplication.iOS.handleSpectra handleSpec = new OESApplication.iOS.handleSpectra();
-				float[] PGreen, PBlue, PRed;
-				PGreen = handleSpec.getAvgSpectrasRows(GreenPixels, (int)srcImage.Size.Height, (int)srcImage.Size.Width);
-				PBlue = handleSpec.getAvgSpectrasRows(BluePixels, (int)srcImage.Size.Height, (int)srcImage.Size.Width);
-				PRed = handleSpec.getAvgSpectrasRows(RedPixels, (int)srcImage.Size.Height, (int)srcImage.Size.Width);
-
-
-
-				(int peakBlueLocationRef, float maxBlueValRef) = handleSpec.findPeak(PBlue, (int)srcImage.Size.Height);
-				(int peakRedLocationRef, float maxRedValRef) = handleSpec.findPeak(PRed, (int)srcImage.Size.Height);
-				(int peakGreenLocationRef, float maxGreenValRef) = handleSpec.findPeak(PGreen, (int)srcImage.Size.Height);
-				Console.WriteLine("maxBlueValRef: " + maxBlueValRef + "--- peakBlueLocationRef: " + peakBlueLocationRef);
-				Console.WriteLine("maxRedValRef: " + maxRedValRef + "--- peakRedLocationRef: " + peakRedLocationRef);
-				Console.WriteLine("maxGreenValRef: " + maxGreenValRef + "--- peakGreenLocationRef: " + peakGreenLocationRef);
-				Console.WriteLine("distance from blue peak to red peak: " + (peakBlueLocationRef - peakRedLocationRef));
-				CGRect peakRect = new CGRect(40, peakRedLocationRef, 10, peakBlueLocationRef - peakRedLocationRef);//this.DrawFaces(srcImage, arrFaces, 0);
-
-
-				float[] ColGreenPix = handleSpec.getAvgSpectrasColumns(GreenPixels, (int)srcImage.Size.Height, (int)srcImage.Size.Width);
-				float[] ColBluePix = handleSpec.getAvgSpectrasColumns(BluePixels, (int)srcImage.Size.Height, (int)srcImage.Size.Width);
-				float[] ColRedPix = handleSpec.getAvgSpectrasColumns(RedPixels, (int)srcImage.Size.Height, (int)srcImage.Size.Width);
-
-
-				(CGRect arrFaces, CGRect sampleRec) = getReflocation(ColRedPix, ColBluePix, ColGreenPix, maxRedValRef, maxGreenValRef, maxBlueValRef);
-				arrFaces.Y = 0;
-				arrFaces.Height = (int)srcImage.Size.Height;
-				sampleRec.Y = 0;
-				sampleRec.Height = (int)srcImage.Size.Height;
-
-				//CGRect sampleRec = new CGRect((arrFaces.X+arrFaces.Width)+(arrFaces.Width * 0.9), 0, arrFaces.Width, arrFaces.Height);
-				Console.WriteLine("arrFaces.Width: " + arrFaces.Width + "  - sample rec X: " + sampleRec);
-				//redraw image  
-				UIImage resultImage = this.drawRect(srcImage, arrFaces, peakRect, sampleRec);//this.DrawFaces(srcImage, arrFaces, desiredIndex);
-
-				this.detectedSpectra.Image = resultImage;
-
-				resultImage.SaveToPhotosAlbum((image, error) =>
-				{
-					var o = image as UIImage;
-					Console.WriteLine("if any error :" + error);
-				});
-			}
-        }
-
-		private Tuple<CGRect,CGRect> getReflocation(float[] redArray, float[] blueArray, float[] greenArray, float redPeak, float greenPeak, float bluePeak)
-		{
-			CGRect recLocations = new CGRect();
-			Boolean Pass = false;
-			for (int i = 0; i < (redArray.Length/2); i++){
-				if (redArray[i] > redPeak*0.2 && blueArray[i] > bluePeak*0.2 && greenArray[i] > greenPeak*0.2 && Pass==false)
-					{
-					recLocations.X = i;
-					Console.WriteLine("RecXloc: " + recLocations.X);
-					Pass = true;
-					}            
-			}
-			Pass = false;
-			for (int i = (redArray.Length / 2); i >0 ; i--)
-            {
-				if (redArray[i] > redPeak * 0.2 && blueArray[i] > bluePeak * 0.2 && greenArray[i] > greenPeak * 0.2 && Pass == false)
-                {
-					recLocations.Width = i- recLocations.X;
-					Console.WriteLine("RecWidth: " + recLocations.Width);
-					Pass = true;
-                }
-            }
-
-			CGRect SampleLocations = new CGRect();
-			 
-
-
-			Pass = false;
-			for (int i = (redArray.Length/2); i < redArray.Length; i++)
-            { 
-				if (greenArray[i] > greenPeak * 0.2 && redArray[i] > redPeak * 0.2 && Pass == false)
-                {
-					SampleLocations.X = i;
-					Console.WriteLine("Sample RecXloc: " + SampleLocations.X);
-                    Pass = true;
-                }
-            }
-			SampleLocations.Width = recLocations.Width;
-   //         Pass = false;
-			//for (int i = redArray.Length-1; i > (redArray.Length/2); i--)
-    //        {
-				//if (greenArray[i] > greenPeak * 0.2 && redArray[i] > redPeak * 0.2 && Pass == false)
-     //           {
-					//SampleLocations.Width = i - SampleLocations.X;
-					//Console.WriteLine("Sample RecWidth: " + SampleLocations.Width);
-            //        Pass = true;
-            //    }
-            //}
-
-
-			return Tuple.Create(recLocations, SampleLocations); 
-		}
-
-		UIImage drawRect(UIImage srcImage, CGRect arrFaces, CGRect peakRect, CGRect sampleRect)
-		{
-			if (srcImage != null)
-			{
-				UIGraphics.BeginImageContext(srcImage.Size);
-				CGContext context = UIGraphics.GetCurrentContext();
-
-				//draw src image
-				srcImage.Draw(new CGRect(0, 0, srcImage.Size.Width, srcImage.Size.Height));
-
-				//draw faces         
-
-				CGRect rectGreen = new CGRect(arrFaces.X, arrFaces.Y, arrFaces.Width, arrFaces.Height);
-
-				context.SetStrokeColor(UIColor.Green.CGColor);
-				context.SetLineWidth(2);
-				context.StrokeRect(rectGreen);
-
-				CGRect rectGreen2 = new CGRect(peakRect.X, peakRect.Y, peakRect.Width , peakRect.Height );
-   				context.SetStrokeColor(UIColor.Red.CGColor);
-				context.SetLineWidth(2);
-				context.StrokeRect(rectGreen2);
-
-				CGRect samplerec = new CGRect(sampleRect.X, sampleRect.Y, sampleRect.Width, sampleRect.Height);
-
-				context.SetStrokeColor(UIColor.Green.CGColor);
-				context.SetLineWidth(2);
-				context.StrokeRect(samplerec);
-                
-				sepetatePix(arrFaces.X, arrFaces.Y, arrFaces.Width, arrFaces.Height, sampleRect.X, sampleRect.Y, sampleRect.Width, sampleRect.Height);
-
-
-				UIImage dstImage = UIGraphics.GetImageFromCurrentImageContext();
-
-				UIGraphics.EndImageContext();
-				return dstImage;
-			}
-			return null;
-		}
-
-		private void sepetatePix(nfloat refx, nfloat refy, nfloat refwidth, nfloat refheight, nfloat samx, nfloat samy, nfloat samwidth, nfloat samheight)
-		{
-			Console.WriteLine("GreenPixels.Length: " + (GreenPixels.Length/refheight) +" samx+refwidth: "+(samx + refwidth));
-			if((GreenPixels.Length/refheight) > samx+refwidth){
-				RefRedPixels = (new float[(int)refheight,(int) refwidth]);
-				RefBluePixels = (new float[(int)refheight, (int)refwidth]);
-				RefGreenPixels = new float[(int)refheight, (int)refwidth];
-				SampleredPixels = (new float[(int)refheight, (int)refwidth]);
-				SamplebluePixels = (new float[(int)refheight, (int)refwidth]);
-				SamplegreenPixels = new float[(int)refheight, (int)refwidth];
-
-				//Array.Copy(RedPixels, (long)refx, RefRedPixels, 0, (long)refwidth);
-				//Array.Copy(RedPixels, (long)samx, SampleredPixels, 0, (long)refwidth);
-                
-				//Array.Copy(GreenPixels, (long)refx, RefGreenPixels, 0, (long)refwidth);
-				//Array.Copy(GreenPixels, (long)samx, SamplegreenPixels, 0, (long)refwidth);
-
-				//Array.Copy(BluePixels, (long)refx, RefBluePixels, 0, (long)refwidth);
-				//Array.Copy(BluePixels, (long)samx, SamplebluePixels, 0, (long)refwidth);
-				overalWeight = (int)refwidth;
-				overalHeight = (int)refheight;
-
-				for (int i = 0; i<refheight-1;i++){
-					for (int j = 0; j < refwidth-1; j++)
-					{
-						RefBluePixels[i, j]    = BluePixels[i , j+ (int)refx];
-						SamplebluePixels[i, j] = BluePixels[i , j + (int)samx];
-
-						RefGreenPixels[i, j] = GreenPixels[i, j + (int)refx];
-						SamplegreenPixels[i, j] = GreenPixels[i, j + (int)samx];
-
-						RefRedPixels[i, j] = RedPixels[i, j + (int)refx];
-						SampleredPixels[i, j] = RedPixels[i, j + (int)samx];
-
-						//Console.WriteLine("BluePixels: " + i + " " + (j + (int)refx) + " : " + BluePixels[i, j + (int)refx]+ " Ref BluePixels: " + i + " " + j + " : " + RefBluePixels[i, j]);
-
-						//Console.WriteLine("BluePixels: " + i + " " + (j + (int)samx) + " : " + BluePixels[i, j + (int)samx] + " Sample BluePixels: " + i + " " + j + " : " + SamplebluePixels[i, j]);
-				
-					}				
-				}
-
-			}
-			else{
-				Console.WriteLine("some issue with width");
-				somethingWentWrong = true;
-			}
-			
-		}
-
-
-		UIImage DrawFaces(UIImage srcImage, NSArray arrFaces, nuint desiredIndex)
-        {
-			if (srcImage != null)
-			{
-				UIGraphics.BeginImageContext(srcImage.Size);
-				CGContext context = UIGraphics.GetCurrentContext();
-
-				//draw src image
-				srcImage.Draw(new CGRect(0, 0, srcImage.Size.Width, srcImage.Size.Height));
-
-				//draw faces
-				for (nuint i = 0; i < arrFaces.Count; i++)
-				{
-					NSValue valRect = arrFaces.GetItem<NSValue>(i);
-					CGRect rect = valRect.CGRectValue;
-
-					//draw
-					context.SetStrokeColor(UIColor.Red.CGColor);
-					context.SetLineWidth(2);
-					context.StrokeRect(rect);
-
-					if (i == desiredIndex)
-					{
-						CGRect rectGreen = new CGRect(valRect.CGRectValue.X + 40, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
-						Console.WriteLine("index " + i + " ", valRect.CGRectValue.Width - 60);
-						context.SetStrokeColor(UIColor.Green.CGColor);
-						context.SetLineWidth(2);
-						context.StrokeRect(rectGreen);
-
-						CGRect rectGreen2 = new CGRect(valRect.CGRectValue.X + 220, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
-						Console.WriteLine("index " + i + " ", valRect.CGRectValue.X + 150);
-						context.SetStrokeColor(UIColor.Green.CGColor);
-						context.SetLineWidth(2);
-						context.StrokeRect(rectGreen2);
-
-
-						//checkSpectraDifference(srcImage, valRect.CGRectValue.X + 40, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
-						//getSampleSpectraRGB(srcImage, valRect.CGRectValue.X + 220, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
-
-					}
-				}
-
-				UIImage dstImage = UIGraphics.GetImageFromCurrentImageContext();
-
-				UIGraphics.EndImageContext();
-				return dstImage;
-			}
-			return null;
+            DetectSpectra();
         }
 
         /*
-		private CGRect checkSpectraDifferenceRect(UIImage srcImage, nfloat x, nfloat y, nfloat width, nfloat height)
-        {
-            //this.detectedSpectra.Image.
-            CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
-            UIImage newImage = UIImage.FromImage(image);
-            UIGraphics.BeginImageContext(newImage.Size);
-            //CGContext context = UIGraphics.GetCurrentContext();
-
-            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-
-
-            var w = image.Width;
-            var h = image.Height;
-
-            PixelArraySize = (int)(w * h);
-            int rawDataSize = (int)(height * width * 4);
-            Console.WriteLine("w and h: " + w + " " + h);
-            Byte[] rawData = (new byte[rawDataSize]);  // CHECK ISSUE HERE 'w' didnt come correctly
-            int bytesPerPixel = 4;
-            int bytesPerRow = bytesPerPixel * (int)width;
-            int bitsPerComponent = 8;
-            CGContext context = new CGBitmapContext(rawData, w, h, bitsPerComponent, bytesPerRow, colorSpace, CGBitmapFlags.ByteOrder32Big | CGBitmapFlags.PremultipliedLast);
-
-            //CGContextDrawImage(context, new CGRect(0, 0, width, height), image);
-            context.DrawImage(new CGRect(0, 0, width, height), image);
-            UIGraphics.EndImageContext();
-
-            //// Now your rawData contains the image data in the RGBA8888 pixel format.
-            int count = (int)(w * h) * 4;
-            Console.WriteLine("count " + count);
-            //int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
-            int byteIndex = (int)((bytesPerRow) + bytesPerPixel);
-
-
-
-            /*
-             * For getting RGB Values
-             * 
-             */
-        /*
-            redPixels = new float[h, w];
-            greenPixels = new float[h, w];
-            bluePixels = new float[h, w];
-            int index = 0;
-            int rowIndex = 0;
-            //Boolean Pass = false;
-            //int countless = 0;
-            CGRect recLocations = new CGRect();
-            //int boundaries = 0; 
-            for (int i = 0; i < count; i = i + 4)
-            {
-
-                if (index >= w)
-                {
-                    index = 0;
-                    //Console.WriteLine(" rowIndex " + rowIndex);
-                    rowIndex++;
-
-                }
-                var alpha = rawData[i + 3] / 255;
-                redPixels[rowIndex, index] = rawData[i] / alpha;
-                greenPixels[rowIndex, index] = rawData[i + 1] / alpha;
-                bluePixels[rowIndex, index] = rawData[i + 2] / alpha;
-
-                  //if (index <= (w / 2))
-                  //{
-                  //            if ((redPixels[rowIndex, index] > 5 && bluePixels[rowIndex, index] > 5 && greenPixels[rowIndex, index] > 5) && Pass == false)
-                  //            {
-                  //                if (countless < 5)
-                  //                {
-                  //                    //Pass = true;
-                  //                    Console.WriteLine("rowIndex " + rowIndex + " index: " + index + " red " + redPixels[rowIndex, index] + " green " + greenPixels[rowIndex, index] + " blue" + bluePixels[rowIndex, index] + " alpha " + alpha);
-                  //            recLocations.X = index;
-                  //                    recLocations.Y = rowIndex;
-                  //                }
-
-                  //                countless += 1;
-
-                  //        recLocations.Height = rowIndex - recLocations.Y;
-                  //        recLocations.Width = index - recLocations.X;
-                  //    }
-                  //}            
-                  index += 1;
-            }
-
-            Console.WriteLine("width and height: " + width + " " + height + " bytesPerRow: " + bytesPerRow);         
-            return recLocations;
-        }
+         * DetectSpectra() 
+         *  1- Crops the image using the ratio of CrossHair X,Y and its width and hight, and live camera W and H
+         *     new_x?/ image_w = x / camera_W        
+         *     new_y?/ image_h = y / camera_H 
+         *      crop : new_x, new_y, CrossHair_w * (image_w/camera_w) , CrossHair_h * (image_h/camera_h)  
+         *         
+         *  2- Finds the two specrta
+         *      record their RGB pixels        
+         * 
         */
-
-
-		private void checkSpectraDifferenceOveralImage(UIImage srcImage, nfloat x, nfloat y, nfloat width, nfloat height)
+        private void DetectSpectra()
         {
-			if (srcImage != null)
-			{
-				CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
-				UIImage newImage = UIImage.FromImage(image);
-				UIGraphics.BeginImageContext(newImage.Size);
-				//CGContext context = UIGraphics.GetCurrentContext();
+            UIImage srcImage = UIImage.LoadFromData(PixelArray);
+            int CorrectX = (int)((x_crop_loc * 1.0 / liveCameraWidth) * srcImage.Size.Width);
+            int CorrectY = (int)((y_crop_loc * 1.0 / liveCameraHeight) * srcImage.Size.Height);
+            var ratioX = (srcImage.Size.Width / liveCameraWidth);
+            var ratioY = (srcImage.Size.Height / liveCameraHeight);
 
-				CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
+            srcImage = CropImage(srcImage, CorrectX, CorrectY, (int)(widthOfCrossHair * ratioX), (int)(HeightOfCrossHair * ratioY));
+
+            if (srcImage != null)
+            {
+                //Find RGB values for each pixel and puts them in global 2D arrays: GreenPixels, BluePixels, RedPixels
+                checkSpectraDifferenceOveralImage(srcImage, 0, 0, srcImage.Size.Width, srcImage.Size.Height);
+
+                var h = (int)srcImage.Size.Height;
+                var w = (int)srcImage.Size.Width;
+
+                /*
+                 * Following Jiansheng code to detect spectra location https://github.com/jianshengfeng/EOS1/blob/master/ImgAna_simplified.ipynb               
+                 *  1- For each pixel value find the sum of RGB differences
+                 * Columns                
+                 *  2- Calculate one value for each column in image avg(col)
+                 *  3- Get Maximum value between ColumMeans
+                 *  4- Use the threshold*maximum value to eliminate columns with low RGB values = black columns
+                 *      Because we have two spectra, these results in gaps in columns index values 
+                 *      Put all indecis with high mean value into AcceptableIndecis
+                 *  5- Find the gaps between these AcceptableIndecis bby simply finding where the continous flow 1,2,3,4,... is intrupted
+                 *      As you can see each indec - its previous one should be equal to 1, if its not the case, you have found gap
+                 *  6- We only care about center gap as we can use it to find left and right side of referecnce spectrums.
+                 *      Go through all the gaps found:
+                 *      Save center of image_width - each gap mean (AcceptableIndecis[gaps+1] + AcceptableIndecis[gaps])/2
+                 *      The gap closer to center of image will be smallest one, find it dmin
+                 *      Left and Right side of Reference spectrum can be defined using the location of this center gap                
+                 * Rows 
+                 * Finding the top and bottom of spectra are similar to columns done in step 2-6 with small difference
+                 *  7- Calcualte one value for each row avg(row)
+                 *  8- Get maximul value between all RowMeans
+                 *  9- Use the threshold*maximum value to eliminate tows with low RGB values = black rows
+                 *  10- Acceptable rows [0] will be the top of spectra and AcceptableROWIndecis.Length - 1 will be the bottom of spectra   
+                 * ----
+                 * 11- Use all these values (leftCol, RightCol of reference) to make sample and ref rectangles , 
+                 *      Sample rectangle is one full width away from ref rectangle
+                 * 12- I use small cutoffs to remove the boundaries of spectras (0.1 * rightCol, 0.2*width_of_spectra)
+                 * 13- Save cropped image with sam and ref locations identified                
+                */
+
+                var threshold = 0.40f;
+
+                // return one value for each pixel which is summation of differences between R-G , G-B, B-R
+                var SummationOfAbsRGBDiffPerPixel = getPixelAbsDiff(h, w);
 
 
-				var w = image.Width;
-				var h = image.Height;
 
-				//PixelArraySize = (int)(w * h);
-				int rawDataSize = (int)(height * width * 4);
-				Console.WriteLine("w and h: " + w + " " + h);
-				Byte[] rawData = (new byte[rawDataSize]);  // CHECK ISSUE HERE 'w' didnt come correctly
-				int bytesPerPixel = 4;
-				int bytesPerRow = bytesPerPixel * (int)width;
-				int bitsPerComponent = 8;
-				CGContext context = new CGBitmapContext(rawData, w, h, bitsPerComponent, bytesPerRow, colorSpace, CGBitmapFlags.ByteOrder32Big | CGBitmapFlags.PremultipliedLast);
+                //Getting average cols 
+                var ColMean = calculateMeanOfColsAbsValues(SummationOfAbsRGBDiffPerPixel, h, w);
+                var max = getMax(ColMean, w);
 
-				//CGContextDrawImage(context, new CGRect(0, 0, width, height), image);
-				context.DrawImage(new CGRect(0, 0, width, height), image);
-				UIGraphics.EndImageContext();
+                //Finding indexs of colMean values which are above max*threshold = each index is a width value
+                var AcceptableIndecis = getThresholds(ColMean, w, threshold, max);
 
-				//// Now your rawData contains the image data in the RGBA8888 pixel format.
-				int count = (int)(w * h) * 4;
-				Console.WriteLine("count " + count);
-				//int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
-				int byteIndex = (int)((bytesPerRow) + bytesPerPixel);
+                //Looking through AcceptableIndecis:  index i - its previous value to find gaps larger than 2, put their index to gaps.
+                var gaps = findGaps(AcceptableIndecis);
 
-				/*
-				 * For getting RGB Values
-				 * 
-				 */
-				RedPixels = new float[h, w];
-				BluePixels = new float[h, w];
-				GreenPixels = new float[h, w];
-				int index = 0;
-				int rowIndex = 0;
-				for (int i = 0; i < count; i = i + 4)
-				{
 
-					if (index >= w)
-					{
-						index = 0;
-						rowIndex++;
 
-					}
-					var alpha = rawData[i + 3] / 255;
-					RedPixels[rowIndex, index] = rawData[i] / alpha;
-					GreenPixels[rowIndex, index] = rawData[i + 1] / alpha;
-					BluePixels[rowIndex, index] = rawData[i + 2] / alpha;
-					index += 1;
-				}
+                if (gaps.Length > 0)
+                {
+                    //finding the gaps in center 
+                    float[] centerpoints = new float[gaps.Length];
+                    int dmin = 10000;
+                    for (int i = 0; i < gaps.Length; i++)
+                    {
+                        var means = getMeans(AcceptableIndecis, gaps[i]);
+                        centerpoints[i] = Math.Abs(w / 2.0f - means);
 
-				Console.WriteLine("width and height: " + width + " " + height + " bytesPerRow: " + bytesPerRow);
-			}
+                        if (centerpoints[i] < dmin)
+                        {
+                            dmin = i;
+                        }
+                    }
+
+                    //Finding edges
+                    int left_Col_edge; int right_Col_edge;
+                    if (dmin == 0)
+                    {
+                        left_Col_edge = AcceptableIndecis[0];
+                        right_Col_edge = AcceptableIndecis[gaps[0]];
+                    }
+                    else
+                    {
+                        left_Col_edge = AcceptableIndecis[gaps[dmin - 1] + 1];
+                        right_Col_edge = AcceptableIndecis[gaps[dmin]];
+                    }
+
+
+                    //Finding Row Edges
+
+
+
+                    //Getting average row values for specific starting and end position
+                    var RowRowMean = calculateMeanOfAbsROWValues(SummationOfAbsRGBDiffPerPixel, h, w, left_Col_edge, right_Col_edge);
+                    var maxRow = getMax(RowRowMean, h);
+
+                    //finding indexs of colMean values which are above max*threshold = each index is a width value
+                    var AcceptableROWIndecis = getROwThresholds(RowRowMean, h, threshold, maxRow);
+                    int topEdge = AcceptableROWIndecis[0];
+                    int bottomEdge = AcceptableROWIndecis[AcceptableROWIndecis.Length - 1];
+
+
+                    var widthOfSpectra = right_Col_edge - left_Col_edge;
+                    var hightOfSpectra = bottomEdge - topEdge;
+
+                    CGRect refSpec = new CGRect(left_Col_edge + (0.10 * widthOfSpectra), topEdge, widthOfSpectra - (0.20 * widthOfSpectra), (bottomEdge - topEdge) - (hightOfSpectra * 0.05));
+                    CGRect sampleRec = new CGRect(right_Col_edge + (widthOfSpectra) + (0.10 * widthOfSpectra), topEdge, refSpec.Width, refSpec.Height);
+                    Console.WriteLine("refSpec: " + refSpec + "  - sample rec : " + sampleRec);
+
+                    // Making the image with sampleRec and RefRec and saving it, while also getting their pixel values in drawRect function
+                    UIImage resultImage = this.drawRect(srcImage, refSpec, sampleRec);
+                    this.detectedSpectra.Image = resultImage;
+                    resultImage.SaveToPhotosAlbum((image, error) =>
+                    {
+                        var o = image as UIImage;
+                        Console.WriteLine("if any error :" + error);
+                    });
+                }
+            }
         }
 
-		private void checkSpectraDifference(UIImage srcImage, nfloat x, nfloat y, nfloat width, nfloat height)
-		{
-			if (srcImage != null)
-			{
-				CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
-				UIImage newImage = UIImage.FromImage(image);
-				UIGraphics.BeginImageContext(newImage.Size);
-				//CGContext context = UIGraphics.GetCurrentContext();
-
-				CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
 
 
-				var w = image.Width;
-				var h = image.Height;
-
-				PixelArraySize = (int)(w * h);
-				int rawDataSize = (int)(height * width * 4);
-				Console.WriteLine("w and h: " + w + " " + h);
-				Byte[] rawData = (new byte[rawDataSize]);  // CHECK ISSUE HERE 'w' didnt come correctly
-				int bytesPerPixel = 4;
-				int bytesPerRow = bytesPerPixel * (int)width;
-				int bitsPerComponent = 8;
-				CGContext context = new CGBitmapContext(rawData, w, h, bitsPerComponent, bytesPerRow, colorSpace, CGBitmapFlags.ByteOrder32Big | CGBitmapFlags.PremultipliedLast);
-
-				//CGContextDrawImage(context, new CGRect(0, 0, width, height), image);
-				context.DrawImage(new CGRect(0, 0, width, height), image);
-				UIGraphics.EndImageContext();
-
-				//// Now your rawData contains the image data in the RGBA8888 pixel format.
-				int count = (int)(w * h) * 4;
-				Console.WriteLine("count " + count);
-				//int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
-				int byteIndex = (int)((bytesPerRow) + bytesPerPixel);
-
-				/*
-				 * For getting RGB Values
-				 * 
-				 */
-				RefRedPixels = new float[h, w];
-				RefBluePixels = new float[h, w];
-				RefGreenPixels = new float[h, w];
-				int index = 0;
-				int rowIndex = 0;
-				for (int i = 0; i < count; i = i + 4)
-				{
-
-					if (index >= w)
-					{
-						index = 0;
-						rowIndex++;
-
-					}
-					var alpha = rawData[i + 3] / 255;
-					RefRedPixels[rowIndex, index] = rawData[i] / alpha;
-					RefGreenPixels[rowIndex, index] = rawData[i + 1] / alpha;
-					RefBluePixels[rowIndex, index] = rawData[i + 2] / alpha;
-					index += 1;
-				}
-
-				Console.WriteLine("width and height: " + width + " " + height + " bytesPerRow: " + bytesPerRow);
-			}
-		}
-
-		private void getSampleSpectraRGB(UIImage srcImage, nfloat x, nfloat y, nfloat width, nfloat height)
-		{
-			if (srcImage != null)
-			{
-				CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
-				UIImage newImage = UIImage.FromImage(image);
-				UIGraphics.BeginImageContext(newImage.Size);
-				//CGContext context = UIGraphics.GetCurrentContext();
-
-				CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-
-
-				var w = image.Width;
-				var h = (int)newImage.Size.Height;
-
-				PixelArraySize = (int)(w * h);
-
-				Console.WriteLine("w and h: " + w + " " + h);
-				Byte[] rawData = (new byte[(int)height * (int)width * 4]);
-				int bytesPerPixel = 4;
-				int bytesPerRow = bytesPerPixel * (int)width;
-				int bitsPerComponent = 8;
-				CGContext context = new CGBitmapContext(rawData, w, h, bitsPerComponent, bytesPerRow, colorSpace, CGBitmapFlags.ByteOrder32Big | CGBitmapFlags.PremultipliedLast);
-
-				//CGContextDrawImage(context, new CGRect(0, 0, width, height), image);
-				context.DrawImage(new CGRect(0, 0, width, height), image);
-				UIGraphics.EndImageContext();
-
-				//// Now your rawData contains the image data in the RGBA8888 pixel format.
-				int count = (int)(w * h) * 4;
-				Console.WriteLine("count " + count);
-				//int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
-				//int byteIndex = (int)((bytesPerRow) + bytesPerPixel);
-
-				//Console.WriteLine("width and height: " + width + " " + height + " bytesPerRow: " + bytesPerRow);
-
-				/*
-				 * For getting RGB Values
-				 * 
-				 */
-				overalWeight = (int)w;
-				overalHeight = (int)h;
-
-				SampleredPixels = new float[h, w];
-				SamplegreenPixels = new float[h, w];
-				SamplebluePixels = new float[h, w];
-				int index = 0;
-				int rowIndex = 0;
-				for (int i = 0; i < count; i = i + 4)
-				{
-					if (index >= w)
-					{
-						index = 0;
-						rowIndex++;
-					}
-
-					var alpha = rawData[i + 3] / 255;
-					SampleredPixels[rowIndex, index] = rawData[i] / alpha;
-					SamplegreenPixels[rowIndex, index] = rawData[i + 1] / alpha;
-					SamplebluePixels[rowIndex, index] = rawData[i + 2] / alpha;
-
-					//Console.WriteLine("Sample rowIndex " + rowIndex + " index: " + index + " red " + SampleredPixels[rowIndex, index] + " green " + SamplegreenPixels[rowIndex, index] + " blue" + SamplebluePixels[rowIndex, index] + " alpha " + alpha);
-					index++;
-				}
-			}
-            //this.detectedSpectra.Image = newImage;
-		}
-
-		// resize the image to be contained within a maximum width and height, keeping aspect ratio
-		public UIImage MaxResizeImage(UIImage sourceImage, float maxWidth, float maxHeight)
+        UIImage drawRect(UIImage srcImage, CGRect arrFaces, CGRect sampleRect)
         {
-			if (sourceImage != null)
-			{
-				var sourceSize = sourceImage.Size;
-				var maxResizeFactor = Math.Min(maxWidth / sourceSize.Width, maxHeight / sourceSize.Height);
-				if (maxResizeFactor > 1) return sourceImage;
-				var width = maxResizeFactor * sourceSize.Width;
-				var height = maxResizeFactor * sourceSize.Height;
-				UIGraphics.BeginImageContext(new SizeF((float)width, (float)height));
-				sourceImage.Draw(new RectangleF(0, 0, (float)width, (float)height));
-				var resultImage = UIGraphics.GetImageFromCurrentImageContext();
-				UIGraphics.EndImageContext();
-				return resultImage;
-			}
-			return null;
+            if (srcImage != null)
+            {
+                UIGraphics.BeginImageContext(srcImage.Size);
+                CGContext context = UIGraphics.GetCurrentContext();
+
+                //draw src image
+                srcImage.Draw(new CGRect(0, 0, srcImage.Size.Width, srcImage.Size.Height));
+
+                //draw faces         
+
+                CGRect rectGreen = new CGRect(arrFaces.X, arrFaces.Y, arrFaces.Width, arrFaces.Height);
+
+                context.SetStrokeColor(UIColor.Green.CGColor);
+                context.SetLineWidth(2);
+                context.StrokeRect(rectGreen);
+
+                CGRect samplerec = new CGRect(sampleRect.X, sampleRect.Y, sampleRect.Width, sampleRect.Height);
+
+                context.SetStrokeColor(UIColor.Green.CGColor);
+                context.SetLineWidth(2);
+                context.StrokeRect(samplerec);
+
+                sepetatePix(arrFaces.X, arrFaces.Y, arrFaces.Width, arrFaces.Height, sampleRect.X, sampleRect.Y, sampleRect.Width, sampleRect.Height, srcImage.Size.Width, srcImage.Size.Height);
+
+
+                UIImage dstImage = UIGraphics.GetImageFromCurrentImageContext();
+                UIGraphics.EndImageContext();
+                return dstImage;
+            }
+            return null;
         }
 
-        // resize the image (without trying to maintain aspect ratio)
-        public UIImage ResizeImage(UIImage sourceImage, float width, float height)
+
+        private float getMeans(int[] values, int index)
         {
-			if (sourceImage != null)
-			{
-				UIGraphics.BeginImageContext(new SizeF(width, height));
-				sourceImage.Draw(new RectangleF(0, 0, width, height));
-				var resultImage = UIGraphics.GetImageFromCurrentImageContext();
-				UIGraphics.EndImageContext();
-				return resultImage;
-			}
-			return null;
+            return ((values[index] + values[index + 1]) / 2);
         }
+
+        private int[] findGaps(int[] passedThresholdIndecis)
+        {
+            var l = passedThresholdIndecis.Length;
+            int[] IndecisGaps = new int[l];
+            int count = 0;
+            for (int i = 1; i < l; i++)
+            {
+                if (passedThresholdIndecis[i] - passedThresholdIndecis[i - 1] > 2)
+                {
+                    IndecisGaps[count] = i - 1;
+                    Console.WriteLine("detected gaps: " + IndecisGaps[count] + " " + i + " " + count);
+                    count++;
+                }
+            }
+            Array.Resize(ref IndecisGaps, count);
+            return IndecisGaps;
+        }
+
+        private int[] getThresholds(float[] Meanvalues, int length, float threshold, float maxValue)
+        {
+            int[] AcceptableIndecis = new int[length];
+            int count = 0;
+            for (int i = 0; i < length / 2; i++)
+            {
+                if (Meanvalues[i] >= (maxValue * threshold))
+                {
+                    AcceptableIndecis[count] = i;
+                    //Console.WriteLine("detected values above threshold: " + AcceptableIndecis[count]+ " " +i +" " +count);
+                    count++;
+                }
+            }
+            for (int i = (length / 2); i < length; i++)
+            {
+                if (Meanvalues[i] >= (maxValue * 0.25))
+                {
+                    AcceptableIndecis[count] = i;
+                    //Console.WriteLine("detected values in samples above threshold: " + AcceptableIndecis[count] + " " + i + " " + count);
+                    count++;
+                }
+            }
+            Array.Resize(ref AcceptableIndecis, count);
+            return AcceptableIndecis;
+        }
+
+        private int[] getROwThresholds(float[] Meanvalues, int height, float threshold, float maxValue)
+        {
+            int[] AcceptableIndecis = new int[height];
+            int count = 0;
+            for (int i = 0; i < height; i++)
+            {
+                if (Meanvalues[i] >= (maxValue * threshold))
+                {
+                    AcceptableIndecis[count] = i;
+                    //Console.WriteLine("detected values above threshold: " + AcceptableIndecis[count]+ " " +i +" " +count);
+                    count++;
+                }
+            }
+            Array.Resize(ref AcceptableIndecis, count);
+            return AcceptableIndecis;
+        }
+
+        private float getMax(float[] values, int length)
+        {
+            var Max = 0.0f;
+            for (int i = 0; i < length; i++)
+            {
+                if (values[i] > Max)
+                {
+                    Max = values[i];
+                }
+            }
+            return Max;
+        }
+
+        //Calculates the mean of each Column and Row for the matix 
+        private float[] calculateMeanOfColsAbsValues(float[,] values, int height, int width)
+        {
+            float ColSum = 0.0f;
+            var ColMean = (new float[width]);
+
+            for (int j = 0; j < width; j++)
+            {
+                for (int i = 0; i < height; i++)
+                {
+                    ColSum += values[i, j];
+                }
+                ColMean[j] = ColSum / height;
+                ColSum = 0.0f;
+            }
+
+
+            return ColMean;
+        }
+
+        //Calculates the mean of each Row for the matix from specific locations
+        private float[] calculateMeanOfAbsROWValues(float[,] values, int height, int width, int Xstartlocation, int Xendlocation)
+        {
+
+            float RowSum = 0.0f;
+            var RowMean = (new float[height]);
+
+
+            for (int i = 0; i < height; i++)
+            {
+
+                for (int j = Xstartlocation; j < Xendlocation; j++)
+                {
+                    RowSum += values[i, j];
+                }
+                RowMean[i] = RowSum / (Xendlocation - Xstartlocation);
+                RowSum = 0.0f;
+            }
+            return RowMean;
+        }
+
+
+        // Return one value for each pixel which is summation of differences between R-G , G-B, B-R using global 2D arrays: GreenPixels, BluePixels, RedPixels
+        private float[,] getPixelAbsDiff(int height, int width)
+        {
+            var cds = (new float[height, width]);
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    cds[i, j] = Math.Abs(RedPixels[i, j] - BluePixels[i, j]) + Math.Abs(BluePixels[i, j] - GreenPixels[i, j]) +
+                                   Math.Abs(GreenPixels[i, j] - RedPixels[i, j]);
+                }
+            }
+            return cds;
+        }
+
+        private void checkSpectraDifferenceOveralImage(UIImage srcImage, nfloat x, nfloat y, nfloat width, nfloat height)
+        {
+            if (srcImage != null)
+            {
+                /*
+                 * For saving pixel values into a file use streamWriter with path file:
+                 */
+                //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                //string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_RGB_Values.txt");
+
+                //using (var streamWriter = new StreamWriter(filename, true))
+                //{
+                //streamWriter.WriteLine("y,x,r,g,b");
+                CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
+                UIImage newImage = UIImage.FromImage(image);
+                UIGraphics.BeginImageContext(newImage.Size);
+
+                CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
+
+
+                int rawDataSize = (int)(height * width * 4);
+
+                Byte[] rawData = (new byte[rawDataSize]);
+                int bytesPerPixel = 4;
+                int bitsPerComponent = 8;
+                int bytesPerRow = bytesPerPixel * (int)width;
+
+
+                var context = new CGBitmapContext(rawData, (int)width, (int)height, bitsPerComponent, bytesPerRow, colorSpace, CGBitmapFlags.ByteOrder32Big | CGBitmapFlags.PremultipliedLast);
+
+
+                context.DrawImage(new CGRect(0, 0, width, height), image);
+                UIGraphics.EndImageContext();
+
+                //// Now your rawData contains the image data in the RGBA8888 pixel format.
+                int count = (int)(width * height) * 4;
+                Console.WriteLine("count " + count);
+                //int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
+                int byteIndex = (int)((bytesPerRow) + bytesPerPixel);
+
+                /*
+                 * For getting RGB Values
+                 */
+                RedPixels = new float[(int)height, (int)width];
+                BluePixels = new float[(int)height, (int)width];
+                GreenPixels = new float[(int)height, (int)width];
+                int index = 0;
+                int rowIndex = 0;
+                for (int i = 0; i < count; i = i + 4)
+                {
+
+                    if (index >= (int)width)
+                    {
+                        index = 0;
+                        rowIndex++;
+
+                    }
+                    var alpha = rawData[i + 3] / 255.0f;
+                    RedPixels[rowIndex, index] = rawData[i] / alpha;
+                    GreenPixels[rowIndex, index] = rawData[i + 1] / alpha;
+                    BluePixels[rowIndex, index] = rawData[i + 2] / alpha;
+
+                    // Console.WriteLine(" rowIndex " + rowIndex + " index: " + index + " red " + RedPixels[rowIndex, index] + " green " + GreenPixels[rowIndex, index] + " blue" + BluePixels[rowIndex, index] + " alpha " + alpha);
+                    //streamWriter.WriteLine(rowIndex + " , " + index + " , " + RedPixels[rowIndex, index] + " , " + GreenPixels[rowIndex, index] + " ," + BluePixels[rowIndex, index]);
+                    index += 1;
+                }
+
+                Console.WriteLine("width and height: " + width + " " + height + " bytesPerRow: " + bytesPerRow);
+
+                // adding the normalization with background: adjusting RGB pixels
+                //}
+
+
+            }
+        }
+
+
+
+        /*
+         * Putting sample and reference RGB pixels into their own arrays using the sam and ref x,y,width,hight      
+        */
+        private void sepetatePix(nfloat refx, nfloat refy, nfloat refwidth, nfloat refheight, nfloat samx, nfloat samy, nfloat samwidth, nfloat samheight, nfloat w, nfloat h)
+        {
+            if ((h > refy + refheight) && samx + refwidth < w)
+            {
+                RefRedPixels = (new float[(int)refheight, (int)refwidth]);
+                RefBluePixels = (new float[(int)refheight, (int)refwidth]);
+                RefGreenPixels = new float[(int)refheight, (int)refwidth];
+                SampleredPixels = (new float[(int)refheight, (int)refwidth]);
+                SamplebluePixels = (new float[(int)refheight, (int)refwidth]);
+                SamplegreenPixels = new float[(int)refheight, (int)refwidth];
+
+
+                overalWeight = (int)refwidth;
+                overalHeight = (int)refheight;
+
+                for (int i = 0; i < refheight - 1; i++)
+                {
+                    for (int j = 0; j < refwidth - 1; j++)
+                    {
+                        RefBluePixels[i, j] = BluePixels[i, j + (int)refx];
+                        SamplebluePixels[i, j] = BluePixels[i, j + (int)samx];
+
+                        RefGreenPixels[i, j] = GreenPixels[i, j + (int)refx];
+                        SamplegreenPixels[i, j] = GreenPixels[i, j + (int)samx];
+
+                        RefRedPixels[i, j] = RedPixels[i, j + (int)refx];
+                        SampleredPixels[i, j] = RedPixels[i, j + (int)samx];
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("some issue with width");
+                somethingWentWrong = true;
+            }
+
+        }
+
+
+        UIImage DrawFaces(UIImage srcImage, NSArray arrFaces, nuint desiredIndex)
+        {
+            if (srcImage != null)
+            {
+                UIGraphics.BeginImageContext(srcImage.Size);
+                CGContext context = UIGraphics.GetCurrentContext();
+
+                //draw src image
+                srcImage.Draw(new CGRect(0, 0, srcImage.Size.Width, srcImage.Size.Height));
+
+                //draw faces
+                for (nuint i = 0; i < arrFaces.Count; i++)
+                {
+                    NSValue valRect = arrFaces.GetItem<NSValue>(i);
+                    CGRect rect = valRect.CGRectValue;
+
+                    //draw
+                    context.SetStrokeColor(UIColor.Red.CGColor);
+                    context.SetLineWidth(2);
+                    context.StrokeRect(rect);
+
+                    if (i == desiredIndex)
+                    {
+                        CGRect rectGreen = new CGRect(valRect.CGRectValue.X + 40, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
+                        Console.WriteLine("index " + i + " ", valRect.CGRectValue.Width - 60);
+                        context.SetStrokeColor(UIColor.Green.CGColor);
+                        context.SetLineWidth(2);
+                        context.StrokeRect(rectGreen);
+
+                        CGRect rectGreen2 = new CGRect(valRect.CGRectValue.X + 220, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
+                        Console.WriteLine("index " + i + " ", valRect.CGRectValue.X + 150);
+                        context.SetStrokeColor(UIColor.Green.CGColor);
+                        context.SetLineWidth(2);
+                        context.StrokeRect(rectGreen2);
+
+                    }
+                }
+
+                UIImage dstImage = UIGraphics.GetImageFromCurrentImageContext();
+
+                UIGraphics.EndImageContext();
+                return dstImage;
+            }
+            return null;
+        }
+
+
+
+
+
 
         // crop the image, without resizing
         private UIImage CropImage(UIImage sourceImage, int crop_x, int crop_y, int width, int height)
         {
-			if (sourceImage != null)
-			{
-				var imgSize = sourceImage.Size;
-				UIGraphics.BeginImageContext(new SizeF(width, height));
-				var context = UIGraphics.GetCurrentContext();
-				var clippedRect = new RectangleF(0, 0, width, height);
-				context.ClipToRect(clippedRect);
-				var drawRect1 = new RectangleF(-crop_x, -crop_y, (float)imgSize.Width, (float)imgSize.Height);
-				sourceImage.Draw(drawRect1);
-				var modifiedImage = UIGraphics.GetImageFromCurrentImageContext();
-				UIGraphics.EndImageContext();
-				return modifiedImage;
-			}
-			return null;
+            if (sourceImage != null)
+            {
+                var imgSize = sourceImage.Size;
+                UIGraphics.BeginImageContext(new SizeF(width, height));
+                var context = UIGraphics.GetCurrentContext();
+                var clippedRect = new RectangleF(0, 0, width, height);
+                context.ClipToRect(clippedRect);
+                var drawRect1 = new RectangleF(-crop_x, -crop_y, (float)imgSize.Width, (float)imgSize.Height);
+                sourceImage.Draw(drawRect1);
+                var modifiedImage = UIGraphics.GetImageFromCurrentImageContext();
+                UIGraphics.EndImageContext();
+                return modifiedImage;
+            }
+            return null;
         }
 
-		//private void getPixelArray(byte[] jpegAsByteArray){
-		//    try
-		//    {
-		//        for (int i = 0; i < jpegAsByteArray.Length-4; i += 4)
-		//        {
-		//            var r = jpegAsByteArray.GetValue(i);
-		//            var g = jpegAsByteArray.GetValue(i + 1);
-		//            var b = jpegAsByteArray.GetValue(i + 2);
-		//            var a = jpegAsByteArray.GetValue(i + 3);
-		//            //Console.WriteLine(r + " " + b + " " + g + " " + a);
-		//        }
-		//    }
-		//    catch (Exception ex)
-		//    {
-		//        Console.WriteLine(ex.Message);
-		//    }
-
-		//}
-
-		private int overalWeight;
-		private int overalHeight;
-		private Boolean somethingWentWrong = false;
-		partial void measureNitrateTouchUpInside(Foundation.NSObject sender)
-		{
-			if (somethingWentWrong != true)
-			{
-				OESApplication.iOS.handleSpectra handleSpec = new OESApplication.iOS.handleSpectra();
-				float[] refGreen, refBlue, refRed, samGreen, samBlue, samRed;
-				refGreen = handleSpec.getAvgSpectrasRows(RefGreenPixels, overalHeight, overalWeight);
-				refBlue = handleSpec.getAvgSpectrasRows(RefBluePixels, overalHeight, overalWeight);
-				refRed = handleSpec.getAvgSpectrasRows(RefRedPixels, overalHeight, overalWeight);
-				Console.WriteLine(".........now avg of samples: .........");
-				samGreen = handleSpec.getAvgSpectrasRows(SamplegreenPixels, overalHeight, overalWeight);
-				samBlue = handleSpec.getAvgSpectrasRows(SamplebluePixels, overalHeight, overalWeight);
-				samRed = handleSpec.getAvgSpectrasRows(SampleredPixels, overalHeight, overalWeight);
-
-				//for (int i = 0; i < overalHeight; i++)
-				//{
-				//	for (int j = 0; j < overalWeight; j++)
-				//	{
-				//		//Console.WriteLine(greenPixels[i, j]);
-				//	}
-				//	Console.WriteLine("i: " + i + " refGreen[i]" + refGreen[i] + " samGreen: " + samGreen[i]);
-				//}
 
 
-				(int peakBlueLocationRef, float maxBlueValRef) = handleSpec.findPeak(refBlue, overalHeight);
-				(int peakRedLocationRef, float maxRedValRef) = handleSpec.findPeak(refRed, overalHeight);
-				(int peakGreenLocationRef, float maxGreenValRef) = handleSpec.findPeak(refGreen, overalHeight);
-				Console.WriteLine("maxBlueValRef: " + maxBlueValRef + "--- peakBlueLocationRef: " + peakBlueLocationRef);
-				Console.WriteLine("maxRedValRef: " + maxRedValRef + "--- peakRedLocationRef: " + peakRedLocationRef);
-				Console.WriteLine("maxGreenValRef: " + maxGreenValRef + "--- peakGreenLocationRef: " + peakGreenLocationRef);
+        private int overalWeight;
+        private int overalHeight;
+        private Boolean somethingWentWrong = false;
 
-				double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
+        /*
+         * When user clicks on measurign Nitrate:
+         * Functions are written in handleSpectra.cs 
+         * 1- Find the mean for each row in sam and ref RGB pixels e.g: B_ref_avg_row(B_ref_pixels)        
+         * 2- Find maximum of each reference RGB mean from step 1 and its row indeces-location
+         * 3- Use Ref peak of RGB to normalize ref and sample RGB pixel values
+         * 4- Use Peak of Blue and Red to fit a line with  610.65, 449.1 wavelength  => Using pixel location to infer wavelength locations
+         * 5- Look at wavelenght of 530-540 in green pixel values to get intensity for both sample and reference 
+         * 6- calculate absorbance and concentration using intensities in step 5        
+         * 
+        */
+        partial void measureNitrateTouchUpInside(Foundation.NSObject sender)
+        {
+            if (somethingWentWrong != true)
+            {
+                OESApplication.iOS.handleSpectra handleSpec = new OESApplication.iOS.handleSpectra();
+                float[] refGreen, refBlue, refRed, samGreen, samBlue, samRed;
+                refGreen = handleSpec.getAvgSpectrasRows(RefGreenPixels, overalHeight, overalWeight);
+                refBlue = handleSpec.getAvgSpectrasRows(RefBluePixels, overalHeight, overalWeight);
+                refRed = handleSpec.getAvgSpectrasRows(RefRedPixels, overalHeight, overalWeight);
+                //Console.WriteLine(".........now avg of samples: .........");
+                samGreen = handleSpec.getAvgSpectrasRows(SamplegreenPixels, overalHeight, overalWeight);
+                samBlue = handleSpec.getAvgSpectrasRows(SamplebluePixels, overalHeight, overalWeight);
+                samRed = handleSpec.getAvgSpectrasRows(SampleredPixels, overalHeight, overalWeight);
 
 
 
-				//Console.WriteLine("Max Value: " + MaxVal);
-				handleSpec.normalizeArray(maxRedValRef, ref refRed);
-				handleSpec.normalizeArray(maxGreenValRef, ref refGreen);
-				handleSpec.normalizeArray(maxBlueValRef, ref refBlue);
-				handleSpec.normalizeArray(maxRedValRef, ref samRed);
-				handleSpec.normalizeArray(maxBlueValRef, ref samBlue);
-				handleSpec.normalizeArray(maxGreenValRef, ref samGreen);
-				for (int j = 0; j < overalHeight; j++)
-				{
-					Console.WriteLine("j: " + j + " refGreenN: " + refGreen[j] + " samGreenN: " + samGreen[j]);
-				}
+
+                (int peakBlueLocationRef, float maxBlueValRef) = handleSpec.findPeak(refBlue, overalHeight);
+                (int peakRedLocationRef, float maxRedValRef) = handleSpec.findPeak(refRed, overalHeight);
+                (int peakGreenLocationRef, float maxGreenValRef) = handleSpec.findPeak(refGreen, overalHeight);
+
+                Console.WriteLine("maxBlueValRef: " + maxBlueValRef + "--- peakBlueLocationRef: " + peakBlueLocationRef);
+                Console.WriteLine("maxRedValRef: " + maxRedValRef + "--- peakRedLocationRef: " + peakRedLocationRef);
+                Console.WriteLine("maxGreenValRef: " + maxGreenValRef + "--- peakGreenLocationRef: " + peakGreenLocationRef);
 
 
-				double refGreenIntensity = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 535);
-				Console.WriteLine("intensity of refGreenIntensity is: " + refGreenIntensity);
-				double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 535);
-				Console.WriteLine("intensity of sampleGreenIntensity is: " + sampleGreenIntensity);
+                if (peakBlueLocationRef > peakGreenLocationRef && peakGreenLocationRef > peakRedLocationRef)
+                {
+                    handleSpec.normalizeArray(maxRedValRef, ref refRed);
+                    handleSpec.normalizeArray(maxGreenValRef, ref refGreen);
+                    handleSpec.normalizeArray(maxBlueValRef, ref refBlue);
+                    handleSpec.normalizeArray(maxRedValRef, ref samRed);
+                    handleSpec.normalizeArray(maxBlueValRef, ref samBlue);
+                    handleSpec.normalizeArray(maxGreenValRef, ref samGreen);
 
-				//double sampleIntensity, double refIntensity, double intercept, double slope)
-				double concentration = handleSpec.measureConcentration(sampleGreenIntensity, refGreenIntensity, 0.35, 0.36);
+                    double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
 
-				Console.WriteLine("Reference Intensity: " + refGreenIntensity+ "\n Sample Intensity : "+sampleGreenIntensity+ "\n Absornance : " + concentration);
-				string Output = ("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Absornance : " + concentration);
-				           
-				resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
-				resultOutput.Lines = 0;
-				resultOutput.Text = Output; 
-				//resultOutput.PreferredMaxLayoutWidth = overalWeight*3;
-			}
-			else{
-				resultOutput.Text = ("Something went wrong with calculation.");
-			}
-
-            
-		}
-
-		partial void measurePHTouchUpInside(Foundation.NSObject sender)
-		{
-				
-		}
+                    double refGreenIntensity500 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 505);
+                    double sampleGreenIntensity500 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 505);
+                    double absorbance500 = handleSpec.measureAbsorbance(sampleGreenIntensity500, refGreenIntensity500);
+                    //double concentratio510 = handleSpec.measureConcentration(sampleGreenIntensity510, refGreenIntensity510, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    string Output = ("500-510: Intensity " + absorbance500 + "\n log10(intensity): " + (Math.Log10(absorbance500)) + "\n\n");
 
 
-	}
+                    double refGreenIntensity510 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 515);
+                    double sampleGreenIntensity510 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 515);
+                    double absorbance510 = handleSpec.measureAbsorbance(sampleGreenIntensity510, refGreenIntensity510);
+                    //double concentratio510 = handleSpec.measureConcentration(sampleGreenIntensity510, refGreenIntensity510, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("510-520: Intensity " + absorbance510 + "\n log10(intensity): " + (Math.Log10(absorbance510)) + "\n\n");
+
+                    double refGreenIntensity0 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 525);
+                    double sampleGreenIntensity0 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 525);
+                    double absorbance0 = handleSpec.measureAbsorbance(sampleGreenIntensity0, refGreenIntensity0);
+                    //double concentration0 = handleSpec.measureConcentration(sampleGreenIntensity0, refGreenIntensity0, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("520-530: Intensity " + absorbance0 + "\n log10(intensity): " + (Math.Log10(absorbance0)) + "\n\n");
+
+
+                    double refGreenIntensity = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 535);
+                    double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 535);
+                    double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity, refGreenIntensity);
+                    //double concentration = handleSpec.measureConcentration(sampleGreenIntensity, refGreenIntensity, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("530-540: Intensity " + absorbance + "\n log10(intensity): " + (Math.Log10(absorbance)) + "\n\n");
+
+
+                    double refGreenIntensity2 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 545);
+                    double sampleGreenIntensity2 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 545);
+                    double absorbance2 = handleSpec.measureAbsorbance(sampleGreenIntensity2, refGreenIntensity2);
+                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("540-550  Intensity " + absorbance2 + "\n log10(intensity): " + (Math.Log10(absorbance2)) + "\n\n");
+
+                    double refGreenIntensity550 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 555);
+                    double sampleGreenIntensity550 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 555);
+                    double absorbance550 = handleSpec.measureAbsorbance(sampleGreenIntensity550, refGreenIntensity550);
+                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("550-560  Intensity " + absorbance550 + "\n log10(intensity): " + (Math.Log10(absorbance550)) + "\n\n");
+
+
+                    double refGreenIntensity560 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 560);
+                    double sampleGreenIntensity560 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 560);
+                    double absorbance560 = handleSpec.measureAbsorbance(sampleGreenIntensity560, refGreenIntensity560);
+                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("560-570  Intensity " + absorbance560 + "\n log10(intensity): " + (Math.Log10(absorbance560)) + "\n\n");
+
+
+
+                    resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                    resultOutput.Lines = 0;
+                    resultOutput.Text = Output;
+                }
+                else
+                {
+                    string Output = ("Couldn't detect Blue and Red peaks correctly,\n Please take a new picture with brighter spectrums");
+                    resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                    resultOutput.Lines = 0;
+                    resultOutput.Text = Output;
+                }
+            }
+            else
+            {
+                string Output = ("Something went wrong with calculating RGB pixel values,\n Please take a new picture");
+                resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                resultOutput.Lines = 0;
+                resultOutput.Text = Output;
+            }
+
+        }
+
+        partial void measurePHTouchUpInside(Foundation.NSObject sender)
+        {
+            if (somethingWentWrong != true)
+            {
+                OESApplication.iOS.handleSpectra handleSpec = new OESApplication.iOS.handleSpectra();
+                float[] refGreen, refBlue, refRed, samGreen, samBlue, samRed;
+                refGreen = handleSpec.getAvgSpectrasRows(RefGreenPixels, overalHeight, overalWeight);
+                refBlue = handleSpec.getAvgSpectrasRows(RefBluePixels, overalHeight, overalWeight);
+                refRed = handleSpec.getAvgSpectrasRows(RefRedPixels, overalHeight, overalWeight);
+                //Console.WriteLine(".........now avg of samples: .........");
+                samGreen = handleSpec.getAvgSpectrasRows(SamplegreenPixels, overalHeight, overalWeight);
+                samBlue = handleSpec.getAvgSpectrasRows(SamplebluePixels, overalHeight, overalWeight);
+                samRed = handleSpec.getAvgSpectrasRows(SampleredPixels, overalHeight, overalWeight);
+
+
+
+
+                (int peakBlueLocationRef, float maxBlueValRef) = handleSpec.findPeak(refBlue, overalHeight);
+                (int peakRedLocationRef, float maxRedValRef) = handleSpec.findPeak(refRed, overalHeight);
+                (int peakGreenLocationRef, float maxGreenValRef) = handleSpec.findPeak(refGreen, overalHeight);
+
+                Console.WriteLine("maxBlueValRef: " + maxBlueValRef + "--- peakBlueLocationRef: " + peakBlueLocationRef);
+                Console.WriteLine("maxRedValRef: " + maxRedValRef + "--- peakRedLocationRef: " + peakRedLocationRef);
+                Console.WriteLine("maxGreenValRef: " + maxGreenValRef + "--- peakGreenLocationRef: " + peakGreenLocationRef);
+
+
+                if (peakBlueLocationRef > peakGreenLocationRef && peakGreenLocationRef > peakRedLocationRef)
+                {
+                    handleSpec.normalizeArray(maxRedValRef, ref refRed);
+                    handleSpec.normalizeArray(maxGreenValRef, ref refGreen);
+                    handleSpec.normalizeArray(maxBlueValRef, ref refBlue);
+                    handleSpec.normalizeArray(maxRedValRef, ref samRed);
+                    handleSpec.normalizeArray(maxBlueValRef, ref samBlue);
+                    handleSpec.normalizeArray(maxGreenValRef, ref samGreen);
+
+                    double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
+
+                    double refGreenIntensity500 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 505);
+                    double sampleGreenIntensity500 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 505);
+                    double absorbance500 = handleSpec.measureAbsorbance(sampleGreenIntensity500, refGreenIntensity500);
+                    //double concentratio510 = handleSpec.measureConcentration(sampleGreenIntensity510, refGreenIntensity510, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    string Output = ("500-510: Intensity " + absorbance500 + "\n log10(intensity): " + (Math.Log10(absorbance500)) + "\n\n");
+
+
+                    double refGreenIntensity510 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 515);
+                    double sampleGreenIntensity510 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 515);
+                    double absorbance510 = handleSpec.measureAbsorbance(sampleGreenIntensity510, refGreenIntensity510);
+                    //double concentratio510 = handleSpec.measureConcentration(sampleGreenIntensity510, refGreenIntensity510, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("510-520: Intensity " + absorbance510 + "\n log10(intensity): " + (Math.Log10(absorbance510)) + "\n\n");
+
+                    double refGreenIntensity0 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 525);
+                    double sampleGreenIntensity0 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 525);
+                    double absorbance0 = handleSpec.measureAbsorbance(sampleGreenIntensity0, refGreenIntensity0);
+                    //double concentration0 = handleSpec.measureConcentration(sampleGreenIntensity0, refGreenIntensity0, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("520-530: Intensity " + absorbance0 + "\n log10(intensity): " + (Math.Log10(absorbance0)) + "\n\n");
+
+
+                    double refGreenIntensity = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 535);
+                    double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 535);
+                    double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity, refGreenIntensity);
+                    //double concentration = handleSpec.measureConcentration(sampleGreenIntensity, refGreenIntensity, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("530-540: Intensity " + absorbance + "\n log10(intensity): " + (Math.Log10(absorbance)) + "\n\n");
+
+
+                    double refGreenIntensity2 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 545);
+                    double sampleGreenIntensity2 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 545);
+                    double absorbance2 = handleSpec.measureAbsorbance(sampleGreenIntensity2, refGreenIntensity2);
+                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("540-550  Intensity " + absorbance2 + "\n log10(intensity): " + (Math.Log10(absorbance2)) + "\n\n");
+
+                    double refGreenIntensity550 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 555);
+                    double sampleGreenIntensity550 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 555);
+                    double absorbance550 = handleSpec.measureAbsorbance(sampleGreenIntensity550, refGreenIntensity550);
+                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("550-560  Intensity " + absorbance550 + "\n log10(intensity): " + (Math.Log10(absorbance550)) + "\n\n");
+
+
+                    double refGreenIntensity560 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 560);
+                    double sampleGreenIntensity560 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 560);
+                    double absorbance560 = handleSpec.measureAbsorbance(sampleGreenIntensity560, refGreenIntensity560);
+                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
+                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
+                    Output += ("560-570  Intensity " + absorbance560 + "\n log10(intensity): " + (Math.Log10(absorbance560)) + "\n\n");
+
+
+                    resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                    resultOutput.Lines = 0;
+                    resultOutput.Text = Output;
+                }
+                else
+                {
+                    string Output = ("Couldn't detect Blue and Red peaks correctly,\n Please take a new picture with brighter spectrums");
+                    resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                    resultOutput.Lines = 0;
+                    resultOutput.Text = Output;
+                }
+            }
+            else
+            {
+                string Output = ("Something went wrong with calculating RGB pixel values,\n Please take a new picture");
+                resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                resultOutput.Lines = 0;
+                resultOutput.Text = Output;
+            }
+
+        }
+
+
+
+    }
 }
