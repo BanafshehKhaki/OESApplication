@@ -76,7 +76,6 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchDebug>true</MtouchDebug>
-<MtouchExtraArgs>--gcc_flags="-stdlib=libstdc++"</MtouchExtraArgs>
 <PlatformTarget>x86</PlatformTarget>
 <CodesignProvision>VS: P5J4W2P635.oes.OESApplication Development</CodesignProvision>
   </PropertyGroup>
