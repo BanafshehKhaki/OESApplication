@@ -4,7 +4,7 @@
 steps:
 - task: XamariniOS@2
   inputs:
-    solutionFile: 'OESApplication.sln'
+    solutionFile: 'OESApplication.iOS.sln'
     configuration: '$(buildConfiguration)'
     packageApp: false
     buildForSimulator: false
