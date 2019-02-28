@@ -56,5 +56,7 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Assets.xcassets/LaunchImage-1.launchimage</string>
+	<key>Custom Property</key>
+	<string>use location</string>
 </dict>
 </plist>
