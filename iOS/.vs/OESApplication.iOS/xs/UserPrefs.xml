@@ -1,14 +1,21 @@
 ﻿<Properties StartupConfiguration="{63F8C4DA-AD76-4ED3-B4D8-FFF747C42A41}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="azure-pipelines.yml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="mainViewController.cs">
     <Files>
-      <File FileName="Main.storyboard" />
-      <File FileName="Info.plist" />
-      <File FileName="azure-pipelines.yml" Line="7" Column="1" />
+      <File FileName="mainViewController.cs" Line="19" Column="9" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="OESApplication.iOS" expanded="True">
+            <Node name="OESApplication.iOS" expanded="True" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
-  <MonoDevelop.Ide.ItemProperties.OESApplication.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.0CF76108-B096-4B25-936E-A33BF3289674" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.ItemProperties.OESApplication.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.34fed11eefc1a66215518d010507295410f7f5a4" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
