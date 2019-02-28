@@ -28,6 +28,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <MtouchFastDev>true</MtouchFastDev>
     <CodesignProvision>VS: P5J4W2P635.oes.OESApplication Development</CodesignProvision>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -68,8 +69,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Banafsheh Khakipoor (X973V56836)</CodesignKey>
-    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
@@ -77,7 +77,6 @@
     <MtouchDebug>true</MtouchDebug>
 <PlatformTarget>x86</PlatformTarget>
 <CodesignProvision>VS: P5J4W2P635.oes.OESApplication Development</CodesignProvision>
-<MtouchFastDev>true</MtouchFastDev>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
