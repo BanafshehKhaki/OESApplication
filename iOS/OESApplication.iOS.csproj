@@ -22,13 +22,15 @@
     <CodesignKey>iPhone Developer: Banafsheh Khakipoor (X973V56836)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <IOSDebuggerPort>51020</IOSDebuggerPort>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
     <MtouchFastDev>true</MtouchFastDev>
     <CodesignProvision>VS: P5J4W2P635.oes.OESApplication Development</CodesignProvision>
-    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchFloat32>true</MtouchFloat32>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>

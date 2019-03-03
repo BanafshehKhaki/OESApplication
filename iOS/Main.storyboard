@@ -87,13 +87,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="t27-p6-c08" firstAttribute="leading" secondItem="5EB-ui-ida" secondAttribute="leading" id="2eK-Dg-6Pp"/>
-                            <constraint firstItem="t27-p6-c08" firstAttribute="bottom" secondItem="4po-Hp-3FM" secondAttribute="top" id="6ZB-sN-8Mu"/>
-                            <constraint firstItem="5EB-ui-ida" firstAttribute="bottom" secondItem="4po-Hp-3FM" secondAttribute="top" id="Bjs-uY-V2l"/>
                             <constraint firstItem="t27-p6-c08" firstAttribute="leading" secondItem="RBc-dd-nlg" secondAttribute="leading" id="FwF-w5-zgR"/>
                             <constraint firstItem="t27-p6-c08" firstAttribute="trailing" secondItem="5EB-ui-ida" secondAttribute="trailing" id="Jia-As-NFf"/>
+                            <constraint firstItem="5EB-ui-ida" firstAttribute="bottom" secondItem="4po-Hp-3FM" secondAttribute="top" id="Ot6-6r-Kcu"/>
+                            <constraint firstItem="t27-p6-c08" firstAttribute="top" secondItem="Nnh-ZD-TLn" secondAttribute="bottom" id="Qer-1z-ZX9"/>
+                            <constraint firstItem="t27-p6-c08" firstAttribute="bottom" secondItem="4po-Hp-3FM" secondAttribute="top" id="SjW-sh-OCE"/>
                             <constraint firstAttribute="trailing" secondItem="5EB-ui-ida" secondAttribute="trailing" id="aAx-cw-sFf"/>
                             <constraint firstItem="t27-p6-c08" firstAttribute="top" secondItem="5EB-ui-ida" secondAttribute="top" id="kf4-vE-4Jx"/>
-                            <constraint firstItem="t27-p6-c08" firstAttribute="top" secondItem="Nnh-ZD-TLn" secondAttribute="bottom" id="qaY-UF-J3U"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Camera Page" id="hrT-zL-2Ol"/>
