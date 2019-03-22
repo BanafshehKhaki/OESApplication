@@ -132,11 +132,11 @@ namespace OESApplication.iOS
 
         public double measureAbsorbance(double sampleIntensity, double refIntensity)
         {
-            return (sampleIntensity / refIntensity);
+            return (sampleIntensity);
         }
         public double measureConcentration(double sampleIntensity, double refIntensity, double intercept, double slope)
         {
-            return ((-(Math.Log10(sampleIntensity / refIntensity)) - intercept) / slope);
+            return ((-(Math.Log10(sampleIntensity)) - intercept) / slope);
         }
 
 
