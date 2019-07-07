@@ -38,29 +38,9 @@ namespace OESApplication.iOS
 
         void ReleaseDesignerOutlets ()
         {
-            if (captureSpectraButton != null) {
-                captureSpectraButton.Dispose ();
-                captureSpectraButton = null;
-            }
-
-            if (CrossHair != null) {
-                CrossHair.Dispose ();
-                CrossHair = null;
-            }
-
-            if (ImagePreview != null) {
-                ImagePreview.Dispose ();
-                ImagePreview = null;
-            }
-
             if (liveCameraStream != null) {
                 liveCameraStream.Dispose ();
                 liveCameraStream = null;
-            }
-
-            if (takeimageButton != null) {
-                takeimageButton.Dispose ();
-                takeimageButton = null;
             }
         }
     }

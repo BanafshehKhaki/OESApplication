@@ -95,7 +95,7 @@ namespace OESApplication.iOS
                     if (wavelengthArray[i] > wl_min)
                     {
                         arg_low = i + 1;
-                        Console.WriteLine("arg_low loc: " + arg_low + "wavelengthArray[i]: " + wavelengthArray[i]);
+                        //Console.WriteLine("arg_low loc: " + arg_low + "wavelengthArray[i]: " + wavelengthArray[i]);
                         break;
                     }
                 }
@@ -106,37 +106,41 @@ namespace OESApplication.iOS
                         arg_high = i;
                     }
                 }
-                Console.WriteLine(" arg_low: " + arg_low + " arg_high: " + arg_high + " wavelengthArray.Length: " + wavelengthArray.Length + " NormalizedDataL: " + NormalizedData.Length);
-                Console.WriteLine(" wl_min: " + wl_min + " wl_max: " + wl_max);
+                //Console.WriteLine(" arg_low: " + arg_low + " arg_high: " + arg_high + " wavelengthArray.Length: " + wavelengthArray.Length + " NormalizedDataL: " + NormalizedData.Length);
+                //Console.WriteLine(" wl_min: " + wl_min + " wl_max: " + wl_max);
 
                 // error here : investigate
 
-                double sam_low = ((wl_min - wavelengthArray[arg_low + 1]) * (NormalizedData[arg_low] - NormalizedData[arg_low + 1]) / (wavelengthArray[arg_low] - wavelengthArray[arg_low + 1])) + NormalizedData[arg_low + 1];
+                //double sam_low = ((wl_min - wavelengthArray[arg_low + 1]) * (NormalizedData[arg_low] - NormalizedData[arg_low + 1]) / (wavelengthArray[arg_low] - wavelengthArray[arg_low + 1])) + NormalizedData[arg_low + 1];
 
-                double sam_high = (((wl_max - wavelengthArray[arg_high]) * (NormalizedData[arg_high - 1] - NormalizedData[arg_high])) / (wavelengthArray[arg_high - 1] - wavelengthArray[arg_high])) + NormalizedData[arg_high];
+                //double sam_high = (((wl_max - wavelengthArray[arg_high]) * (NormalizedData[arg_high - 1] - NormalizedData[arg_high])) / (wavelengthArray[arg_high - 1] - wavelengthArray[arg_high])) + NormalizedData[arg_high];
 
-                double intensity = sam_low * (wavelengthArray[arg_low] - wl_min) + sam_high * (wl_max - wavelengthArray[arg_high]);
+                double intensity = 0; // sam_low * (wavelengthArray[arg_low] - wl_min) + sam_high * (wl_max - wavelengthArray[arg_high]);
 
 
                 for (int i = arg_low; i >= arg_high; i--)
                 {
-                    intensity += (NormalizedData[i]) * (interval);
+                    intensity += NormalizedData[i]; // * (interval);
+                    if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine(i + ": " + NormalizedData[i]); }
+                        
                 }
-
-                return intensity;
+                if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine("(arg_low - arg_high + 1):  " + (arg_low - arg_high + 1)); }
+                    
+                return (intensity / (arg_low - arg_high + 1));
             }
 
             return 0;
         }
 
-
-        public double measureAbsorbance(double sampleIntensity, double refIntensity)
+        // For now returns intensity 
+        public double measureAbsorbance(double sampleIntensity)
         {
-            return (sampleIntensity);
+            return (Math.Log10(sampleIntensity));
         }
-        public double measureConcentration(double sampleIntensity, double refIntensity, double intercept, double slope)
+        // For now returns Absorbance 
+        public double measureConcentration(double absorbance, double intercept = -0.14917, double slope = -7.8279)
         {
-            return ((-(Math.Log10(sampleIntensity)) - intercept) / slope);
+            return (absorbance * slope + intercept);
         }
 
 

@@ -5,6 +5,7 @@ using CoreGraphics;
 using Foundation;
 using UIKit;
 using System.Drawing;
+using System.IO;
 
 namespace OESApplication.iOS
 {
@@ -165,7 +166,7 @@ namespace OESApplication.iOS
                     var hightOfSpectra = bottomEdge - topEdge;
 
                     CGRect refSpec = new CGRect(left_Col_edge + (0.10 * widthOfSpectra), topEdge, widthOfSpectra - (0.20 * widthOfSpectra), (bottomEdge - topEdge) - (hightOfSpectra * 0.05));
-                    CGRect sampleRec = new CGRect(right_Col_edge + (widthOfSpectra) + (0.10 * widthOfSpectra), topEdge, refSpec.Width, refSpec.Height);
+                    CGRect sampleRec = new CGRect(right_Col_edge + (0.85 * widthOfSpectra) + (0.10 * widthOfSpectra), topEdge, refSpec.Width, refSpec.Height);
                     Console.WriteLine("refSpec: " + refSpec + "  - sample rec : " + sampleRec);
 
                     // Making the image with sampleRec and RefRec and saving it, while also getting their pixel values in drawRect function
@@ -365,64 +366,64 @@ namespace OESApplication.iOS
 
                 //using (var streamWriter = new StreamWriter(filename, true))
                 //{
-                //streamWriter.WriteLine("y,x,r,g,b");
-                CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
-                UIImage newImage = UIImage.FromImage(image);
-                UIGraphics.BeginImageContext(newImage.Size);
+                    //streamWriter.WriteLine("y,x,r,g,b");
+                    CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
+                    UIImage newImage = UIImage.FromImage(image);
+                    UIGraphics.BeginImageContext(newImage.Size);
 
-                CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-
-
-                int rawDataSize = (int)(height * width * 4);
-
-                Byte[] rawData = (new byte[rawDataSize]);
-                int bytesPerPixel = 4;
-                int bitsPerComponent = 8;
-                int bytesPerRow = bytesPerPixel * (int)width;
+                    CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
 
 
-                var context = new CGBitmapContext(rawData, (int)width, (int)height, bitsPerComponent, bytesPerRow, colorSpace, CGBitmapFlags.ByteOrder32Big | CGBitmapFlags.PremultipliedLast);
+                    int rawDataSize = (int)(height * width * 4);
+
+                    Byte[] rawData = (new byte[rawDataSize]);
+                    int bytesPerPixel = 4;
+                    int bitsPerComponent = 8;
+                    int bytesPerRow = bytesPerPixel * (int)width;
 
 
-                context.DrawImage(new CGRect(0, 0, width, height), image);
-                UIGraphics.EndImageContext();
+                    var context = new CGBitmapContext(rawData, (int)width, (int)height, bitsPerComponent, bytesPerRow, colorSpace, CGBitmapFlags.ByteOrder32Big | CGBitmapFlags.PremultipliedLast);
 
-                //// Now your rawData contains the image data in the RGBA8888 pixel format.
-                int count = (int)(width * height) * 4;
-                Console.WriteLine("count " + count);
-                //int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
-                int byteIndex = (int)((bytesPerRow) + bytesPerPixel);
 
-                /*
-                 * For getting RGB Values
-                 */
-                RedPixels = new float[(int)height, (int)width];
-                BluePixels = new float[(int)height, (int)width];
-                GreenPixels = new float[(int)height, (int)width];
-                int index = 0;
-                int rowIndex = 0;
-                for (int i = 0; i < count; i = i + 4)
-                {
+                    context.DrawImage(new CGRect(0, 0, width, height), image);
+                    UIGraphics.EndImageContext();
 
-                    if (index >= (int)width)
+                    //// Now your rawData contains the image data in the RGBA8888 pixel format.
+                    int count = (int)(width * height) * 4;
+                    Console.WriteLine("count " + count);
+                    //int byteIndex = (int)((bytesPerRow * y) + x * bytesPerPixel);
+                    int byteIndex = (int)((bytesPerRow) + bytesPerPixel);
+
+                    /*
+                     * For getting RGB Values
+                     */
+                    RedPixels = new float[(int)height, (int)width];
+                    BluePixels = new float[(int)height, (int)width];
+                    GreenPixels = new float[(int)height, (int)width];
+                    int index = 0;
+                    int rowIndex = 0;
+                    for (int i = 0; i < count; i += 4)
                     {
-                        index = 0;
-                        rowIndex++;
 
-                    }
-                    var alpha = rawData[i + 3] / 255.0f;
-                    RedPixels[rowIndex, index] = rawData[i] / alpha;
-                    GreenPixels[rowIndex, index] = rawData[i + 1] / alpha;
-                    BluePixels[rowIndex, index] = rawData[i + 2] / alpha;
+                        if (index >= (int)width)
+                        {
+                            index = 0;
+                            rowIndex++;
 
-                    // Console.WriteLine(" rowIndex " + rowIndex + " index: " + index + " red " + RedPixels[rowIndex, index] + " green " + GreenPixels[rowIndex, index] + " blue" + BluePixels[rowIndex, index] + " alpha " + alpha);
-                    //streamWriter.WriteLine(rowIndex + " , " + index + " , " + RedPixels[rowIndex, index] + " , " + GreenPixels[rowIndex, index] + " ," + BluePixels[rowIndex, index]);
-                    index += 1;
-                }
+                        }
+                        var alpha = rawData[i + 3] / 255.0f;
+                        RedPixels[rowIndex, index] = rawData[i] / alpha;
+                        GreenPixels[rowIndex, index] = rawData[i + 1] / alpha;
+                        BluePixels[rowIndex, index] = rawData[i + 2] / alpha;
+
+                        //Console.WriteLine(" rowIndex " + rowIndex + " index: " + index + " red " + RedPixels[rowIndex, index] + " green " + GreenPixels[rowIndex, index] + " blue" + BluePixels[rowIndex, index] + " alpha " + alpha);
+                        //streamWriter.WriteLine(rowIndex + " , " + index + " , " + RedPixels[rowIndex, index] + " , " + GreenPixels[rowIndex, index] + " ," + BluePixels[rowIndex, index]);
+                        index += 1;
+                     }
 
                 Console.WriteLine("width and height: " + width + " " + height + " bytesPerRow: " + bytesPerRow);
 
-                // adding the normalization with background: adjusting RGB pixels
+                    // adding the normalization with background: adjusting RGB pixels
                 //}
 
 
@@ -556,7 +557,7 @@ namespace OESApplication.iOS
          * 2- Find maximum of each reference RGB mean from step 1 and its row indeces-location
          * 3- Use Ref peak of RGB to normalize ref and sample RGB pixel values
          * 4- Use Peak of Blue and Red to fit a line with  610.65, 449.1 wavelength  => Using pixel location to infer wavelength locations
-         * 5- Look at wavelenght of 530-540 in green pixel values to get intensity for both sample and reference 
+         * 5- Look at wavelenght of 530-540 in green pixel values to getIntensity: for both sample and reference 
          * 6- calculate absorbance and concentration using intensities in step 5        
          * 
         */
@@ -597,58 +598,16 @@ namespace OESApplication.iOS
 
                     double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
 
-                    double refGreenIntensity500 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 505);
-                    double sampleGreenIntensity500 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 505);
-                    double absorbance500 = handleSpec.measureAbsorbance(sampleGreenIntensity500, refGreenIntensity500);
-                    //double concentratio510 = handleSpec.measureConcentration(sampleGreenIntensity510, refGreenIntensity510, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    string Output = ("500-510: Intensity " + absorbance500 + "\n log10(intensity): " + (Math.Log10(absorbance500)) + "\n\n");
+                    string Output = "";
+                    for (int wl = 505; wl < 570; wl += 10)
+                    {
+                        double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
+                        double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity);
+                        double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
 
-
-                    double refGreenIntensity510 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 515);
-                    double sampleGreenIntensity510 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 515);
-                    double absorbance510 = handleSpec.measureAbsorbance(sampleGreenIntensity510, refGreenIntensity510);
-                    //double concentratio510 = handleSpec.measureConcentration(sampleGreenIntensity510, refGreenIntensity510, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("510-520: Intensity " + absorbance510 + "\n log10(intensity): " + (Math.Log10(absorbance510)) + "\n\n");
-
-                    double refGreenIntensity0 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 525);
-                    double sampleGreenIntensity0 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 525);
-                    double absorbance0 = handleSpec.measureAbsorbance(sampleGreenIntensity0, refGreenIntensity0);
-                    //double concentration0 = handleSpec.measureConcentration(sampleGreenIntensity0, refGreenIntensity0, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("520-530: Intensity " + absorbance0 + "\n log10(intensity): " + (Math.Log10(absorbance0)) + "\n\n");
-
-
-                    double refGreenIntensity = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 535);
-                    double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 535);
-                    double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity, refGreenIntensity);
-                    //double concentration = handleSpec.measureConcentration(sampleGreenIntensity, refGreenIntensity, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("530-540: Intensity " + absorbance + "\n log10(intensity): " + (Math.Log10(absorbance)) + "\n\n");
-
-
-                    double refGreenIntensity2 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 545);
-                    double sampleGreenIntensity2 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 545);
-                    double absorbance2 = handleSpec.measureAbsorbance(sampleGreenIntensity2, refGreenIntensity2);
-                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("540-550  Intensity " + absorbance2 + "\n log10(intensity): " + (Math.Log10(absorbance2)) + "\n\n");
-
-                    double refGreenIntensity550 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 555);
-                    double sampleGreenIntensity550 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 555);
-                    double absorbance550 = handleSpec.measureAbsorbance(sampleGreenIntensity550, refGreenIntensity550);
-                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("550-560  Intensity " + absorbance550 + "\n log10(intensity): " + (Math.Log10(absorbance550)) + "\n\n");
-
-
-                    double refGreenIntensity560 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 560);
-                    double sampleGreenIntensity560 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 560);
-                    double absorbance560 = handleSpec.measureAbsorbance(sampleGreenIntensity560, refGreenIntensity560);
-                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("560-570  Intensity " + absorbance560 + "\n log10(intensity): " + (Math.Log10(absorbance560)) + "\n\n");
+                        Output += ((wl - 5) + " - " + (wl + 5) + " Avg. Intensity: " + Math.Round(sampleGreenIntensity, 2) + "\n Absorbance: " + Math.Round(absorbance, 2)
+                            + "\n Concentration: " + Math.Round(concentratio, 2) + "\n\n");
+                    }
 
 
 
@@ -711,59 +670,16 @@ namespace OESApplication.iOS
 
                     double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
 
-                    double refGreenIntensity500 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 505);
-                    double sampleGreenIntensity500 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 505);
-                    double absorbance500 = handleSpec.measureAbsorbance(sampleGreenIntensity500, refGreenIntensity500);
-                    //double concentratio510 = handleSpec.measureConcentration(sampleGreenIntensity510, refGreenIntensity510, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    string Output = ("500-510: Intensity " + absorbance500 + "\n log10(intensity): " + (Math.Log10(absorbance500)) + "\n\n");
+                    string Output = "";
+                    for (int wl = 505; wl < 570; wl += 10)
+                    {
+                        double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
+                        double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity);
+                        double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
 
-
-                    double refGreenIntensity510 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 515);
-                    double sampleGreenIntensity510 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 515);
-                    double absorbance510 = handleSpec.measureAbsorbance(sampleGreenIntensity510, refGreenIntensity510);
-                    //double concentratio510 = handleSpec.measureConcentration(sampleGreenIntensity510, refGreenIntensity510, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("510-520: Intensity " + absorbance510 + "\n log10(intensity): " + (Math.Log10(absorbance510)) + "\n\n");
-
-                    double refGreenIntensity0 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 525);
-                    double sampleGreenIntensity0 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 525);
-                    double absorbance0 = handleSpec.measureAbsorbance(sampleGreenIntensity0, refGreenIntensity0);
-                    //double concentration0 = handleSpec.measureConcentration(sampleGreenIntensity0, refGreenIntensity0, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("520-530: Intensity " + absorbance0 + "\n log10(intensity): " + (Math.Log10(absorbance0)) + "\n\n");
-
-
-                    double refGreenIntensity = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 535);
-                    double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 535);
-                    double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity, refGreenIntensity);
-                    //double concentration = handleSpec.measureConcentration(sampleGreenIntensity, refGreenIntensity, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("530-540: Intensity " + absorbance + "\n log10(intensity): " + (Math.Log10(absorbance)) + "\n\n");
-
-
-                    double refGreenIntensity2 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 545);
-                    double sampleGreenIntensity2 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 545);
-                    double absorbance2 = handleSpec.measureAbsorbance(sampleGreenIntensity2, refGreenIntensity2);
-                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("540-550  Intensity " + absorbance2 + "\n log10(intensity): " + (Math.Log10(absorbance2)) + "\n\n");
-
-                    double refGreenIntensity550 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 555);
-                    double sampleGreenIntensity550 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 555);
-                    double absorbance550 = handleSpec.measureAbsorbance(sampleGreenIntensity550, refGreenIntensity550);
-                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("550-560  Intensity " + absorbance550 + "\n log10(intensity): " + (Math.Log10(absorbance550)) + "\n\n");
-
-
-                    double refGreenIntensity560 = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, 560);
-                    double sampleGreenIntensity560 = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, 560);
-                    double absorbance560 = handleSpec.measureAbsorbance(sampleGreenIntensity560, refGreenIntensity560);
-                    //double concentration2 = handleSpec.measureConcentration(sampleGreenIntensity2, refGreenIntensity2, -0.14917, -7.8279);
-                    //Console.WriteLine("Reference Intensity: " + refGreenIntensity + "\n Sample Intensity : " + sampleGreenIntensity + "\n Sam/Ref Intensity : " + absorbance + "-\n Absorbance: "+ -(Math.Log10(absorbance)) + "\n concentration : " + concentration + "\n"); 
-                    Output += ("560-570  Intensity " + absorbance560 + "\n log10(intensity): " + (Math.Log10(absorbance560)) + "\n\n");
-
+                        Output += ((wl - 5) + " - " + (wl + 5) + " Avg. Intensity: " + Math.Round(sampleGreenIntensity, 2) + "\n Absorbance: " + Math.Round(absorbance, 2)
+                            + "\n Concentration: " + Math.Round(concentratio, 2) + "\n\n");
+                    }
 
                     resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
                     resultOutput.Lines = 0;

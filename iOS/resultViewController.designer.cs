@@ -42,25 +42,6 @@ namespace OESApplication.iOS
 
         void ReleaseDesignerOutlets ()
         {
-            if (detectedSpectra != null) {
-                detectedSpectra.Dispose ();
-                detectedSpectra = null;
-            }
-
-            if (measureNitrate != null) {
-                measureNitrate.Dispose ();
-                measureNitrate = null;
-            }
-
-            if (measurePH != null) {
-                measurePH.Dispose ();
-                measurePH = null;
-            }
-
-            if (resultOutput != null) {
-                resultOutput.Dispose ();
-                resultOutput = null;
-            }
         }
     }
 }
