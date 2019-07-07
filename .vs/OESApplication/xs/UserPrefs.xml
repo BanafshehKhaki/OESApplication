@@ -1,15 +1,19 @@
 ﻿<Properties StartupConfiguration="{63F8C4DA-AD76-4ED3-B4D8-FFF747C42A41}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="iOS/resultViewController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="iOS/Info.plist">
     <Files>
-      <File FileName="iOS/handleSpectra.cs" Line="139" Column="50" />
-      <File FileName="iOS/resultViewController.cs" Line="1" Column="1" />
+      <File FileName="iOS/handleSpectra.cs" Line="143" Column="52" />
+      <File FileName="iOS/resultViewController.cs" Line="681" Column="92" />
+      <File FileName="iOS/mainViewController.cs" Line="242" Column="43" />
+      <File FileName="iOS/Main.storyboard" />
+      <File FileName="iOS/Info.plist" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="OESApplication" expanded="True">
+            <Node name="OESApplication" expanded="True" />
             <Node name="OESApplication.iOS" expanded="True">
-              <Node name="resultViewController.cs" selected="True" />
+              <Node name="Info.plist" selected="True" />
             </Node>
           </Node>
         </State>
@@ -18,8 +22,8 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.OESApplication.Droid AndroidDesignerPreferredTheme="Theme.DeviceDefault.NoActionBar.Fullscreen" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.OESApplication.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.0CF76108-B096-4B25-936E-A33BF3289674" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.ItemProperties.OESApplication.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.f54cb77e9173c5590a6a8e055faa21cd565f27b0" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
