@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using MathNet.Numerics;
 
 namespace OESApplication.iOS
@@ -9,28 +10,34 @@ namespace OESApplication.iOS
         {
         }
 
-        public float[] getAvgSpectrasRows(float[,] data, int height, int width)
+        public float[] getAvgSpectrasRows(float[,] data, int height, int width, string name)
         {
             float colsummationinEachRow = 0;
             float[] avgdata = new float[height];
-            for (int i = 0; i < height; i++)
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() +"_" +name + "_RefRM_Values.txt");
+            using (var streamWriter = new StreamWriter(filename, true))
             {
-                for (int j = 0; j < width; j++)
+                streamWriter.WriteLine("i , val");
+                for (int i = 0; i < height; i++)
                 {
-                    colsummationinEachRow += data[i, j];
+                    for (int j = 0; j < width; j++)
+                    {
+                        colsummationinEachRow += data[i, j];
+                    }
+                    avgdata[i] = colsummationinEachRow / width;
+                    streamWriter.WriteLine(i + " , " + avgdata[i]);
+                    colsummationinEachRow = 0;
                 }
-                avgdata[i] = colsummationinEachRow / width;
-                colsummationinEachRow = 0;
             }
-
             return avgdata;
         }
 
-        public Tuple<int, float> findPeak(float[] data, int height)
+        public Tuple<int, float> findPeak(float[] data, int end)
         {
             float maxVal = 0;
             int peaklocation = -1;
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < end; i++)
             {
                 if (data[i] > maxVal)
                 {
@@ -49,8 +56,8 @@ namespace OESApplication.iOS
 
             //r = a x + b;
 
-            double[] xdata = new double[] { redPeakLocation, bluePeakLocation };
-            double[] ydata = new double[] { 610.65, 449.1 };
+            double[] xdata = { redPeakLocation, bluePeakLocation };
+            double[] ydata = { 610.65, 449.1 };
 
             Tuple<double, double> p = Fit.Line(xdata, ydata);
             double b = p.Item1; //  intercept
@@ -86,7 +93,7 @@ namespace OESApplication.iOS
             if (channel == "green")
             {
                 int arg_low = 0, arg_high = 0;
-                double interval = wavelengthArray[0] - wavelengthArray[1];
+                //double interval = wavelengthArray[0] - wavelengthArray[1];
                 double wl_min = (centerWave - (width / 2.0));  // 530 nm
                 double wl_max = (centerWave + (width / 2.0));  // 540 nm
 
@@ -94,7 +101,7 @@ namespace OESApplication.iOS
                 {
                     if (wavelengthArray[i] > wl_min)
                     {
-                        arg_low = i + 1;
+                        arg_high = i;
                         //Console.WriteLine("arg_low loc: " + arg_low + "wavelengthArray[i]: " + wavelengthArray[i]);
                         break;
                     }
@@ -103,7 +110,7 @@ namespace OESApplication.iOS
                 {
                     if (wavelengthArray[i] < wl_max)
                     {
-                        arg_high = i;
+                        arg_low = i;
                     }
                 }
                 //Console.WriteLine(" arg_low: " + arg_low + " arg_high: " + arg_high + " wavelengthArray.Length: " + wavelengthArray.Length + " NormalizedDataL: " + NormalizedData.Length);
@@ -118,15 +125,15 @@ namespace OESApplication.iOS
                 double intensity = 0; // sam_low * (wavelengthArray[arg_low] - wl_min) + sam_high * (wl_max - wavelengthArray[arg_high]);
 
 
-                for (int i = arg_low; i >= arg_high; i--)
+                for (int i = arg_low; i <= arg_high; i++)
                 {
                     intensity += NormalizedData[i]; // * (interval);
                     if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine(i + ": " + NormalizedData[i]); }
-                        
+
                 }
-                if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine("(arg_low - arg_high + 1):  " + (arg_low - arg_high + 1)); }
+                if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine("(  arg_high - arg_low + 1):  " + (arg_high - arg_low + 1)); }
                     
-                return (intensity / (arg_low - arg_high + 1));
+                return (intensity / (arg_high - arg_low + 1));
             }
 
             return 0;

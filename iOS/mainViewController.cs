@@ -130,8 +130,11 @@ namespace OESApplication.iOS
             var imageMeta = CIImage.FromData(jpegImageAsNsData);
 
             // creating an image and putting it in ImagePreview frame on top of the screen
-            var imagePrev = new UIImage(jpegImageAsNsData);
+
+            var imagePrev = new UIImage(jpegImageAsNsData); //UIImage.FromImage(imageMeta);
             ImagePreview.Image = imagePrev;
+
+            sampleBuffer.Dispose();
 
 
             // Saving the complete image into the phone gallery with addition to its meta data 
