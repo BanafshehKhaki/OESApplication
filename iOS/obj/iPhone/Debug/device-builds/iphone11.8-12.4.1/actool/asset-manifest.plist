@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.actool.compilation-results</key>
+	<dict>
+		<key>output-files</key>
+		<array>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/AppIcon20x20@2x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/AppIcon20x20@3x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/AppIcon29x29@2x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/AppIcon29x29@3x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/AppIcon40x40@2x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/AppIcon40x40@3x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/AppIcon60x60@2x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/AppIcon60x60@3x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/LaunchImage-1-568h@2x.png</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/bundle/Assets.car</string>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/partial-info.plist</string>
+		</array>
+	</dict>
+	<key>com.apple.actool.document.notices</key>
+	<array>
+		<dict>
+			<key>affected-items</key>
+			<array>
+				<string>./LaunchImage-1.launchimage/[iphone][retina4][2x][portrait][full-screen][]</string>
+			</array>
+			<key>catalog</key>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/cloned-assets/Assets.xcassets</string>
+			<key>message</key>
+			<string>This launch image only applies to iOS 6.x and prior but the minimum deployment is 7.0 or later.</string>
+			<key>type</key>
+			<string>Inapplicable Content</string>
+		</dict>
+	</array>
+	<key>com.apple.actool.document.warnings</key>
+	<array>
+		<dict>
+			<key>affected-items</key>
+			<array>
+				<string>./AppIcon.appiconset</string>
+			</array>
+			<key>catalog</key>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/cloned-assets/Assets.xcassets</string>
+			<key>message</key>
+			<string>A 76x76@2x app icon is required for iPad apps targeting iOS 7.0 and later</string>
+			<key>type</key>
+			<string>Missing Content</string>
+		</dict>
+		<dict>
+			<key>affected-items</key>
+			<array>
+				<string>./AppIcon.appiconset</string>
+			</array>
+			<key>catalog</key>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/cloned-assets/Assets.xcassets</string>
+			<key>message</key>
+			<string>A 83.5x83.5@2x app icon is required for iPad apps targeting iOS 9.0 and later</string>
+			<key>type</key>
+			<string>Missing Content</string>
+		</dict>
+		<dict>
+			<key>affected-items</key>
+			<array>
+				<string>./LaunchImage-1.launchimage</string>
+			</array>
+			<key>catalog</key>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/cloned-assets/Assets.xcassets</string>
+			<key>message</key>
+			<string>Launch images are deprecated in iOS 13.0. Use a launch storyboard or XIB instead.</string>
+			<key>type</key>
+			<string>Deprecation</string>
+		</dict>
+		<dict>
+			<key>affected-items</key>
+			<array>
+				<string>./LaunchImage-1.launchimage</string>
+			</array>
+			<key>catalog</key>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/cloned-assets/Assets.xcassets</string>
+			<key>message</key>
+			<string>An iPhone Retina (4-inch) launch image for iOS 7.0 and later is required.</string>
+			<key>type</key>
+			<string>Missing Content</string>
+		</dict>
+		<dict>
+			<key>affected-items</key>
+			<array>
+				<string>./AppIcon.appiconset/[][watch][44x44][longLook][42mm][2x][][][2d][(null)]</string>
+			</array>
+			<key>catalog</key>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/cloned-assets/Assets.xcassets</string>
+			<key>message</key>
+			<string>The app icon set "AppIcon" has an unassigned child.</string>
+			<key>type</key>
+			<string>Ambiguous Content</string>
+		</dict>
+		<dict>
+			<key>affected-items</key>
+			<array>
+				<string>./AppIcon.appiconset/[][watch][44x44][longLook][42mm][2x][][][2d][(null)]</string>
+			</array>
+			<key>catalog</key>
+			<string>/Users/banafsheh/Documents/Xamarin/OESApplication/iOS/obj/iPhone/Debug/device-builds/iphone11.8-12.4.1/actool/cloned-assets/Assets.xcassets</string>
+			<key>message</key>
+			<string>The app icon set "AppIcon" has an unassigned child.</string>
+			<key>type</key>
+			<string>Ambiguous Content</string>
+		</dict>
+	</array>
+</dict>
+</plist>

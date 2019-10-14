@@ -187,14 +187,11 @@ namespace OESApplication.iOS
 
                     // Making the image with sampleRec and RefRec and saving it, while also getting their pixel values in drawRect function
                     UIImage resultImage = this.drawRect(srcImage, refSpec, sampleRec);
-                    this.detectedSpectra.Image = resultImage;
-                    //resultImage.SaveToPhotosAlbum((image, error) =>
-                    //{
-                    //    var o = image as UIImage;
-                    //    Console.WriteLine("if any error :" + error);
-                    //});
+
+                   
 
 
+                    // SAVEING AS PNG
                     var timeInSeconds = DateTime.UtcNow.Millisecond.ToString();
                     var day = DateTime.UtcNow.Day.ToString();
                     var month = DateTime.UtcNow.Month.ToString();
@@ -223,13 +220,22 @@ namespace OESApplication.iOS
                             }
                         }
                     }
+
+                    UIImage drawImage = this.drawRect(srcImage, refSpec, sampleRec, true);
+                    this.detectedSpectra.Image = drawImage;
+                    // saving to Gallery as JPEG: 
+                    //drawImage.SaveToPhotosAlbum((image, error) =>
+                    //{
+                    //    var o = image as UIImage;
+                    //    Console.WriteLine("if any error :" + error);
+                    //});
                 }
             }
         }
 
 
 
-        UIImage drawRect(UIImage srcImage, CGRect refRect, CGRect sampleRect)
+        UIImage drawRect(UIImage srcImage, CGRect refRect, CGRect sampleRect, Boolean flag=false)
         {
             if (srcImage != null)
             {
@@ -242,19 +248,21 @@ namespace OESApplication.iOS
                 //draw faces         
 
                 CGRect rectGreen = new CGRect(refRect.X, refRect.Y, refRect.Width, refRect.Height);
-
-                //context.SetStrokeColor(UIColor.Green.CGColor);
-                //context.SetLineWidth(2);
-                //context.StrokeRect(rectGreen);
-
                 CGRect samplerec = new CGRect(sampleRect.X, sampleRect.Y, sampleRect.Width, sampleRect.Height);
 
-                //context.SetStrokeColor(UIColor.Green.CGColor);
-                //context.SetLineWidth(2);
-                //context.StrokeRect(samplerec);
-
-                sepetatePix(refRect.X, refRect.Y, refRect.Width, refRect.Height, sampleRect.X, sampleRect.Y, sampleRect.Width, sampleRect.Height, srcImage.Size.Width, srcImage.Size.Height);
-
+                if (flag == true)
+                {
+                    context.SetStrokeColor(UIColor.Green.CGColor);
+                    context.SetLineWidth(2);
+                    context.StrokeRect(rectGreen);
+                    context.SetStrokeColor(UIColor.Green.CGColor);
+                    context.SetLineWidth(2);
+                    context.StrokeRect(samplerec);
+                }
+                else
+                {
+                    sepetatePix(refRect.X, refRect.Y, refRect.Width, refRect.Height, sampleRect.X, sampleRect.Y, sampleRect.Width, sampleRect.Height, srcImage.Size.Width, srcImage.Size.Height);
+                }
 
                 UIImage dstImage = UIGraphics.GetImageFromCurrentImageContext();
                 UIGraphics.EndImageContext();
@@ -348,12 +356,12 @@ namespace OESApplication.iOS
         {
             float ColSum = 0.0f;
             var ColMean = (new float[width]);
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_CM_Values.txt");
+            //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_CM_Values.txt");
 
-            using (var streamWriter = new StreamWriter(filename, true))
-            {
-                streamWriter.WriteLine("j , val");
+            //using (var streamWriter = new StreamWriter(filename, true))
+            //{
+                //streamWriter.WriteLine("j , val");
                 for (int j = 0; j < width; j++)
                 {
                     for (int i = 0; i < height; i++)
@@ -361,10 +369,10 @@ namespace OESApplication.iOS
                         ColSum += values[i, j];
                     }
                     ColMean[j] = ColSum / height;
-                    streamWriter.WriteLine( j + " , " + ColMean[j]);
+                    //streamWriter.WriteLine( j + " , " + ColMean[j]);
                     ColSum = 0.0f;
                 }
-            }
+            //}
 
 
             return ColMean;
@@ -378,11 +386,11 @@ namespace OESApplication.iOS
             var RowMean = (new float[height]);
             Console.WriteLine(Xendlocation - Xstartlocation );
 
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_RM_Values.txt");
-            using (var streamWriter = new StreamWriter(filename, true))
-            {
-                streamWriter.WriteLine("i , val");
+            //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_RM_Values.txt");
+            //using (var streamWriter = new StreamWriter(filename, true))
+            //{
+                //streamWriter.WriteLine("i , val");
                 for (int i = 0; i < height; i++)
                 {
 
@@ -391,10 +399,10 @@ namespace OESApplication.iOS
                         RowSum += values[i, j];
                     }
                     RowMean[i] = RowSum / (Xendlocation - Xstartlocation);
-                    streamWriter.WriteLine(i + " , " + RowMean[i]);
+                    //streamWriter.WriteLine(i + " , " + RowMean[i]);
                     RowSum = 0.0f;
                 }
-            }
+            //}
             return RowMean;
         }
 
@@ -429,12 +437,12 @@ namespace OESApplication.iOS
                 /*
                  * For saving pixel values into a file use streamWriter with path file:
                  */
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_RGB_Values.txt");
+                //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                //string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_RGB_Values.txt");
 
-                using (var streamWriter = new StreamWriter(filename, true))
-                {
-                    streamWriter.WriteLine("i , j , r , g , b");
+                //using (var streamWriter = new StreamWriter(filename, true))
+                //{
+                    //streamWriter.WriteLine("i , j , r , g , b");
                     CGImage image = srcImage.CGImage.WithImageInRect(new CGRect(x, y, width, height));
                     UIImage newImage = UIImage.FromImage(image);
                     UIGraphics.BeginImageContext(newImage.Size);
@@ -485,14 +493,14 @@ namespace OESApplication.iOS
                         BluePixels[rowIndex, index] = rawData[i + 2] / alpha;
 
                         //Console.WriteLine(" rowIndex " + rowIndex + " index: " + index + " red " + RedPixels[rowIndex, index] + " green " + GreenPixels[rowIndex, index] + " blue" + BluePixels[rowIndex, index] + " alpha " + alpha);
-                        streamWriter.WriteLine(rowIndex + " , " + index + " , " + RedPixels[rowIndex, index] + " , " + GreenPixels[rowIndex, index] + " , " + BluePixels[rowIndex, index]);
+                        //streamWriter.WriteLine(rowIndex + " , " + index + " , " + RedPixels[rowIndex, index] + " , " + GreenPixels[rowIndex, index] + " , " + BluePixels[rowIndex, index]);
                         index += 1;
                      }
 
                 Console.WriteLine("width and height: " + width + " " + height + " bytesPerRow: " + bytesPerRow);
 
                     // adding the normalization with background: adjusting RGB pixels
-                }
+                //}
                 
             }
         }
@@ -539,57 +547,6 @@ namespace OESApplication.iOS
             }
 
         }
-
-
-        UIImage DrawFaces(UIImage srcImage, NSArray arrFaces, nuint desiredIndex)
-        {
-            if (srcImage != null)
-            {
-                UIGraphics.BeginImageContext(srcImage.Size);
-                CGContext context = UIGraphics.GetCurrentContext();
-
-                //draw src image
-                srcImage.Draw(new CGRect(0, 0, srcImage.Size.Width, srcImage.Size.Height));
-
-                //draw faces
-                for (nuint i = 0; i < arrFaces.Count; i++)
-                {
-                    NSValue valRect = arrFaces.GetItem<NSValue>(i);
-                    CGRect rect = valRect.CGRectValue;
-
-                    //draw
-                    context.SetStrokeColor(UIColor.Red.CGColor);
-                    context.SetLineWidth(2);
-                    context.StrokeRect(rect);
-
-                    if (i == desiredIndex)
-                    {
-                        CGRect rectGreen = new CGRect(valRect.CGRectValue.X + 40, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
-                        Console.WriteLine("index " + i + " ", valRect.CGRectValue.Width - 60);
-                        context.SetStrokeColor(UIColor.Green.CGColor);
-                        context.SetLineWidth(2);
-                        context.StrokeRect(rectGreen);
-
-                        CGRect rectGreen2 = new CGRect(valRect.CGRectValue.X + 220, valRect.CGRectValue.Y + 10, valRect.CGRectValue.Width - 100, valRect.CGRectValue.Height - 10);
-                        Console.WriteLine("index " + i + " ", valRect.CGRectValue.X + 150);
-                        context.SetStrokeColor(UIColor.Green.CGColor);
-                        context.SetLineWidth(2);
-                        context.StrokeRect(rectGreen2);
-
-                    }
-                }
-
-                UIImage dstImage = UIGraphics.GetImageFromCurrentImageContext();
-
-                UIGraphics.EndImageContext();
-                return dstImage;
-            }
-            return null;
-        }
-
-
-
-
 
 
         // crop the image, without resizing
@@ -663,14 +620,27 @@ namespace OESApplication.iOS
                     double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
 
                     string Output = "";
-                    for (int wl = 505; wl < 570; wl += 10)
-                    {
-                        double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
-                        double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity);
-                        double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_wlabs.csv");
 
-                        Output += ((wl - 5) + " - " + (wl + 5) + " Avg. Intensity: " + Math.Round(sampleGreenIntensity, 2) + "\n Absorbance: " + Math.Round(absorbance, 2)
-                            + "\n Concentration: " + Math.Round(concentratio, 2) + "\n\n");
+                    using (var streamWriter = new StreamWriter(filename, true))
+                    {
+                        streamWriter.WriteLine("wavelength,Absorbance,IntensitysRatio");
+
+                        for (int wl = 405; wl < 715; wl += 10)
+                        {
+                            double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
+                            double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity);
+                            double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
+
+                            streamWriter.WriteLine(wl + "," + absorbance + "," + sampleGreenIntensity);
+
+                            if (wl == 535)
+                            {
+                                Output += ((wl - 5) + " - " + (wl + 5) + " Avg. Intensity: " + Math.Round(sampleGreenIntensity, 3) + "\n Absorbance: " + Math.Round(absorbance, 3)
+                                    + "\n Concentration: " + Math.Round(concentratio, 3) + "\n\n");
+                            }
+                        }
                     }
 
 

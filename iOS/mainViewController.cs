@@ -36,6 +36,8 @@ namespace OESApplication.iOS
             SetupLiveCameraStream();
         }
 
+        
+
         //Connected to button to take the image
         partial void captureSpectraTouchUpInside(Foundation.NSObject sender)
         {

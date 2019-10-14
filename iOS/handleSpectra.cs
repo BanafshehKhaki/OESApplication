@@ -14,11 +14,11 @@ namespace OESApplication.iOS
         {
             float colsummationinEachRow = 0;
             float[] avgdata = new float[height];
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() +"_" +name + "_RefRM_Values.txt");
-            using (var streamWriter = new StreamWriter(filename, true))
-            {
-                streamWriter.WriteLine("i , val");
+            //string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() +"_" +name + "_RefRM_Values.txt");
+            //using (var streamWriter = new StreamWriter(filename, true))
+            //{
+                //streamWriter.WriteLine("i , val");
                 for (int i = 0; i < height; i++)
                 {
                     for (int j = 0; j < width; j++)
@@ -26,10 +26,10 @@ namespace OESApplication.iOS
                         colsummationinEachRow += data[i, j];
                     }
                     avgdata[i] = colsummationinEachRow / width;
-                    streamWriter.WriteLine(i + " , " + avgdata[i]);
+                    //streamWriter.WriteLine(i + " , " + avgdata[i]);
                     colsummationinEachRow = 0;
                 }
-            }
+            //}
             return avgdata;
         }
 
@@ -128,10 +128,10 @@ namespace OESApplication.iOS
                 for (int i = arg_low; i <= arg_high; i++)
                 {
                     intensity += NormalizedData[i]; // * (interval);
-                    if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine(i + ": " + NormalizedData[i]); }
+                    //if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine(i + ": " + NormalizedData[i]); }
 
                 }
-                if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine("(  arg_high - arg_low + 1):  " + (arg_high - arg_low + 1)); }
+                //if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine("(  arg_high - arg_low + 1):  " + (arg_high - arg_low + 1)); }
                     
                 return (intensity / (arg_high - arg_low + 1));
             }
@@ -142,7 +142,8 @@ namespace OESApplication.iOS
         // For now returns intensity 
         public double measureAbsorbance(double sampleIntensity)
         {
-            return (Math.Log10(sampleIntensity));
+            var lgI = Math.Log10(sampleIntensity);
+            return (lgI * -1.0);
         }
         // For now returns Absorbance 
         public double measureConcentration(double absorbance, double intercept = -0.14917, double slope = -7.8279)
