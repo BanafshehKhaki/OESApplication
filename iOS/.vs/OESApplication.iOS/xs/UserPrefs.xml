@@ -1,13 +1,13 @@
-﻿<Properties StartupConfiguration="{63F8C4DA-AD76-4ED3-B4D8-FFF747C42A41}|Default">
+﻿<Properties>
   <MonoDevelop.Ide.Workbench ActiveDocument="mainViewController.cs">
     <Files>
-      <File FileName="mainViewController.cs" Line="19" Column="9" />
+      <File FileName="mainViewController.cs" Line="19" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="OESApplication.iOS" expanded="True">
-            <Node name="OESApplication.iOS" expanded="True" selected="True" />
+            <Node name="OESApplication.iOS" selected="True" />
           </Node>
         </State>
       </Pad>
