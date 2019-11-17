@@ -1,11 +1,9 @@
 ﻿<Properties StartupConfiguration="{63F8C4DA-AD76-4ED3-B4D8-FFF747C42A41}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="iOS/mainViewController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="iOS/resultViewController.cs">
     <Files>
-      <File FileName="iOS/resultViewController.cs" Line="513" Column="61" />
-      <File FileName="iOS/handleSpectra.cs" Line="1" Column="1" />
-      <File FileName="iOS/mainViewController.cs" Line="134" Column="92" />
-      <File FileName="iOS/Main.cs" Line="17" Column="1" />
-      <File FileName="iOS/Main.cs" Line="17" Column="1" />
+      <File FileName="iOS/mainViewController.cs" Line="61" Column="7" />
+      <File FileName="iOS/resultViewController.cs" Line="638" Column="1" />
+      <File FileName="iOS/resultViewController.designer.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,17 +11,20 @@
           <Node name="OESApplication" expanded="True">
             <Node name="OESApplication" expanded="True" />
             <Node name="OESApplication.iOS" expanded="True">
-              <Node name="mainViewController.cs" selected="True" />
+              <Node name="resultViewController.cs" expanded="True" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.OESApplication.Droid AndroidDesignerPreferredTheme="Theme.DeviceDefault.NoActionBar.Fullscreen" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.OESApplication.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.E374CD06-9D21-4E27-90FD-850D4109F6F4" />
+  <DisabledProjects>
+    <String>Droid/OESApplication.Droid.csproj</String>
+    <String>OESApplication.Binding/OESApplication.Binding.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.ItemProperties.OESApplication.iOS automaticSigning="False" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.00008020-001025393A61002E" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

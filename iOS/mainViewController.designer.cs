@@ -33,8 +33,8 @@ namespace OESApplication.iOS
         UIKit.UIView liveCameraStream { get; set; }
 
 
-        [Action ("captureSpectraTouchUpInside:")]
-        partial void captureSpectraTouchUpInside (Foundation.NSObject sender);
+        [Action("captureSpectraTouchUpInside:")]
+        partial void captureSpectraTouchUpInside(Foundation.NSObject sender);
 
         void ReleaseDesignerOutlets ()
         {

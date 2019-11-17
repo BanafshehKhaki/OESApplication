@@ -36,6 +36,8 @@ namespace OESApplication.iOS
             SetupLiveCameraStream();
         }
 
+        
+
         //Connected to button to take the image
         partial void captureSpectraTouchUpInside(Foundation.NSObject sender)
         {
@@ -48,13 +50,15 @@ namespace OESApplication.iOS
             //when i used await, it crashed and hence not using it.  
             takeThepictureAsync();
         }
-
+        
+        
 
         /*Performs before image sent to resultViewController due to its Seque connection
          * Checks to see there is image taken by looking at length of jpegAsByteArray and making sure its not null        
          */
         public override bool ShouldPerformSegue(string segueIdentifier, NSObject sender)
         {
+      
             if (segueIdentifier == "SequetoResultsPage")
             {
                 if (jpegAsByteArray != null && jpegAsByteArray.Length > 100)
@@ -67,6 +71,9 @@ namespace OESApplication.iOS
             }
             return base.ShouldPerformSegue(segueIdentifier, sender);
         }
+
+        
+
 
 
         /*
