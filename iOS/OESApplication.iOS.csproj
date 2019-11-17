@@ -47,7 +47,7 @@
     <MtouchExtraArgs>-v -v -v -v</MtouchExtraArgs>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchFastDev>true</MtouchFastDev>
-    <CodesignProvision>VS: P5J4W2P635.oes.OESApplication Development</CodesignProvision>
+    <CodesignProvision>iOS Team Provisioning Profile: P5J4W2P635.oes.OESApplication</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
@@ -78,6 +78,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchDebug>true</MtouchDebug>
 <PlatformTarget>x86</PlatformTarget>
+<CodesignProvision>iOS Team Provisioning Profile: P5J4W2P635.oes.OESApplication</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

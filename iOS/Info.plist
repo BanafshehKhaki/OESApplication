@@ -62,5 +62,7 @@
 	<true/>
 	<key>UIFileSharingEnabled</key>
 	<true/>
+	<key>Custom Property1</key>
+	<string></string>
 </dict>
 </plist>
