@@ -1,9 +1,13 @@
 ﻿<Properties StartupConfiguration="{63F8C4DA-AD76-4ED3-B4D8-FFF747C42A41}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="iOS/Info.plist">
     <Files>
+<<<<<<< HEAD
       <File FileName="iOS/mainViewController.cs" Line="75" Column="8" />
       <File FileName="iOS/resultViewController.cs" Line="585" Column="1" />
       <File FileName="iOS/resultViewController.designer.cs" Line="76" Column="1" />
+=======
+      <File FileName="iOS/resultViewController.cs" Line="644" Column="22" />
+>>>>>>> a599b161d26eb16b4d6bda809341ec66165edb12
       <File FileName="iOS/Info.plist" />
     </Files>
     <Pads>
@@ -11,9 +15,13 @@
         <State name="__root__">
           <Node name="OESApplication" expanded="True">
             <Node name="OESApplication.iOS" expanded="True">
+<<<<<<< HEAD
               <Node name="Info.plist" selected="True" />
               <Node name="mainViewController.cs" expanded="True" />
               <Node name="resultViewController.cs" expanded="True" />
+=======
+              <Node name="Packages" expanded="True" />
+>>>>>>> a599b161d26eb16b4d6bda809341ec66165edb12
             </Node>
           </Node>
         </State>
