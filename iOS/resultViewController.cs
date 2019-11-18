@@ -30,6 +30,13 @@ namespace OESApplication.iOS
         private float[,] SamplegreenPixels;
         private float[,] SamplebluePixels;
         private double[] blankAbsorbances;
+        string timeInSeconds;
+        string day;
+        string month;
+        string year;
+        string hour;
+        string min;
+        string sec; 
 
 
         public resultViewController(IntPtr handle) : base(handle)
@@ -39,11 +46,6 @@ namespace OESApplication.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            //NSTimer.CreateScheduledTimer((TimeSpan)2, () =>
-            //{
-            //    DismissViewController(false, null);
-            //    GC.Collect();
-            //});
             blankAbsorbances = new double[31] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
             resultOutput.Text = "Calculate Absorbance for Nitrate or Phosphate";
@@ -197,15 +199,15 @@ namespace OESApplication.iOS
                     // Making the image with sampleRec and RefRec and saving it, while also getting their pixel values in drawRect function
                     UIImage resultImage = this.drawRect(srcImage, refSpec, sampleRec);
                     // SAVEING AS PNG
-                    var timeInSeconds = DateTime.UtcNow.Millisecond.ToString();
-                    var day = DateTime.UtcNow.Day.ToString();
-                    var month = DateTime.UtcNow.Month.ToString();
-                    var year = DateTime.UtcNow.Year.ToString();
-                    var hour = DateTime.UtcNow.Hour.ToString();
-                    var min = DateTime.UtcNow.Minute.ToString();
-                    var sec = DateTime.UtcNow.Second.ToString();
+                    timeInSeconds = DateTime.UtcNow.Millisecond.ToString();
+                    day = DateTime.UtcNow.Day.ToString();
+                    month = DateTime.UtcNow.Month.ToString();
+                    year = DateTime.UtcNow.Year.ToString();
+                    hour = DateTime.UtcNow.Hour.ToString();
+                    min = DateTime.UtcNow.Minute.ToString();
+                    sec = DateTime.UtcNow.Second.ToString();
                     //this is the existing bundled image path 
-                    string folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                    string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     //this is the destination image file name 
                     string path = Path.Combine(folder,"EOS_"+ year+month+day+hour+min+sec+timeInSeconds + ".png");
                     Console.WriteLine(path);
@@ -600,6 +602,7 @@ namespace OESApplication.iOS
         partial void measureNitrateTouchUpInside(Foundation.NSObject sender)
         {
             UKeyboardClick();
+            checkBlankVals();
             
             if (somethingWentWrong != true)
             {
@@ -637,8 +640,13 @@ namespace OESApplication.iOS
                     /*
                     * For saving pixel values into a file use streamWriter with path file:
                     */
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_Abs.csv");
+                    
+                    //this is the existing bundled image path 
+                    string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    //this is the destination image file name 
+                    string filename = Path.Combine(folder, "EOS_" + year + month + day + hour + min + sec + timeInSeconds + ".csv");
+                    
+                    //string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_Abs.csv");
 
 
                     using (var streamWriter = new StreamWriter(filename, true))
@@ -694,9 +702,32 @@ namespace OESApplication.iOS
 
         }
 
+        private void checkBlankVals()
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filename = Path.Combine(path, "blank_" + DateTime.UtcNow.ToLongDateString() + "_Abs.csv");
+            int indexi = 0;
+            if (File.Exists(filename))
+            {
+                using (var streamReader = new StreamReader(filename, true))
+                {
+                    blankAbsorbances[indexi] = Convert.ToDouble(streamReader.ReadLine());
+                    indexi++;
+
+                }
+            }
+            //if (blankAbsorbances == null)
+            //{               
+            //   blankAbsorbances = new double[31] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            //0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+                
+            //}
+        }
+
         partial void measurePHTouchUpInside(Foundation.NSObject sender)
         {
             UKeyboardClick();
+            checkBlankVals();
 
         }
 
@@ -735,20 +766,27 @@ namespace OESApplication.iOS
 
                     double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
 
+                    /*
+                   * For saving pixel values into a file use streamWriter with path file:
+                   */
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    string filename = Path.Combine(path, "blank_" + DateTime.UtcNow.ToLongDateString() +"_Abs.csv");
 
-                    int index = 0;
-                    for (int wl = 405; wl < 715; wl += 10)
+
+                    using (var streamWriter = new StreamWriter(filename, true))
                     {
-                        double sampleGreenIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
-                        double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensityRatio);
-                        //double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
-                        blankAbsorbances[index] = absorbance;
-                        index++;
-
+                        int index = 0;
+                        for (int wl = 405; wl < 715; wl += 10)
+                        {
+                            double sampleGreenIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
+                            double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensityRatio);
+                            //double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
+                            blankAbsorbances[index] = absorbance;
+                            streamWriter.WriteLine(absorbance);
+                            index++;
+                        }
 
                     }
-
-
                     string Output = "Blank Control Saved. Thank you!";
 
                     resultOutput.LineBreakMode = UILineBreakMode.WordWrap;

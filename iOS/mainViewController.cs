@@ -22,7 +22,8 @@ namespace OESApplication.iOS
         AVCaptureDeviceInput captureDeviceInput;
         AVCaptureStillImageOutput stillImageOutput;
         AVCaptureVideoPreviewLayer videoPreviewLayer;
-        NSData jpegAsByteArray; //pixel values that will be passed to resultViewController. 
+        NSData jpegAsByteArray; //pixel values that will be passed to resultViewController.
+     
 
 
         public mainViewController(IntPtr handle) : base(handle)
