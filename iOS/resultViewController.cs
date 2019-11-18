@@ -48,7 +48,7 @@ namespace OESApplication.iOS
             base.ViewDidLoad();
             blankAbsorbances = new double[31] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-            resultOutput.Text = "Calculate Absorbance for Nitrate or Phosphate";
+            resultOutput.Text = "Make sure the two spectra are in the green boxes.";
             DetectSpectra();
         }
 
@@ -707,20 +707,29 @@ namespace OESApplication.iOS
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string filename = Path.Combine(path, "blank_" + DateTime.UtcNow.ToLongDateString() + "_Abs.csv");
             int indexi = 0;
-            if (File.Exists(filename))
+            try
             {
-                using (var streamReader = new StreamReader(filename, true))
+                if (File.Exists(filename))
                 {
-                    blankAbsorbances[indexi] = Convert.ToDouble(streamReader.ReadLine());
-                    indexi++;
-
+                    using (var streamReader = new StreamReader(filename))
+                    {
+                        while (streamReader.Peek() >= 0)
+                        {
+                            blankAbsorbances[indexi] = Convert.ToDouble(streamReader.ReadLine());
+                            indexi++;
+                        }
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
             }
             //if (blankAbsorbances == null)
             //{               
             //   blankAbsorbances = new double[31] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             //0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-                
+
             //}
         }
 
@@ -771,21 +780,31 @@ namespace OESApplication.iOS
                    */
                     string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     string filename = Path.Combine(path, "blank_" + DateTime.UtcNow.ToLongDateString() +"_Abs.csv");
-
-
-                    using (var streamWriter = new StreamWriter(filename, true))
+                    try
                     {
-                        int index = 0;
-                        for (int wl = 405; wl < 715; wl += 10)
+                        if (File.Exists(filename))
                         {
-                            double sampleGreenIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
-                            double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensityRatio);
-                            //double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
-                            blankAbsorbances[index] = absorbance;
-                            streamWriter.WriteLine(absorbance);
-                            index++;
+                            File.Delete(filename);
                         }
 
+                        using (var streamWriter = new StreamWriter(filename, true))
+                        {
+                            int index = 0;
+                            for (int wl = 405; wl < 715; wl += 10)
+                            {
+                                double sampleGreenIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
+                                double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensityRatio);
+                                //double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
+                                blankAbsorbances[index] = absorbance;
+                                streamWriter.WriteLine(absorbance);
+                                index++;
+                            }
+
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("The process failed: {0}", e.ToString());
                     }
                     string Output = "Blank Control Saved. Thank you!";
 
