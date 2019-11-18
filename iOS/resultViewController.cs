@@ -196,22 +196,6 @@ namespace OESApplication.iOS
 
                     // Making the image with sampleRec and RefRec and saving it, while also getting their pixel values in drawRect function
                     UIImage resultImage = this.drawRect(srcImage, refSpec, sampleRec);
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
-
-                   
->>>>>>> a599b161d26eb16b4d6bda809341ec66165edb12
-
-                   
-
-<<<<<<< HEAD
-
-=======
->>>>>>> a599b161d26eb16b4d6bda809341ec66165edb12
->>>>>>> 788347313243feb492c6c0450c8390d5ef3b5997
                     // SAVEING AS PNG
                     var timeInSeconds = DateTime.UtcNow.Millisecond.ToString();
                     var day = DateTime.UtcNow.Day.ToString();
@@ -650,29 +634,17 @@ namespace OESApplication.iOS
                     double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
 
                     string Output = "";
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
->>>>>>> 788347313243feb492c6c0450c8390d5ef3b5997
                     /*
                     * For saving pixel values into a file use streamWriter with path file:
                     */
                     string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_Abs.csv");
-<<<<<<< HEAD
 
-=======
-=======
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_wlabs.csv");
->>>>>>> a599b161d26eb16b4d6bda809341ec66165edb12
->>>>>>> 788347313243feb492c6c0450c8390d5ef3b5997
 
                     using (var streamWriter = new StreamWriter(filename, true))
                     {
                         streamWriter.WriteLine("wavelength,Absorbance,IntensitysRatio");
-<<<<<<< HEAD
+
 
 
                         int indexi = 0;
@@ -694,55 +666,14 @@ namespace OESApplication.iOS
                                 //{
                                 //    Output += "Low Reference Intensity detected,\n which might affect the results.\n It is recommended to take a new Image.";
                                 //}
-                            } 
-
-=======
-
-<<<<<<< HEAD
-                        int indexi = 0;
-                        for (int wl = 405; wl < 715; wl += 10)
-                        {
-                            double sampleGreenIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
-                            double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensityRatio);
-                            absorbance -= blankAbsorbances[indexi];
-                            indexi++;
-                            //double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
-
-                            streamWriter.WriteLine(wl + "," + absorbance + "," + sampleGreenIntensityRatio);
-
-                            if (wl == 535)
-                            {
-                                //double refGreenIntensity = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, wl);
-                                Output += "Absorbance is " + Math.Round(absorbance, 3) + "\n";
-                                //if(refGreenIntensity < 150)
-                                //{
-                                //    Output += "Low Reference Intensity detected,\n which might affect the results.\n It is recommended to take a new Image.";
-                                //}
-                            } 
-=======
-                        for (int wl = 405; wl < 715; wl += 10)
-                        {
-                            double sampleGreenIntensity = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
-                            double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensity);
-                            double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
-
-                            streamWriter.WriteLine(wl + "," + absorbance + "," + sampleGreenIntensity);
-
-                            if (wl == 535)
-                            {
-                                Output += ((wl - 5) + " - " + (wl + 5) + " Avg. Intensity: " + Math.Round(sampleGreenIntensity, 3) + "\n Absorbance: " + Math.Round(absorbance, 3)
-                                    + "\n Concentration: " + Math.Round(concentratio, 3) + "\n\n");
                             }
->>>>>>> a599b161d26eb16b4d6bda809341ec66165edb12
->>>>>>> 788347313243feb492c6c0450c8390d5ef3b5997
+
                         }
                     }
 
 
-
                     resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
                     resultOutput.Lines = 6;
-                    //resultOutputBox.Text = Output;
                     resultOutput.Text = Output;
                 }
                 else
@@ -750,7 +681,6 @@ namespace OESApplication.iOS
                     string Output = ("Couldn't detect Blue and Red peaks correctly,\n Please take a new picture with brighter spectrums");
                     resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
                     resultOutput.Lines = 2;
-                    //resultOutputBox.Text = Output;
                     resultOutput.Text = Output;
                 }
             }
@@ -759,7 +689,6 @@ namespace OESApplication.iOS
                 string Output = ("Something went wrong with calculating RGB pixel values,\n Please take a new picture");
                 resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
                 resultOutput.Lines = 2;
-                //resultOutputBox.Text = Output;
                 resultOutput.Text = Output; 
             }
 

@@ -50,7 +50,7 @@ namespace OESApplication.iOS
 				detectedSpectra.Dispose ();
 				detectedSpectra = null;
 			}
-
+             
 			if (measureNitrate != null) {
 				measureNitrate.Dispose ();
 				measureNitrate = null;
