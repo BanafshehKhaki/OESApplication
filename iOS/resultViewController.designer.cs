@@ -13,6 +13,9 @@ namespace OESApplication.iOS
 	partial class resultViewController
 	{
 		[Outlet]
+		UIKit.UITextField _wavelenght { get; set; }
+
+		[Outlet]
 		UIKit.UIButton blankControl { get; set; }
 
 		[Outlet]
@@ -30,6 +33,12 @@ namespace OESApplication.iOS
 		[Outlet]
 		UIKit.UITextField resultOutputBox { get; set; }
 
+		[Outlet]
+		UIKit.UITextField wavelenght { get; set; }
+
+		[Action ("hideKeyboard:")]
+		partial void hideKeyboard (Foundation.NSObject sender);
+
 		[Action ("measureNitrateTouchUpInside:")]
 		partial void measureNitrateTouchUpInside (Foundation.NSObject sender);
 
@@ -41,6 +50,11 @@ namespace OESApplication.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (_wavelenght != null) {
+				_wavelenght.Dispose ();
+				_wavelenght = null;
+			}
+
 			if (blankControl != null) {
 				blankControl.Dispose ();
 				blankControl = null;
@@ -50,7 +64,7 @@ namespace OESApplication.iOS
 				detectedSpectra.Dispose ();
 				detectedSpectra = null;
 			}
-             
+
 			if (measureNitrate != null) {
 				measureNitrate.Dispose ();
 				measureNitrate = null;
@@ -69,6 +83,11 @@ namespace OESApplication.iOS
 			if (resultOutputBox != null) {
 				resultOutputBox.Dispose ();
 				resultOutputBox = null;
+			}
+
+			if (wavelenght != null) {
+				wavelenght.Dispose ();
+				wavelenght = null;
 			}
 		}
 	}

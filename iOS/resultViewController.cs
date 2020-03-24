@@ -36,7 +36,8 @@ namespace OESApplication.iOS
         string year;
         string hour;
         string min;
-        string sec; 
+        string sec;
+        //public string wavee;
 
 
         public resultViewController(IntPtr handle) : base(handle)
@@ -46,9 +47,10 @@ namespace OESApplication.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            blankAbsorbances = new double[31] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+            //blankAbsorbances = new double[265];
             resultOutput.Text = "Make sure the two spectra are in the green boxes.";
+            wavelenght.Text = NSUserDefaults.StandardUserDefaults.IntForKey("wave").ToString();
+            Console.WriteLine("wave: "+wavelenght.Text);
             DetectSpectra();
         }
 
@@ -209,7 +211,7 @@ namespace OESApplication.iOS
                     //this is the existing bundled image path 
                     string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     //this is the destination image file name 
-                    string path = Path.Combine(folder,"EOS_"+ year+month+day+hour+min+sec+timeInSeconds + ".png");
+                    string path = Path.Combine(folder,"EOS_"+ year+"_"+ month + "_"+day + "_" + hour + "_" + min + "_" + sec + "_" + timeInSeconds + ".png");
                     Console.WriteLine(path);
 
                     if (!File.Exists(path))
@@ -644,7 +646,7 @@ namespace OESApplication.iOS
                     //this is the existing bundled image path 
                     string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     //this is the destination image file name 
-                    string filename = Path.Combine(folder, "EOS_" + year + month + day + hour + min + sec + timeInSeconds + ".csv");
+                    string filename = Path.Combine(folder, "EOS_" + year + "_" + month + "_" + day + "_" + hour + "_" + min + "_" + sec + "_" + timeInSeconds + "_nitrate.csv");
                     
                     //string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_Abs.csv");
 
@@ -656,7 +658,8 @@ namespace OESApplication.iOS
 
 
                         int indexi = 0;
-                        for (int wl = 405; wl < 715; wl += 10)
+
+                        for (int wl = 405; wl <= 670; wl += 1)
                         {
                             double sampleGreenIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
                             double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensityRatio);
@@ -706,6 +709,7 @@ namespace OESApplication.iOS
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string filename = Path.Combine(path, "blank_" + DateTime.UtcNow.ToLongDateString() + "_Abs.csv");
+            blankAbsorbances = new double[266];
             int indexi = 0;
             try
             {
@@ -715,9 +719,17 @@ namespace OESApplication.iOS
                     {
                         while (streamReader.Peek() >= 0)
                         {
-                            blankAbsorbances[indexi] = Convert.ToDouble(streamReader.ReadLine());
+                            blankAbsorbances[indexi] = Convert.ToDouble(streamReader.ReadLine().Split(",")[1]);
                             indexi++;
                         }
+                    }
+                }
+                else
+                {
+                    for (int wl = 405; wl <= 670; wl += 1)
+                    {
+                        blankAbsorbances[indexi] = 0.0;
+                        indexi++;
                     }
                 }
             }
@@ -725,12 +737,7 @@ namespace OESApplication.iOS
             {
                 Console.WriteLine("The process failed: {0}", e.ToString());
             }
-            //if (blankAbsorbances == null)
-            //{               
-            //   blankAbsorbances = new double[31] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            //0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-
-            //}
+      
         }
 
         partial void measurePHTouchUpInside(Foundation.NSObject sender)
@@ -738,8 +745,132 @@ namespace OESApplication.iOS
             UKeyboardClick();
             checkBlankVals();
 
+            if (somethingWentWrong != true)
+            {
+                OESApplication.iOS.handleSpectra handleSpec = new OESApplication.iOS.handleSpectra();
+                float[] refGreen, refBlue, refRed, samGreen, samBlue, samRed;
+                refGreen = handleSpec.getAvgSpectrasRows(RefGreenPixels, overalHeight, overalWeight, "refGreen");
+                refBlue = handleSpec.getAvgSpectrasRows(RefBluePixels, overalHeight, overalWeight, "refBlue");
+                refRed = handleSpec.getAvgSpectrasRows(RefRedPixels, overalHeight, overalWeight, "refRed");
+                //Console.WriteLine(".........now avg of samples: .........");
+                samGreen = handleSpec.getAvgSpectrasRows(SamplegreenPixels, overalHeight, overalWeight, "samGreen");
+                samBlue = handleSpec.getAvgSpectrasRows(SamplebluePixels, overalHeight, overalWeight, "samBlue");
+                samRed = handleSpec.getAvgSpectrasRows(SampleredPixels, overalHeight, overalWeight, "samRed");
+
+                (int peakBlueLocationRef, float maxBlueValRef) = handleSpec.findPeak(refBlue, overalHeight);
+                (int peakRedLocationRef, float maxRedValRef) = handleSpec.findPeak(refRed, overalHeight);
+                (int peakGreenLocationRef, float maxGreenValRef) = handleSpec.findPeak(refGreen, overalHeight);
+
+
+                Console.WriteLine("maxRedValRef: " + maxRedValRef + "--- peakRedLocationRef: " + peakRedLocationRef);
+                Console.WriteLine("maxGreenValRef: " + maxGreenValRef + "--- peakGreenLocationRef: " + peakGreenLocationRef);
+                Console.WriteLine("maxBlueValRef: " + maxBlueValRef + "--- peakBlueLocationRef: " + peakBlueLocationRef);
+
+                if (peakBlueLocationRef > peakGreenLocationRef && peakGreenLocationRef > peakRedLocationRef)
+                {
+                    //handleSpec.normalizeArray(maxRedValRef, ref refRed);
+                    //handleSpec.normalizeArray(maxGreenValRef, ref refGreen);
+                    //handleSpec.normalizeArray(maxBlueValRef, ref refBlue);
+                    handleSpec.normalizeArray(maxRedValRef, ref samRed);
+                    handleSpec.normalizeArray(maxBlueValRef, ref samBlue);
+                    handleSpec.normalizeArray(maxGreenValRef, ref samGreen);
+                    //redPeakLocation: 610.65, bluePeakLocation: 449.1 
+                    double[] wavelengthArray = handleSpec.CreateWavelenghtToPixelLocationsUsingReferenceSpectra(peakBlueLocationRef, peakRedLocationRef, overalHeight);
+
+                    if (Int32.TryParse(wavelenght.Text, out int wave))
+                    { Console.WriteLine(wave); }
+                    else
+                    { Console.WriteLine("String could not be parsed."); }
+
+                    string Output = "";
+                    /*
+                    * For saving pixel values into a file use streamWriter with path file:
+                    */
+
+                    //this is the existing bundled image path 
+                    string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    //this is the destination image file name 
+                    string filename = Path.Combine(folder, "EOS_" + year + "_" + month + "_" + day + "_" + hour + "_" + min + "_" + sec + "_" + timeInSeconds +"_wavelength"+wave + ".csv");
+
+                    //string filename = Path.Combine(path, DateTime.UtcNow.ToLongDateString() + DateTime.UtcNow.ToLongTimeString() + "_Abs.csv");
+
+
+                    using (var streamWriter = new StreamWriter(filename, true))
+                    {
+                        streamWriter.WriteLine("wavelength,Absorbance,IntensitysRatio");
+
+                        int indexi = 0;
+                        for (int wl = 405; wl <= 670; wl += 1)
+                        {
+                            double sampleIntensityRatio = 0.0;
+                            double absorbance = 0.0;
+
+
+                            if (wave <= 500)
+                            {
+                                sampleIntensityRatio = handleSpec.calculateIntensity(samBlue, wavelengthArray, "blue", 10, wl);
+                                absorbance = handleSpec.measureAbsorbance(sampleIntensityRatio);
+
+                            }
+                            else if (wave <= 600)
+                            {
+                                sampleIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
+                                absorbance = handleSpec.measureAbsorbance(sampleIntensityRatio);
+                                
+                            }
+                            else
+                            {
+                                sampleIntensityRatio = handleSpec.calculateIntensity(samRed, wavelengthArray, "red", 10, wl);
+                                absorbance = handleSpec.measureAbsorbance(sampleIntensityRatio);
+
+                            }
+
+                            absorbance -= blankAbsorbances[indexi];
+                            indexi++;
+                            //double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
+
+                            streamWriter.WriteLine(wl + "," + absorbance + "," + sampleIntensityRatio);
+
+                            if (wl == wave)
+                            {
+                                //double refGreenIntensity = handleSpec.calculateIntensity(refGreen, wavelengthArray, "green", 10, wl);
+                                Output += "Absorbance is " + Math.Round(absorbance, 3) + "\n";
+                                //if(refGreenIntensity < 150)
+                                //{
+                                //    Output += "Low Reference Intensity detected,\n which might affect the results.\n It is recommended to take a new Image.";
+                                //}
+                            }
+
+                        }
+                    }
+
+
+                    resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                    resultOutput.Lines = 6;
+                    resultOutput.Text = Output;
+                }
+                else
+                {
+                    string Output = ("Couldn't detect Blue and Red peaks correctly,\n Please take a new picture with brighter spectrums");
+                    resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                    resultOutput.Lines = 2;
+                    resultOutput.Text = Output;
+                }
+            }
+            else
+            {
+                string Output = ("Something went wrong with calculating RGB pixel values,\n Please take a new picture");
+                resultOutput.LineBreakMode = UILineBreakMode.WordWrap;
+                resultOutput.Lines = 2;
+                resultOutput.Text = Output;
+            }
+            
+
         }
 
+      
+
+     
         partial void setBlankControlTouchUpInside(Foundation.NSObject sender)
         {
             UKeyboardClick();
@@ -790,13 +921,43 @@ namespace OESApplication.iOS
                         using (var streamWriter = new StreamWriter(filename, true))
                         {
                             int index = 0;
-                            for (int wl = 405; wl < 715; wl += 10)
+                            //int startWl = 405;
+                            if (Int32.TryParse(wavelenght.Text, out int wave))
                             {
-                                double sampleGreenIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
-                                double absorbance = handleSpec.measureAbsorbance(sampleGreenIntensityRatio);
+                                Console.WriteLine(wave);
+                                //startWl = wave;
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("String could not be parsed.");
+                            }
+                            for (int wl = 405; wl < 670; wl += 1)
+                            {
+                                double sampleIntensityRatio = 0.0;
+                                double absorbance = 0.0;
+
+                                if (wave <= 500)
+                                {
+                                    sampleIntensityRatio = handleSpec.calculateIntensity(samBlue, wavelengthArray, "blue", 10, wl);
+                                    absorbance = handleSpec.measureAbsorbance(sampleIntensityRatio);
+
+                                }
+                                else if (wave <= 600)
+                                {
+                                    sampleIntensityRatio = handleSpec.calculateIntensity(samGreen, wavelengthArray, "green", 10, wl);
+                                    absorbance = handleSpec.measureAbsorbance(sampleIntensityRatio);
+
+                                }
+                                else
+                                {
+                                    sampleIntensityRatio = handleSpec.calculateIntensity(samRed, wavelengthArray, "red", 10, wl);
+                                    absorbance = handleSpec.measureAbsorbance(sampleIntensityRatio);
+
+                                }
                                 //double concentratio = handleSpec.measureConcentration(absorbance, -0.14917, -7.8279);
                                 blankAbsorbances[index] = absorbance;
-                                streamWriter.WriteLine(absorbance);
+                                streamWriter.WriteLine(wl + ","+absorbance);
                                 index++;
                             }
 
@@ -837,6 +998,26 @@ namespace OESApplication.iOS
         {
             base.Dispose(disposing);
         }
+
+        partial void hideKeyboard(NSObject sender)
+        {
+            _ = UIApplication.SharedApplication.KeyWindow.EndEditing(true);
+            //Xamarin.Forms.Application.Current.Properties["wavelenght"] = wavelenght.Text;
+            if (Int32.TryParse(wavelenght.Text, out int wave))
+            {   Console.WriteLine(wave);
+                NSUserDefaults.StandardUserDefaults.SetInt(wave, "wave");
+            }
+            else
+            { Console.WriteLine("String could not be parsed."); }
+           
+        }
+
+
+
+
+
+
+
 
     }
 }
