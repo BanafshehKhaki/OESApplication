@@ -62,7 +62,7 @@ namespace OESApplication.iOS
             Tuple<double, double> p = Fit.Line(xdata, ydata);
             double b = p.Item1; //  intercept
             double a = p.Item2; //  slope
-            Console.WriteLine("wavelengthslope: " + a + "intercept: " + b);
+            Console.WriteLine("wavelengthslope: " + a + " ,  intercept: " + b);
 
             for (int i = 0; i < RefLengthanyChannel; i++)
             {
@@ -90,12 +90,12 @@ namespace OESApplication.iOS
 
         public double calculateIntensity(float[] NormalizedData, double[] wavelengthArray, string channel, int width, float centerWave)
         {
-            if (channel == "green")
-            {
+            //if (channel == "green" || channel =="red")
+            //{
                 int arg_low = 0, arg_high = 0;
                 //double interval = wavelengthArray[0] - wavelengthArray[1];
-                double wl_min = (centerWave - (width / 2.0));  // 530 nm
-                double wl_max = (centerWave + (width / 2.0));  // 540 nm
+                double wl_min = (centerWave - (width / 2.0));  // 530 nm for nitrate
+                double wl_max = (centerWave + (width / 2.0));  // 540 nm for nitrate
 
                 for (int i = wavelengthArray.Length - 1; i >= 0; i--)
                 {
@@ -134,9 +134,9 @@ namespace OESApplication.iOS
                 //if (Math.Abs(centerWave - 535) == 0.0) { Console.WriteLine("(  arg_high - arg_low + 1):  " + (arg_high - arg_low + 1)); }
                     
                 return (intensity / (arg_high - arg_low + 1));
-            }
+            //}
 
-            return 0;
+            //return 0;
         }
 
         // For now returns intensity 

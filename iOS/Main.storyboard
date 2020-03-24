@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DWg-yQ-Yqb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DWg-yQ-Yqb">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -61,10 +61,10 @@
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="crossHair.png" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PAz-GG-ACE">
-                                        <rect key="frame" x="152" y="346" width="110" height="269"/>
+                                        <rect key="frame" x="148" y="414" width="110" height="183"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="110" id="cWt-Tr-8Oj"/>
-                                            <constraint firstAttribute="height" constant="269" id="h2h-2S-Wp2"/>
+                                            <constraint firstAttribute="height" constant="183" id="S3A-Ag-Loi"/>
+                                            <constraint firstAttribute="width" constant="110" id="sBt-0L-PvW"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -74,9 +74,9 @@
                                     <constraint firstItem="TkW-O8-9CK" firstAttribute="leading" secondItem="kDj-OQ-qjf" secondAttribute="trailing" constant="75" id="WFr-F8-E9G"/>
                                     <constraint firstItem="4xh-wE-03U" firstAttribute="top" secondItem="5EB-ui-ida" secondAttribute="top" id="ZOS-kI-Gef"/>
                                     <constraint firstAttribute="trailing" secondItem="TkW-O8-9CK" secondAttribute="trailing" id="g5w-25-tzG"/>
-                                    <constraint firstItem="TkW-O8-9CK" firstAttribute="top" secondItem="PAz-GG-ACE" secondAttribute="bottom" constant="81" id="hL1-xa-FCF"/>
                                     <constraint firstAttribute="bottom" secondItem="TkW-O8-9CK" secondAttribute="bottom" constant="1" id="huL-0G-xs7"/>
-                                    <constraint firstItem="PAz-GG-ACE" firstAttribute="leading" secondItem="5EB-ui-ida" secondAttribute="leading" constant="152" id="qnW-ti-7FL"/>
+                                    <constraint firstItem="PAz-GG-ACE" firstAttribute="centerX" secondItem="5EB-ui-ida" secondAttribute="centerX" id="kUd-Ia-mgi"/>
+                                    <constraint firstItem="TkW-O8-9CK" firstAttribute="top" secondItem="PAz-GG-ACE" secondAttribute="bottom" constant="99" id="lIW-6g-tdq"/>
                                     <constraint firstAttribute="bottom" secondItem="kDj-OQ-qjf" secondAttribute="bottom" id="zNI-ZC-0E3"/>
                                 </constraints>
                             </view>
@@ -104,7 +104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nzE-8P-Snt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="371.0145" y="-172.8261"/>
+            <point key="canvasLocation" x="371.01449275362324" y="-173.4375"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="UCs-eN-ZRT">
@@ -124,7 +124,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="nQt-L9-i3o"/>
                                 </constraints>
-                                <state key="normal" title="Phosphate"/>
+                                <state key="normal" title="Absorbance"/>
                                 <connections>
                                     <action selector="measurePHTouchUpInside:" destination="pp0-WV-iq4" eventType="touchUpInside" id="FVj-9t-Trx"/>
                                 </connections>
@@ -146,15 +146,6 @@
                                     <action selector="measureNitrateTouchUpInside:" destination="pp0-WV-iq4" eventType="touchUpInside" id="wxw-HF-tax"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YD1-3a-NeT">
-                                <rect key="frame" x="192.5" y="580" width="42" height="21"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tcs-JX-yet">
                                 <rect key="frame" x="173" y="818" width="76" height="44"/>
                                 <color key="backgroundColor" red="0.94830936190000004" green="0.81192713979999998" blue="0.76891541480000003" alpha="0.92487345950704225" colorSpace="custom" customColorSpace="sRGB"/>
@@ -166,6 +157,29 @@
                                     <action selector="setBlankControlTouchUpInside:" destination="pp0-WV-iq4" eventType="touchUpInside" id="yCG-gj-PvF"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="wavelength" contentHorizontalAlignment="leading" contentVerticalAlignment="center" text="405" borderStyle="roundedRect" placeholder="405" textAlignment="center" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yAg-QG-e37">
+                                <rect key="frame" x="8" y="776" width="128" height="34"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" adjustable="YES" allowsDirectInteraction="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="gIP-vv-PRQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="hideKeyboard:" destination="pp0-WV-iq4" eventType="primaryActionTriggered" id="McD-Kj-Yhd"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YD1-3a-NeT">
+                                <rect key="frame" x="192.5" y="439" width="42" height="21"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -178,12 +192,15 @@
                             <constraint firstItem="Tcs-JX-yet" firstAttribute="leading" secondItem="bBi-m5-k2w" secondAttribute="trailing" constant="37" id="QPa-n1-cj3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pXv-Pa-BIs" secondAttribute="trailing" constant="-16" id="SPo-Zo-CNT"/>
                             <constraint firstItem="bBi-m5-k2w" firstAttribute="baseline" secondItem="Tcs-JX-yet" secondAttribute="baseline" id="WGd-5N-aZy"/>
-                            <constraint firstAttribute="bottom" secondItem="YD1-3a-NeT" secondAttribute="bottom" constant="295" id="ZJh-a2-acn"/>
-                            <constraint firstItem="chK-1I-hXz" firstAttribute="centerX" secondItem="YD1-3a-NeT" secondAttribute="centerX" id="b2Y-SQ-tiY"/>
+                            <constraint firstItem="YD1-3a-NeT" firstAttribute="centerX" secondItem="chK-1I-hXz" secondAttribute="centerX" id="cCn-4t-I3t"/>
                             <constraint firstAttribute="trailingMargin" secondItem="chK-1I-hXz" secondAttribute="trailing" constant="58" id="ciT-Dd-aoB"/>
+                            <constraint firstItem="bBi-m5-k2w" firstAttribute="top" secondItem="yAg-QG-e37" secondAttribute="bottom" constant="8" id="dtJ-Pv-Is2"/>
+                            <constraint firstItem="yAg-QG-e37" firstAttribute="leading" secondItem="6Ig-Lc-TQE" secondAttribute="leadingMargin" constant="-12" id="gmg-3i-nXH"/>
                             <constraint firstItem="bBi-m5-k2w" firstAttribute="leading" secondItem="6Ig-Lc-TQE" secondAttribute="leadingMargin" constant="-16" id="hZV-3Y-baD"/>
+                            <constraint firstItem="yAg-QG-e37" firstAttribute="trailing" secondItem="bBi-m5-k2w" secondAttribute="trailing" id="ibg-Qm-USh"/>
                             <constraint firstItem="pXv-Pa-BIs" firstAttribute="leading" secondItem="Tcs-JX-yet" secondAttribute="trailing" constant="33" id="nux-Ro-LD9"/>
                             <constraint firstItem="pXv-Pa-BIs" firstAttribute="baseline" secondItem="Tcs-JX-yet" secondAttribute="firstBaseline" id="oeH-kA-cCu"/>
+                            <constraint firstItem="YD1-3a-NeT" firstAttribute="top" secondItem="chK-1I-hXz" secondAttribute="bottom" constant="65" id="vuq-b3-nmc"/>
                         </constraints>
                     </view>
                     <connections>
@@ -192,6 +209,7 @@
                         <outlet property="measureNitrate" destination="pXv-Pa-BIs" id="mDD-Fh-XAc"/>
                         <outlet property="measurePH" destination="bBi-m5-k2w" id="Y7w-b6-pFx"/>
                         <outlet property="resultOutput" destination="YD1-3a-NeT" id="HV3-na-qeN"/>
+                        <outlet property="wavelenght" destination="yAg-QG-e37" id="KhK-ry-xpU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Cf-U8-gyK" userLabel="First Responder" sceneMemberID="firstResponder"/>

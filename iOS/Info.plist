@@ -64,5 +64,7 @@
 	<true/>
 	<key>Custom Property1</key>
 	<string></string>
+	<key>Custom Property2</key>
+	<string></string>
 </dict>
 </plist>

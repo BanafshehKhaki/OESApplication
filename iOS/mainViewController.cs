@@ -23,17 +23,18 @@ namespace OESApplication.iOS
         AVCaptureStillImageOutput stillImageOutput;
         AVCaptureVideoPreviewLayer videoPreviewLayer;
         NSData jpegAsByteArray; //pixel values that will be passed to resultViewController.
-     
-
+        //public int wavel;
 
         public mainViewController(IntPtr handle) : base(handle)
         {
         }
 
+
         public override async void ViewDidLoad()
         {
             base.ViewDidLoad();
             await AuthorizeCameraUse();
+            NSUserDefaults.StandardUserDefaults.SetInt(405, "wave");
             SetupLiveCameraStream();
         }
 
@@ -109,6 +110,7 @@ namespace OESApplication.iOS
                 resultViewController.HeightOfCrossHair = (int)CrossHair.Frame.Height;
                 resultViewController.liveCameraWidth = (int)liveCameraStream.Frame.Width;
                 resultViewController.liveCameraHeight = (int)liveCameraStream.Frame.Height;
+                //resultViewController.wavee = wavel;
 
                 Console.WriteLine("widthOfCrossHair: " + CrossHair.Frame.Width);
                 Console.WriteLine("HeightOfCrossHair: " + CrossHair.Frame.Height);
