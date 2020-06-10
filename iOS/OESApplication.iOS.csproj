@@ -19,7 +19,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Banafsheh Khakipoor (X973V56836)</CodesignKey>
+    <CodesignKey>Apple Development: Banafsheh Khakipoor (X973V56836)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <IOSDebuggerPort>51020</IOSDebuggerPort>
     <MtouchLink>SdkOnly</MtouchLink>
@@ -33,26 +33,23 @@
     <MtouchFloat32>true</MtouchFloat32>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
-    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Banafsheh Khakipoor (X973V56836)</CodesignKey>
+    <CodesignKey>Apple Development: Banafsheh Khakipoor (X973V56836)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>None</MtouchLink>
-    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
-    <MtouchExtraArgs>-v -v -v -v</MtouchExtraArgs>
+    <MtouchExtraArgs>--linkskip=Xamarin.Essentials</MtouchExtraArgs>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
-    <MtouchFastDev>true</MtouchFastDev>
-    <CodesignProvision>iOS Team Provisioning Profile: P5J4W2P635.oes.OESApplication</CodesignProvision>
-
     <BuildIpa>true</BuildIpa>
     <IpaMetadata>Info.plist</IpaMetadata>
     <IpaPackageName>EOS</IpaPackageName>
 
+    <CodesignProvision>VS: P5J4W2P635.oes.OESApplication Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
@@ -60,7 +57,7 @@
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Banafsheh Khakipoor (X973V56836)</CodesignKey>
+    <CodesignKey>Apple Development: Banafsheh Khakipoor (X973V56836)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
@@ -76,16 +73,15 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Banafsheh Khakipoor (X973V56836)</CodesignKey>
+    <CodesignKey>Apple Development: Banafsheh Khakipoor (X973V56836)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>None</MtouchLink>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchDebug>true</MtouchDebug>
 <PlatformTarget>x86</PlatformTarget>
-<CodesignProvision>iOS Team Provisioning Profile: P5J4W2P635.oes.OESApplication</CodesignProvision>
-
-
+<CodesignProvision>VS: P5J4W2P635.oes.OESApplication Development</CodesignProvision>
+<MtouchExtraArgs>--linkskip=Xamarin.Essentials</MtouchExtraArgs>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -93,34 +89,6 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
 
-    <Reference Include="OxyPlot">
-      <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\OxyPlot.dll</HintPath>
-    </Reference>
-    <Reference Include="OxyPlot.Xamarin.iOS">
-      <HintPath>..\packages\OxyPlot.Xamarin.iOS.1.0.0\lib\Xamarin.iOS10\OxyPlot.Xamarin.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter">
-      <HintPath>..\packages\Microsoft.AppCenter.2.1.1\lib\Xamarin.iOS10\Microsoft.AppCenter.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.iOS.Bindings">
-      <HintPath>..\packages\Microsoft.AppCenter.2.1.1\lib\Xamarin.iOS10\Microsoft.AppCenter.iOS.Bindings.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.Analytics">
-      <HintPath>..\packages\Microsoft.AppCenter.Analytics.2.1.1\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.Analytics.iOS.Bindings">
-      <HintPath>..\packages\Microsoft.AppCenter.Analytics.2.1.1\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.iOS.Bindings.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.Crashes">
-      <HintPath>..\packages\Microsoft.AppCenter.Crashes.2.1.1\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.Crashes.iOS.Bindings">
-      <HintPath>..\packages\Microsoft.AppCenter.Crashes.2.1.1\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.iOS.Bindings.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Numerics">
-      <HintPath>..\packages\MathNet.Numerics.4.9.0\lib\netstandard2.0\MathNet.Numerics.dll</HintPath>
-
-    </Reference>
     <Reference Include="Xamarin.Forms.Core">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.121934\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
@@ -133,6 +101,9 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.121934\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
 
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.4.9.0\lib\netstandard2.0\MathNet.Numerics.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +126,8 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\EH_logo.png" />
     <ImageAsset Include="Assets.xcassets\LaunchImage-1.launchimage\Contents.json" />
     <ImageAsset Include="Assets.xcassets\LaunchImage-1.launchimage\Default-568h%402x.png" />
+    <ImageAsset Include="Resources\Assets.xcassets\.DS_Store" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\EH_logo1024.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -162,6 +135,7 @@
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
     <InterfaceDefinition Include="Resources\en.lproj\Main.storyboard" />
+    <InterfaceDefinition Include="Resources\Base.lproj\Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -187,11 +161,14 @@
   <ItemGroup>
     <BundleResource Include="Resources\crossHair.png" />
     <BundleResource Include="Resources\cameraButton.png" />
-    <BundleResource Include="Resources\haarcascade_frontalface_alt.xml" />
-    <BundleResource Include="Resources\lena1.png" />
-    <BundleResource Include="Resources\cascade.xml" />
     <BundleResource Include="Resources\EH_logo.png" />
     <BundleResource Include="Resources\july21.jpg" />
+    <BundleResource Include="Resources\EH_logo512.png" />
+    <BundleResource Include="Resources\EH_logo1024.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="Resources\iTunesArtwork" />
+    <ITunesArtwork Include="Resources\iTunesArtwork%402x" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.4.2.0.848062\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.4.2.0.848062\build\Xamarin.Forms.targets')" />

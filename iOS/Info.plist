@@ -6,40 +6,41 @@
 	<string>OESApplication</string>
 	<key>CFBundleIdentifier</key>
 	<string>P5J4W2P635.oes.OESApplication</string>
-	<key>CFBundleName</key>
-	<string>OESApplication</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>6.0</string>
 	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>MinimumOSVersion</key>
 	<string>9.0</string>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>media usage</string>
+	<string>The app needs to access your media for storing pictures taken</string>
 	<key>NSCameraUsageDescription</key>
-	<string>using camera</string>
+	<string>The app needs to access your camera for taking images</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Using location</string>
+	<string>The app needs to access your location for geotagging images</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>using location while in application</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Adding to library</string>
+	<string>The app needs access to the library for storing images</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Using photo library</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
-		<integer>2</integer>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>Main</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
-		<string>armv7+arm64</string>
+		<string>arm64</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
@@ -52,19 +53,23 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>XSLaunchImageAssets</key>
+	<string>Assets.xcassets/LaunchImage.launchimage</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
-	<key>XSLaunchImageAssets</key>
-	<string>Assets.xcassets/LaunchImage-1.launchimage</string>
-	<key>Custom Property</key>
-	<string>use location</string>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-	<key>UIFileSharingEnabled</key>
-	<true/>
-	<key>Custom Property1</key>
-	<string></string>
-	<key>Custom Property2</key>
-	<string></string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app accesses your camera to take images and stores them in your media. It also stores spectra images and resulting absorbance values in your folder</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs to save date images are taken for future reference</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This is used to access camera for taking images</string>
+	<key>NSSiriUsageDescription</key>
+	<string>Apple accesss to Siri to run the app</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>App needs to record your location, although currently it is not used in the and only used to geotag your image using apple</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Apple needs bluetoothe connection</string>
+	<key>CFBundleName</key>
+	<string>OESApplication</string>
 </dict>
 </plist>

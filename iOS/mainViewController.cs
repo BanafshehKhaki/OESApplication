@@ -34,7 +34,7 @@ namespace OESApplication.iOS
         {
             base.ViewDidLoad();
             await AuthorizeCameraUse();
-            NSUserDefaults.StandardUserDefaults.SetInt(405, "wave");
+            NSUserDefaults.StandardUserDefaults.SetInt(535, "wave");
             SetupLiveCameraStream();
         }
 
@@ -49,7 +49,7 @@ namespace OESApplication.iOS
             */
             jpegAsByteArray = null;
 
-            //when i used await, it crashed and hence not using it.  
+            
             takeThepictureAsync();
         }
         
@@ -250,7 +250,7 @@ namespace OESApplication.iOS
                 //Setting RGB gains using WhiteBalance
                 device.LockForConfiguration(out error);
                 AVCaptureWhiteBalanceGains gains = device.DeviceWhiteBalanceGains;
-                //normalizign Gains
+                //normalizign GainsUIWebView
                 gains.RedGain = Math.Max(1, gains.RedGain);
                 gains.GreenGain = Math.Max(1, gains.GreenGain);
                 gains.BlueGain = Math.Min(1, gains.BlueGain);
